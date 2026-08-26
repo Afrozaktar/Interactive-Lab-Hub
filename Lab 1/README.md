@@ -13,7 +13,7 @@ the technique and artistry of the old masters by recreating their paintings, so
 too shall we come to understand computer-mediated interaction by recreating the
 interactive masterworks of our time.
 
-This week, every person will draw a different masterwork from a hat. Some are
+This week, every team will draw a different masterwork from a hat. Some are
 conceptual pieces, some are historical works, some are modern-day products —
 but they all share one thing: **their central mode of interaction is carried by
 light.** Think of Tinker Bell in the original stage production of *Peter Pan*,
@@ -27,7 +27,7 @@ who knows your piece should watch your recreation and recognize it instantly.
 Someone who has never heard of it should walk away understanding what it is
 famous for.
 
-You will do this using the same type of  staging techniques we will use all semester: a
+You will do this using the interaction staging techniques we will use all semester: a
 storyboard, some acting, a phone standing in as a controllable light (the
 *Tinkerbelle* tool), a hidden human "wizard" driving it, a costume, and a
 recorded video.
@@ -40,8 +40,8 @@ before starting!*
 To start, you will need:
 
 1. Read about Git [here](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F).
-2. Set up your own Github "Lab Hub" by forking the [Interactive-Lab-Hub repository](https://github.com/FAR-Lab/Interactive-Lab-Hub). To get lab updates, simply use [GitHub's "Sync fork" button](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) when new content is available.
-   Use the "Sync fork" button to pull updates when new content is available.
+2. Set up your own Github "Lab Hub" by forking the [Interactive-Lab-Hub repository](https://github.com/IRL-CT/Interactive-Lab-Hub). To get lab updates, simply use [GitHub's "Sync fork" button](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) when new content is available.
+
 3. Set up your `README.md` so it has your name and links to this lab. Learn to
    format a README [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 4. **Draw your masterwork from the hat and write it at the top of this file.**
@@ -66,7 +66,7 @@ shared.
 
 1. A short **research write-up** of your masterwork (what it is, when, who made
    it, and — most importantly — what the interaction is)
-2. **3 storyboards** of the interaction in the masterwork
+2. **3 iterated storyboards** of the interaction in the masterwork
 5. A **video sketch** of your prototyped interaction
 6. Any **reflections** on the process
 
@@ -87,14 +87,14 @@ the interaction*:
 - Who is present, and how does the piece color the relationships between them?
 - What is the piece famous for? What are its strengths and its weaknesses?
 
-  Sometimes the details of how the interaction worked is lost in history. Try filling it in with your imagination!
+  Sometimes the details of how the interaction worked are lost in history. Try filling it in with your imagination!
 
 **Describe your masterwork here, in your own words. What is the core interaction
 someone would recognize it by?**
 
 ## Part A. Plan
 
-For every masterwork, reconstruct the interaction as a scene:
+For your masterwork, reconstruct the interaction as a scene:
 
 - **Setting:** Where and when does this interaction happen? (a jungle, a kitchen,
   a spaceship corridor, a nightclub, a harbor at night)
@@ -105,7 +105,7 @@ For every masterwork, reconstruct the interaction as a scene:
 
 **Describe your setting, players, activity, and goals here.**
 
-Now sketch **seven storyboards** of the interaction you are recreating. They
+Now sketch **three storyboards** of the interaction you are recreating. They
 don't need to be beautiful, but they must get across the behavior of the light
 and the people around it. If you're new to storyboarding, read
 [this explanation](https://www.nngroup.com/articles/storyboards-visualize-ideas/).
@@ -163,13 +163,12 @@ video feed of whichever scene you want to capture.)
 Only now should you worry about what the device looks like. Costume your phone so it reads
 as the object from your masterwork — HAL's eye, a Simon shell, a paper-lantern
 Tinker Bell, an Ambient Orb, a lighthouse, a jack-o'-lantern, whatever you drew.
-Make **three** versions.
 
 Think about the world your device lives in: could that environment overheat it?
 Is water a danger? Does it need to be loud and bright for an emergency, or quiet
 and calm for a bedroom?
 
-**Include sketches of what your device might look like here.**
+**Include sketches/photos of what your device might look like here.**
 
 **What concerns or opportunities shaped the way you designed its look?**
 
@@ -179,7 +178,7 @@ and calm for a bedroom?
 the top of this lab: a viewer who knows the piece should recognize it; a viewer
 who doesn't should come away understanding what it's famous for. How might you illustrate the non-sequential aspects of the interaction in the sketch?
 
-**Include your video and your interaction sketch here.**
+**Include your video here.**
 
 **Please indicate who you collaborated with on this lab.** Be generous in
 acknowledging their contributions, and credit any other influences (YouTube,
@@ -198,7 +197,7 @@ videos, and give them reactions and feedback: tell them what you saw happening,
 guess the masterwork and the goals of the characters, and ask about anything that
 wasn't clear.
 
-**Who were the other groups you kibbutzed with? Add links to their project pages here.**
+**Who were the other groups you kibitzed with? Add links to their project pages here.**
 **Summarize the feedback you got from your partners here.**
 
 ## Remix, Update, or Critique the Master

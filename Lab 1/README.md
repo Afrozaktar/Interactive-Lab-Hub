@@ -193,7 +193,7 @@ Github, Twitter, a friend who lent you a lamp) that informed your recreation.
 
 ## Prep (before the next lab)
 
-Find three other groups. Visit their Lab Hub pages, watch their
+Find three other groups. (How? Maybe Slack?) Visit their Lab Hub pages, watch their
 videos, and give them reactions and feedback: tell them what you saw happening,
 guess the masterwork and the goals of the characters, and ask about anything that
 wasn't clear.

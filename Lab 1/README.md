@@ -38,11 +38,11 @@ before starting!*
 
 To start, you will need:
 
-1. Read about Git [here](https://guides.github.com/introduction/git-handbook/).
-2. Set up your own Github "Lab Hub" by forking the Interactive-Lab-Hub repository.
+1. Read about Git [here](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F).
+2. Set up your own Github "Lab Hub" by forking the [Interactive-Lab-Hub repository](https://github.com/FAR-Lab/Interactive-Lab-Hub). To get lab updates, simply use [GitHub's "Sync fork" button](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) when new content is available.
    Use the "Sync fork" button to pull updates when new content is available.
 3. Set up your `README.md` so it has your name and links to this lab. Learn to
-   format a README [here](https://guides.github.com/features/mastering-markdown/).
+   format a README [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 4. **Draw your masterwork from the hat and write it at the top of this file.**
    Whatever you drew is yours — lean into it.
 
@@ -65,8 +65,7 @@ shared.
 
 1. A short **research write-up** of your masterwork (what it is, when, who made
    it, and — most importantly — what the interaction is)
-2. **7 storyboards** of the interaction in the masterwork
-3. A **non-sequential interaction sketch** (see Part F — *not* PowerPoint slides)
+2. **3 storyboards** of the interaction in the masterwork
 4. **3 sketches/photos** of your costumed device
 5. A **video sketch** of your prototyped interaction
 6. Any **reflections** on the process
@@ -129,12 +128,15 @@ it aloud.
 
 **Did new ideas about the piece surface once you were on your feet?**
 
+**Are there key moments in the interaction where things could go in a different direction?**
+Iterate your storyboards to capture key non-sequential aspects of the interaction. 
+
 ## Part C. Prototype the Light (light first!)
 
 Use your smartphone as the light of your device. Open the browser on your phone
 to act as the "light," and use the remote control interface on your computer to
 change that light. Code and setup instructions for the *Tinkerbelle* tool are
-[here](https://github.com/FAR-Lab/Interactive-Lab-Hub) (we invented this tool for
+[here]([https://github.com/FAR-Lab/Interactive-Lab-Hub](https://github.com/IRL-CT/tinkerbelle) (we invented this tool for
 this lab). If you hit technical trouble, a manually or remotely controlled light
 switch, dimmer, or lamp is a fine substitute.
 
@@ -158,7 +160,7 @@ video feed of whichever scene you want to capture.)
 
 ## Part E. Costume the Device
 
-Only now worry about what the device looks like. Costume your phone so it reads
+Only now should you worry about what the device looks like. Costume your phone so it reads
 as the object from your masterwork — HAL's eye, a Simon shell, a paper-lantern
 Tinker Bell, an Ambient Orb, a lighthouse, a jack-o'-lantern, whatever you drew.
 Make **three** versions.
@@ -175,12 +177,7 @@ and calm for a bedroom?
 
 **Record your prototyped interaction as a video sketch.** Aim for the bar from
 the top of this lab: a viewer who knows the piece should recognize it; a viewer
-who doesn't should come away understanding what it's famous for.
-
-Then make your **interaction sketch** — a single-image, *non-sequential* drawing
-of the interactive experience (not a storyboard, not slides). This is the
-artifact we'll gather around to discuss your piece in class, so make it capture
-the essence of the interaction at a glance.
+who doesn't should come away understanding what it's famous for. How might you illustrate the non-sequential aspects of the interaction in the sketch?
 
 **Include your video and your interaction sketch here.**
 
@@ -196,11 +193,12 @@ Github, Twitter, a friend who lent you a lamp) that informed your recreation.
 
 ## Prep (before the next lab)
 
-You will be assigned three other groups. Visit their Lab Hub pages, watch their
+Find three other groups. Visit their Lab Hub pages, watch their
 videos, and give them reactions and feedback: tell them what you saw happening,
 guess the masterwork and the goals of the characters, and ask about anything that
 wasn't clear.
 
+**Who were the other groups you kibbutzed with? Add links to their project pages here.**
 **Summarize the feedback you got from your partners here.**
 
 ## Remix, Update, or Critique the Master

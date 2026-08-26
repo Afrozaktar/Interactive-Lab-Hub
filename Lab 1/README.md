@@ -67,7 +67,6 @@ shared.
 1. A short **research write-up** of your masterwork (what it is, when, who made
    it, and — most importantly — what the interaction is)
 2. **3 storyboards** of the interaction in the masterwork
-4. **3 sketches/photos** of your costumed device
 5. A **video sketch** of your prototyped interaction
 6. Any **reflections** on the process
 
@@ -159,7 +158,7 @@ video feed of whichever scene you want to capture.)
 
 **Include your first attempts at recording the wizarded set-up here.**
 
-## Part E. Costume the Device
+## Part E. (optional) Costume the Device
 
 Only now should you worry about what the device looks like. Costume your phone so it reads
 as the object from your masterwork — HAL's eye, a Simon shell, a paper-lantern

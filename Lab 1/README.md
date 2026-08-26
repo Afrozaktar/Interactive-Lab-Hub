@@ -105,16 +105,14 @@ For your masterwork, reconstruct the interaction as a scene:
 
 **Describe your setting, players, activity, and goals here.**
 
-Now sketch **three storyboards** of the interaction you are recreating. They
-don't need to be beautiful, but they must get across the behavior of the light
+Now **sketch a 3 storyboards** of the interaction you are recreating. (The number may depend on the thing you drew, but stretch your thinking!) They
+don't need to be beautiful, but they must capture and communicate not only the behavior of the light, but how it affects
 and the people around it. If you're new to storyboarding, read
 [this explanation](https://www.nngroup.com/articles/storyboards-visualize-ideas/).
 
 **Include pictures of your storyboards here.**
 
-Present your masterwork and your plan to the other groups near you.
-Guess each other's pieces from the storyboards alone — if they can't, maybe that tells
-you something.
+Use the storyboards to decide what interaction to prototype.
 
 **Summarize the feedback you got here.**
 
@@ -146,8 +144,6 @@ way it answers a person. Only once your light interaction genuinely reads as you
 masterwork should you consider layering in a second modality (sound, vibration,
 motion). If in doubt, keep polishing the light. The other modalities are next
 week's business.
-
-**Give us feedback on Tinkerbelle.**
 
 ## Part D. Wizard the Device
 
@@ -186,7 +182,7 @@ Github, Twitter, a friend who lent you a lamp) that informed your recreation.
 
 ---
 
-# Part 2 — Make It Your Own
+# Part 2 — ReMastering the light
 
 *This describes the second week's work for this lab activity.*
 

@@ -1,4 +1,4 @@
-# Recreating the Masters of Interactive Light — WORKED EXAMPLE
+# Recreating the Masters of Interactive Light — WORKED EXAMPLE (by Claude.ai)
 
 > This is a model submission, filled in so you can see the level of detail we're
 > looking for. Yours won't look identical — every masterwork is different — but

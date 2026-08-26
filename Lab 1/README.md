@@ -136,7 +136,7 @@ Iterate your storyboards to capture key non-sequential aspects of the interactio
 Use your smartphone as the light of your device. Open the browser on your phone
 to act as the "light," and use the remote control interface on your computer to
 change that light. Code and setup instructions for the *Tinkerbelle* tool are
-[here]([https://github.com/FAR-Lab/Interactive-Lab-Hub](https://github.com/IRL-CT/tinkerbelle) (we invented this tool for
+[here](https://github.com/IRL-CT/tinkerbelle) (we invented this tool for
 this lab). If you hit technical trouble, a manually or remotely controlled light
 switch, dimmer, or lamp is a fine substitute.
 
@@ -209,7 +209,7 @@ combine them):
 
 1. **Remix the modality.** Your recreation no longer has to (just) use light. Use
    vibration, sound, motion, heat — whatever best carries the interaction. Feel
-   free to fork and modify the Tinkerbelle code.
+   free to fork and modify the Tinkerbelle code. (Add your updates to this lab's folder!)
 2. **Update it.** Redesign the piece for today's context, or for a setting its
    creators never imagined (the piece with roommates in the room, with children
    present, on a phone, in a car).
@@ -224,17 +224,7 @@ prototype are great too.**
 
 ---
 
-## How this lab is evaluated
 
-- **Research** — how well you came to understand your masterwork's interaction
-- **Analysis** — how clearly you identified its salient interactive features,
-  strengths, and weaknesses
-- **Recreation** — is the light interaction recognizable to those who know the
-  piece, and enlightening to those who don't?
-- **Inventiveness** — the imagination in your recreation, and (in Part 2) your
-  remix
-- **Presentation & discussion** — the quality of your video, your interaction
-  sketch, and what you bring to the class conversation
 
 *Assignment lineage: this lab merges "Staging Interaction" (Interactive Lab Hub)
 with "Recreating the Masters" (Interaction Design Studio, Profs. Scott Minneman &

@@ -164,7 +164,7 @@ We considered placing the dome on a larger cardboard box, but decided that a lar
 
 The most important design concern was keeping the phone secure while ensuring that the screen remained clearly visible to the camera. The phone must also be easy to remove and must not be completely sealed because it could become warm during operation. Therefore, we will avoid permanent glue and use a removable cardboard holder or tape. The existing dome gives us an opportunity to make the simulated Nixie numeral appear enclosed inside glass, which helps the light read more convincingly as a physical tube.
 
-*(Our costume sketches, construction photographs, and final prototype photograph will be included here.)*
+*(A photo of the final costumed prototype will be included here.)*
 
 ## Part F. Record
 

@@ -1,77 +1,8 @@
 # Recreating the Masters of Interactive Light
 
-_This project is to be done in teams of 2._
+**COLLABORATORS:** Afroza Aktar, Dhanu
 
-**NAME OF BOTH COLLABORATOR(S) HERE**
-
-**THE MASTERWORK YOU DREW FROM THE HAT:**
-
----
-
-One way to understand greatness is to look to the greats. Just as painters learn
-the technique and artistry of the old masters by recreating their paintings, so
-too shall we come to understand computer-mediated interaction by recreating the
-interactive masterworks of our time.
-
-This week, every team will draw a different masterwork from a hat. Some are
-conceptual pieces, some are historical works, some are modern-day products —
-but they all share one thing: **their central mode of interaction is carried by
-light.** Think of Tinker Bell in the original stage production of *Peter Pan*,
-represented by nothing more than a darting circle of light from an off-stage
-mirror. There was no actor playing Tinker Bell; she existed entirely through the
-way the other characters interacted with that light.
-
-Your job is to recreate the *interaction* of the piece you drew — not to build a
-museum-grade replica, but to stage the moment that makes it what it is. Someone
-who knows your piece should watch your recreation and recognize it instantly.
-Someone who has never heard of it should walk away understanding what it is
-famous for.
-
-You will do this using the interaction staging techniques we will use all semester: a
-storyboard, some acting, a phone standing in as a controllable light (the
-*Tinkerbelle* tool), a hidden human "wizard" driving it, a costume, and a
-recorded video.
-
-*Make sure you read all the instructions and understand the whole activity
-before starting!*
-
-## Prep
-
-To start, you will need:
-
-1. Read about Git [here](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F).
-2. Set up your own Github "Lab Hub" by forking the [Interactive-Lab-Hub repository](https://github.com/IRL-CT/Interactive-Lab-Hub). To get lab updates, simply use [GitHub's "Sync fork" button](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) when new content is available.
-
-3. Set up your `README.md` so it has your name and links to this lab. Learn to
-   format a README [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-4. **Draw your masterwork from the hat and write it at the top of this file.**
-   Whatever you drew is yours — lean into it.
-
-## Materials
-
-For this lab you will need:
-
-1. Paper, markers/pens, scissors
-2. A smartphone with a browser that can display a webpage (your stand-in "light")
-3. A computer to host the control webpage
-4. Found objects and materials to **costume your phone so it looks like the
-   device in your masterwork** — doll clothes, a paper lantern, a bottle, foil,
-   a cardboard shell, whatever it takes. Be resourceful.
-
-## Deliverables
-
-Submit all of the following in this lab folder of your Lab Hub, as links or
-uploaded files. **Each group member posts their own copy to their own Github repo**, even if the work is
-shared.
-
-1. A short **research write-up** of your masterwork (what it is, when, who made
-   it, and — most importantly — what the interaction is)
-2. **3 iterated storyboards** of the interaction in the masterwork
-5. A **video sketch** of your prototyped interaction
-6. Any **reflections** on the process
-
-Labs are due on Mondays. Make sure this page is linked from your main class hub
-page.
+**THE MASTERWORK WE DREW FROM THE HAT:** The Nixie Tube — 1950s.
 
 ---
 
@@ -79,148 +10,202 @@ page.
 
 ## Part 0. Know Your Master
 
-Before you prototype anything, get intimately acquainted with the piece you
-drew. Do real research. You are looking less for trivia than for the *shape of
-the interaction*:
+Our masterwork is the Nixie tube, an electronic numerical display that
+became prominent during the 1950s. Early Nixie displays were developed
+by Haydu Brothers Laboratories and introduced commercially by the
+Burroughs Corporation. They were used in electronic measuring
+instruments, counters, calculators, clocks, and other equipment before
+LED and modern digital displays became common.
 
-- What inputs are available to the user? What responses does the work give?
-- Who is present, and how does the piece color the relationships between them?
-- What is the piece famous for? What are its strengths and its weaknesses?
+A Nixie tube is a sealed glass tube containing low-pressure gas,
+usually including neon. Inside the tube are separate metal cathodes
+shaped like the numerals 0 through 9. The numerals are physically
+stacked behind one another. When electrical power is applied to one
+selected cathode, the gas surrounding that numeral produces a warm
+orange-red glow. Only the selected numeral becomes visible. When the
+input changes, the first numeral stops glowing and a different
+complete numeral appears.
 
-  Sometimes the details of how the interaction worked are lost in history. Try filling it in with your imagination!
+The core interaction is that a person or electronic system provides a
+numerical input, and the tube responds by making the corresponding
+numeral glow. Unlike a modern seven-segment display, which constructs
+a number from several reusable line segments, a Nixie tube contains a
+separate complete shape for every numeral. The number therefore seems
+to materialize as an individual glowing form inside the glass.
 
-**Describe your masterwork here, in your own words. What is the core interaction
-someone would recognize it by?**
+For our recreation, a technician turns a dial on a measuring
+instrument. Each adjustment causes a different orange numeral to glow
+inside our simulated Nixie tube. The actor reacts to the changing
+reading and records the final result.
+
+### Light Vocabulary
+- **Dark tube:** The instrument is off or waiting.
+- **Faint orange flicker:** Electricity reaches the tube and the gas
+  begins to glow.
+- **Solid orange numeral:** A numerical value has been selected.
+- **Brief darkness between numerals:** The old value is released before
+  the new value appears.
+- **Strong, steady glow:** The reading has stabilized and can be
+  recorded.
+
+### Strengths
+The Nixie tube presents each numeral as a complete, readable shape.
+Its warm orange glow is distinctive and visually expressive. Because
+the numerals are arranged at different physical depths, the display
+has a dimensional quality that modern flat displays do not have. It
+also represents an important transition from mechanical number
+displays to electronic digital displays.
+
+### Weaknesses
+Nixie tubes require high voltage, are made of fragile glass, and can
+eventually suffer from uneven glow or cathode deterioration. A single
+tube normally displays only one character, so several tubes are needed
+to show time or a large number. The stacked numeral shapes can
+partially obstruct one another, and the technology is less practical
+than modern LED or LCD displays.
 
 ## Part A. Plan
 
-For your masterwork, reconstruct the interaction as a scene:
+**Setting:** Our recreation takes place at a dark demonstration table.
+The simulated Nixie tube is positioned beside the actor so that the
+actor's hand and the glowing display are visible in the same camera
+frame.
 
-- **Setting:** Where and when does this interaction happen? (a jungle, a kitchen,
-  a spaceship corridor, a nightclub, a harbor at night)
-- **Players:** Who is involved? Who else is present? Think through everyone in
-  the setting, not just the primary user.
-- **Activity:** What is happening between the players and the light?
-- **Goals:** What is each player trying to do?
+**Players:** The players are the actor, the simulated Nixie tube, and
+a hidden wizard operating the laptop. The audience also participates
+by comparing the number shown with the actor's fingers to the numeral
+displayed by the tube.
 
-**Describe your setting, players, activity, and goals here.**
+**Activity:** The actor holds up different numbers using their fingers.
+The hidden wizard observes each hand pose and selects the matching
+numeral on the laptop. The phone responds by making that complete
+numeral glow orange inside the simulated tube. When the actor lowers
+their hand, the display returns to darkness.
 
-Now **sketch a 3 storyboards** of the interaction you are recreating. (The number may depend on the thing you drew, but stretch your thinking!) They
-don't need to be beautiful, but they must capture and communicate not only the behavior of the light, but how it affects
-and the people around it. If you're new to storyboarding, read
-[this explanation](https://www.nngroup.com/articles/storyboards-visualize-ideas/).
+**Goals:** The actor wants the tube to recognize and display the number
+shown by their fingers. The tube's apparent goal is to translate a
+human hand signal into a glowing numerical form. The wizard's goal is
+to respond at the correct moment so the tube appears to recognize the
+actor's gesture.
 
-**Include pictures of your storyboards here.**
+### Our three storyboards
 
-Use the storyboards to decide what interaction to prototype.
+**Storyboard 1: Basic finger interaction.**
+The scene begins with the phone display dark. The actor sits or stands beside it and holds up two fingers. The hidden wizard selects 2 on the laptop, causing an orange 2 to glow on the phone. The actor then holds up five fingers. The 2 disappears and a glowing 5 appears. The actor looks at the display and understands that it is copying the finger numbers.
 
-**Summarize the feedback you got here.**
+![Storyboard 1](Images/storyboard-1.jpeg)
 
-## Part B. Act out the Interaction
+**Storyboard 2: Add clearer transitions.**
+The actor switches on the simulated Nixie tube, causing a brief orange flicker. The actor holds up one finger, and a glowing 1 appears. The actor lowers their hand, and the display becomes dark. The actor then holds up three fingers, and a glowing 3 appears. This version establishes a clear relationship between showing a number, displaying the number, and returning to darkness when no number is shown.
 
-Physically act out the interaction you planned. For now, just pretend the light
-is doing what you've scripted — a person can wave a flashlight, or you can narrate
-it aloud.
+![Storyboard 2](Images/storyboard-2.jpeg)
 
-**Are there things that seemed better on paper than when acted out?**
+**Storyboard 3: Final version.**
+The scene begins with a close-up of the dark Nixie tube. The actor enters and says, "This tube turns numbers into light." The actor holds up one finger, and an orange 1 glows inside the tube. The actor lowers their hand, and the display briefly becomes dark. Next, the actor holds up three fingers, causing a complete orange 3 to appear. The interaction continues with five fingers and then eight fingers using both hands. Every numeral disappears before the next numeral glows into existence. At the end, the actor lowers both hands, and the tube returns to darkness.
 
-**Did new ideas about the piece surface once you were on your feet?**
+![Storyboard 3](Images/storyboard-3.jpeg)
 
-**Are there key moments in the interaction where things could go in a different direction?**
-Iterate your storyboards to capture key non-sequential aspects of the interaction. 
+**Feedback from our breakout room:**
+(need to be added after we get feedback)
 
-## Part C. Prototype the Light (light first!)
+## Part B. Act Out the Interaction
 
-Use your smartphone as the light of your device. Open the browser on your phone
-to act as the "light," and use the remote control interface on your computer to
-change that light. Code and setup instructions for the *Tinkerbelle* tool are
-[here](https://github.com/IRL-CT/tinkerbelle) (we invented this tool for
-this lab). If you hit technical trouble, a manually or remotely controlled light
-switch, dimmer, or lamp is a fine substitute.
+We first acted out the interaction before using the working phone controller. One team member played the technician and showed different numbers using their fingers. The other team member pretended to be the hidden wizard and announced which number would appear on the display. We used a dark phone screen as the instrument and verbally described when each orange numeral should appear.
 
-**Get the light interaction working before anything else.** Your grade this week
-rides on the *light* being recognizable — the color, the rhythm, the timing, the
-way it answers a person. Only once your light interaction genuinely reads as your
-masterwork should you consider layering in a second modality (sound, vibration,
-motion). If in doubt, keep polishing the light. The other modalities are next
-week's business.
+Some actions seemed clearer on paper than they did when we performed them. At first, the technician changed finger gestures too quickly, which did not give the hidden wizard enough time to recognize the number and respond. The transition also looked less believable when the actor immediately announced the result before the numeral appeared. We learned that the technician needed to hold each gesture for approximately two or three seconds, wait for the phone to respond, and then look at the display before speaking.
+
+Acting out the scene also gave us a new idea: using finger gestures was more engaging than pretending to turn a dial. The finger gesture creates a clear relationship between the technician's body and the glowing number. For example, when the technician shows five fingers and the instrument displays `5`, the audience can immediately understand the input and output. We therefore changed our final storyboard from dial control to finger control.
+
+We also realized that the actor's eye movement and reaction were important. The interaction felt more convincing when the technician looked at their own hands, turned toward the instrument, waited for the numeral to appear, and then reacted to the result. When the actor did not look at the display, the glowing number appeared disconnected from the performance.
+
+Several moments could go in different directions during the interaction. The hidden wizard could accidentally select the wrong numeral, the wireless command could be delayed, or the actor could show an unclear finger gesture. To prepare for these possibilities, the actor holds each gesture until the correct number appears. If the wrong number appears, the actor pauses and repeats the gesture, allowing the wizard to correct it. When the actor lowers both hands, the wizard selects **OFF**, returning the display to darkness.
+
+After acting out the scene, we updated the final storyboard to show the complete real-time loop: the technician presents a finger number, the hidden wizard observes it, the wizard selects the matching numeral on the laptop, the phone glows with that numeral, and the technician reads and responds to the result. This rehearsal helped us improve the timing, clarify the connection between the gesture and the light, and make the simulated instrument appear more responsive.
+
+## Part C. Prototype the Light
+
+We used the Tinkerbelle tool to turn the phone into a remotely controlled Nixie-tube display. The phone opened the Tinkerbelle webpage in display mode, while the laptop opened the same webpage in controller mode. Both devices were connected to the same Wi-Fi network. A Python Flask server running on the laptop carried messages from the laptop controller to the phone.
+
+We modified the original Tinkerbelle interface specifically for the Nixie tube. Instead of controlling only the phone's background color, our laptop control panel included buttons for the numerals `0` through `9`, along with Power On, Power Off, and Blank Tube controls. When the hidden operator selected a numeral on the laptop, the Python server broadcast that value to the phone. The phone then displayed the selected numeral in a warm orange-red color against a dark background. The complete program is in [`nixie_phone.py`](nixie_phone.py) in this folder.
+
+We mapped the Nixie tube's light vocabulary to the controller in the following way:
+
+* **Complete darkness** represented an instrument that was switched off.
+* **A brief orange flicker** represented the tube receiving power and beginning to operate.
+* **A complete glowing numeral** represented the selected numerical value.
+* **A short dark interval** represented the transition from one shaped cathode to another.
+* **A strong and steady orange glow** represented a stable final measurement.
+
+We designed the phone display to resemble a glass Nixie tube. The screen included a dark background, a curved glass-like outline, a subtle reflection, a wire-mesh pattern, and an orange numeral surrounded by several layers of glow. When the selected value changed, the old numeral first faded into darkness. The new numeral then appeared with a short ignition flicker before settling into a steady glow.
+
+We deliberately concentrated on the light behavior before decorating the phone or adding additional effects. We tested the orange color, brightness, darkness between values, startup flicker, and duration of each numeral. These behaviors needed to communicate the identity of the Nixie tube even when the phone was not yet hidden inside a costume.
+
+The Tinkerbelle connection responded quickly enough for the wizard to change the numeral immediately after the technician turned the dial. The most difficult part was not the network delay but the human timing. If the wizard pressed a number too early, the display changed before the technician completed the physical action. If the wizard waited too long, the instrument appeared broken. The best result occurred when the wizard watched the technician's hand and selected the numeral immediately after the dial stopped moving.
 
 ## Part D. Wizard the Device
 
-Set up a "wizard" arrangement so one person can secretly drive the light while
-another acts with it — this is how you make the device feel alive without
-building any real electronics. (Zoom works well for recording; you can pin the
-video feed of whichever scene you want to capture.)
+One collaborator performed beside the simulated Nixie tube while the
+other remained outside the camera frame with the laptop controller.
+The actor showed different numbers using their fingers. The hidden
+wizard watched each gesture and selected the matching numeral from the
+laptop. When the actor lowered their hand, the wizard selected Blank
+Tube.
 
-**Include your first attempts at recording the wizarded set-up here.**
+The interaction worked best when the wizard watched the actor instead
+of following a predetermined timer. The wizard waited until the finger
+pose was clearly formed and then selected the corresponding number.
+This made the phone appear to recognize the actor's hand gesture in
+real time.
 
-## Part E. (optional) Costume the Device
+The actor also paused and looked at the phone after each gesture. Their
+reaction helped the audience understand that the glowing numeral was a
+response to the human input. The hidden wizard allowed us to simulate
+gesture recognition without building a computer-vision system.
 
-Only now should you worry about what the device looks like. Costume your phone so it reads
-as the object from your masterwork — HAL's eye, a Simon shell, a paper-lantern
-Tinker Bell, an Ambient Orb, a lighthouse, a jack-o'-lantern, whatever you drew.
+*(Our first wizarded test video will be included here.)*
 
-Think about the world your device lives in: could that environment overheat it?
-Is water a danger? Does it need to be loud and bright for an emergency, or quiet
-and calm for a bedroom?
+## Part E. Costume the Device
 
-**Include sketches/photos of what your device might look like here.**
+For our phone costume, we used a clear display dome with a rounded top and a wooden base. We selected this object because its transparent enclosure and curved shape resemble the glass body of a Nixie tube. The smartphone will be placed vertically inside the dome with its screen facing the audience. When an orange numeral appears on the screen, the clear enclosure will make the phone look more like a glowing electronic tube than an ordinary mobile device.
 
-**What concerns or opportunities shaped the way you designed its look?**
+We will use a small black-cardboard support to hold the phone upright. We will arrange thin copper-colored wires near the bottom and behind the phone to suggest the internal cathode wires found inside an original Nixie tube. We also added a small label reading "Nixie Signal Unit" to give the base the appearance of a 1950s laboratory instrument.
+
+We considered placing the dome on a larger cardboard box, but decided that a large box could make the prototype look bulky and distract from the clear tube.
+
+The most important design concern was keeping the phone secure while ensuring that the screen remained clearly visible to the camera. The phone must also be easy to remove and must not be completely sealed because it could become warm during operation. Therefore, we will avoid permanent glue and use a removable cardboard holder or tape. The existing dome gives us an opportunity to make the simulated Nixie numeral appear enclosed inside glass, which helps the light read more convincingly as a physical tube.
+
+*(Our costume sketches, construction photographs, and final prototype photograph will be included here.)*
 
 ## Part F. Record
 
-**Record your prototyped interaction as a video sketch.** Aim for the bar from
-the top of this lab: a viewer who knows the piece should recognize it; a viewer
-who doesn't should come away understanding what it's famous for. How might you illustrate the non-sequential aspects of the interaction in the sketch?
+Our final video sketch is approximately 60 seconds long and takes place at a desk arranged to resemble a dimly lit 1950s electronics laboratory. The video begins with a close-up of our Nixie-inspired instrument. A smartphone is positioned vertically inside a clear glass-like dome with a wooden base, decorative wires, and a dark background that hides the edges of the phone. At the beginning, the phone screen is completely dark. The technician enters, sits at the desk, and says, "Let's check the signal."
 
-**Include your video here.**
+The technician raises two fingers and holds the gesture where the device can "see" it. A hidden wizard watches the technician and secretly selects `2` from the control page on the laptop. The command is sent through our Python-based wireless control program, and a complete orange `2` glows on the phone inside the clear dome. The technician then raises five fingers. The wizard selects `5`, causing the `2` to disappear and an orange `5` to glow in its place.
 
-**Please indicate who you collaborated with on this lab.** Be generous in
-acknowledging their contributions, and credit any other influences (YouTube,
-Github, Twitter, a friend who lent you a lamp) that informed your recreation.
+For the final reading, the technician shows eight using both hands—five fingers on one hand and three on the other. The hidden wizard selects `8`, and the display changes to a steady orange `8`. The technician carefully watches the result and says, "Stable at eight." The technician then writes `8` in a notebook. The video shows a close-up of the glowing numeral behind the clear enclosure and decorative wiring. Finally, the technician lowers both hands, the wizard selects **OFF**, and the display returns to complete darkness.
 
----
+Our goal was to meet the standard described in the assignment. Someone familiar with Nixie tubes should recognize the warm orange glow, glass-like enclosure, visible internal wiring, complete numeral shapes, and one-number-at-a-time transitions. Someone unfamiliar with Nixie tubes should still understand that the technician provides an input by showing a number with their fingers and that the instrument responds by displaying the matching glowing numeral.
 
-# Part 2 — ReMastering the light
+The technician's finger gesture, the wizard's hidden laptop command, and the phone's light formed a real-time interaction loop:
 
-*This describes the second week's work for this lab activity.*
+**Technician shows a number with their fingers → hidden wizard observes the gesture → wizard selects the matching numeral on the laptop → the command is sent to the phone → the matching numeral glows → technician reads and responds to the result.**
 
-## Prep (before the next lab)
+The storyboard communicates the order of events in the performance, while this interaction loop explains how the apparent device behavior was produced. The system did not automatically recognize the technician's fingers. Instead, the hidden wizard provided the intelligence by observing the gesture and manually selecting the correct number. This Wizard-of-Oz arrangement allowed us to recreate the experience of an interactive Nixie instrument without building an electronic hand-recognition system or a real high-voltage Nixie tube.
 
-Find three other groups. (How? Maybe Slack?) Visit their Lab Hub pages, watch their
-videos, and give them reactions and feedback: tell them what you saw happening,
-guess the masterwork and the goals of the characters, and ask about anything that
-wasn't clear.
+*(Our final video will be included here.)*
 
-**Who were the other groups you kibitzed with? Add links to their project pages here.**
-**Summarize the feedback you got from your partners here.**
+### Collaborators and Influences
 
-## Remix, Update, or Critique the Master
+Afroza Aktar and Dhanu collaborated on the research, storyboards, acting, Tinkerbelle setup, costume construction, testing, and recording. One collaborator performed as the technician while the other operated the laptop as the hidden wizard. We exchanged roles during testing so that both collaborators could understand the actor's and operator's perspectives.
 
-Now that you understand your masterwork from the inside, respond to it. Do the
-recreation again, but this time make it your own — pick one of these moves (or
-combine them):
-
-1. **Remix the modality.** Your recreation no longer has to (just) use light. Use
-   vibration, sound, motion, heat — whatever best carries the interaction. Feel
-   free to fork and modify the Tinkerbelle code. (Add your updates to this lab's folder!)
-2. **Update it.** Redesign the piece for today's context, or for a setting its
-   creators never imagined (the piece with roommates in the room, with children
-   present, on a phone, in a car).
-3. **Fix its weaknesses.** You identified this master's strengths and weaknesses
-   in Part 0 — now address a weakness, or push a strength further.
-
-We will grade this second pass with an emphasis on **creativity** and on how well
-your response engages with what your master was really doing.
-
-**Document everything here — especially the storyboard and video. Photos of the
-prototype are great too.**
+Our prototype was informed by the original Tinkerbelle project from the Interactive Lab Hub and by historical descriptions of Nixie-tube displays. We modified the Tinkerbelle code to communicate numerical values instead of only changing the phone's background color.
 
 ---
 
+# Part 2 — ReMastering the Light
 
+*(Feedback from classmates will be added here.)*
 
-*Assignment lineage: this lab merges "Staging Interaction" (Interactive Lab Hub)
-with "Recreating the Masters" (Interaction Design Studio, Profs. Scott Minneman &
-Wendy Ju). Massive list of interactive light masterworks generated by Claude.ai.*
+For our updated version, we propose an **accessible multimodal Nixie display**. The display keeps the original warm orange glow and whole-numeral appearance, but it adds sound and vibration. When a new numeral appears, the device also speaks the number aloud. For example, the glowing number `3` would be accompanied by the spoken word "three".
+
+This redesign changes the Nixie tube from a purely visual numerical output into a multimodal display that communicates through light and sound.

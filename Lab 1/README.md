@@ -38,16 +38,6 @@ instrument. Each adjustment causes a different orange numeral to glow
 inside our simulated Nixie tube. The actor reacts to the changing
 reading and records the final result.
 
-### Light Vocabulary
-- **Dark tube:** The instrument is off or waiting.
-- **Faint orange flicker:** Electricity reaches the tube and the gas
-  begins to glow.
-- **Solid orange numeral:** A numerical value has been selected.
-- **Brief darkness between numerals:** The old value is released before
-  the new value appears.
-- **Strong, steady glow:** The reading has stabilized and can be
-  recorded.
-
 ### Strengths
 The Nixie tube presents each numeral as a complete, readable shape.
 Its warm orange glow is distinctive and visually expressive. Because

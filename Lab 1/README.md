@@ -168,13 +168,9 @@ The most important design concern was keeping the phone secure while ensuring th
 
 ## Part F. Record
 
-Our final video sketch is approximately 60 seconds long and takes place at a desk arranged to resemble a dimly lit 1950s electronics laboratory. The video begins with a close-up of our Nixie-inspired instrument. A smartphone is positioned vertically inside a clear glass-like dome with a wooden base, decorative wires, and a dark background that hides the edges of the phone. At the beginning, the phone screen is completely dark. The technician enters, sits at the desk, and says, "Let's check the signal."
+Our final video sketch is approximately 60 seconds long, staged as a dimly lit 1950s electronics laboratory. The costumed phone sits inside its clear dome, dark at first. The technician sits down, says, "Let's check the signal," and shows numbers with their fingers — two, then five, then eight using both hands. After each gesture, the hidden wizard selects the matching numeral on the laptop, and a complete orange numeral glows inside the dome, with a brief darkness between values. The technician reads the final result ("Stable at eight"), writes it in a notebook, lowers both hands, and the wizard switches the tube **OFF**.
 
-The technician raises two fingers and holds the gesture where the device can "see" it. A hidden wizard watches the technician and secretly selects `2` from the control page on the laptop. The command is sent through our Python-based wireless control program, and a complete orange `2` glows on the phone inside the clear dome. The technician then raises five fingers. The wizard selects `5`, causing the `2` to disappear and an orange `5` to glow in its place.
-
-For the final reading, the technician shows eight using both hands—five fingers on one hand and three on the other. The hidden wizard selects `8`, and the display changes to a steady orange `8`. The technician carefully watches the result and says, "Stable at eight." The technician then writes `8` in a notebook. The video shows a close-up of the glowing numeral behind the clear enclosure and decorative wiring. Finally, the technician lowers both hands, the wizard selects **OFF**, and the display returns to complete darkness.
-
-Our goal was to meet the standard described in the assignment. Someone familiar with Nixie tubes should recognize the warm orange glow, glass-like enclosure, visible internal wiring, complete numeral shapes, and one-number-at-a-time transitions. Someone unfamiliar with Nixie tubes should still understand that the technician provides an input by showing a number with their fingers and that the instrument responds by displaying the matching glowing numeral.
+Our aim was the bar set at the top of the lab: someone who knows Nixie tubes should recognize the warm orange glow, glass enclosure, and one-numeral-at-a-time transitions, while someone who doesn't should still understand that the instrument answers the technician's finger count with a matching glowing numeral.
 
 The technician's finger gesture, the wizard's hidden laptop command, and the phone's light formed a real-time interaction loop:
 

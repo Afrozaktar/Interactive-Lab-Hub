@@ -96,7 +96,7 @@ The scene begins with a close-up of the dark Nixie tube. The actor enters and sa
 ![Storyboard 3](Images/storyboard-3.jpeg)
 
 **Feedback from our breakout room:**
-(need to be added after we get feedback)
+Our reviewers found the Part 0 research clear, especially the strengths, weaknesses, and core interaction, and they liked that we modified the Tinkerbelle tool to fit our piece. Their critiques focused on the storyboards: the phone display should actually be drawn dark in the frames where it is off; the descriptions talk about finger gestures, but the drawings never show the fingers; and the frames are hard to follow scene by scene, particularly in Storyboard 1. They also suggested keeping the actor visible in every frame instead of having them disappear mid-sequence. The final video was praised as clear and well done. In a future iteration of the storyboards, we would draw the finger counts explicitly, keep the actor in every frame, and shade the display dark whenever the tube is off.
 
 ## Part B. Act Out the Interaction
 

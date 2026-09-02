@@ -200,8 +200,11 @@ Our prototype was informed by the original Tinkerbelle project from the Interact
 
 ## Feedback from other groups
 
-We exchanged feedback with other groups, including the
-[lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201).
+We exchanged feedback with three other groups:
+[edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub) (their detailed
+storyboard feedback is summarized in Part A above), the
+[lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201),
+and a third group (link to be added).
 
 - One group found the storyboards clear and the Nixie tube adaptation well done, and liked the front end with the full set of numerals and transition states. They caught a mismatch between the storyboard descriptions and the storyboard numbers.
 - Another group said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.

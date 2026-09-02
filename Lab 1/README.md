@@ -152,7 +152,7 @@ reaction helped the audience understand that the glowing numeral was a
 response to the human input. The hidden wizard allowed us to simulate
 gesture recognition without building a computer-vision system.
 
-*(Our first wizarded test video will be included here.)*
+**First wizarded test recording:** [lab1-initial.mov](Videos/lab1-initial.mov)
 
 ## Part E. Costume the Device
 

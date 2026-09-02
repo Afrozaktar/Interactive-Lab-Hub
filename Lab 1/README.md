@@ -178,7 +178,7 @@ The technician's finger gesture, the wizard's hidden laptop command, and the pho
 
 The storyboard communicates the order of events in the performance, while this interaction loop explains how the apparent device behavior was produced. The system did not automatically recognize the technician's fingers. Instead, the hidden wizard provided the intelligence by observing the gesture and manually selecting the correct number. This Wizard-of-Oz arrangement allowed us to recreate the experience of an interactive Nixie instrument without building an electronic hand-recognition system or a real high-voltage Nixie tube.
 
-*(Our final video will be included here.)*
+**Final video sketch:** [lab1.MOV](Videos/lab1.MOV)
 
 ### Collaborators and Influences
 

@@ -96,7 +96,7 @@ The scene begins with a close-up of the dark Nixie tube. The actor enters and sa
 ![Storyboard 3](Images/storyboard-3.jpeg)
 
 **Feedback from our breakout room:**
-Our reviewers found the Part 0 research clear, especially the strengths, weaknesses, and core interaction, and they liked that we modified the Tinkerbelle tool to fit our piece. Their critiques focused on the storyboards: the phone display should actually be drawn dark in the frames where it is off; the descriptions talk about finger gestures, but the drawings never show the fingers; and the frames are hard to follow scene by scene, particularly in Storyboard 1. They also suggested keeping the actor visible in every frame instead of having them disappear mid-sequence. The final video was praised as clear and well done. In a future iteration of the storyboards, we would draw the finger counts explicitly, keep the actor in every frame, and shade the display dark whenever the tube is off.
+(to be added)
 
 ## Part B. Act Out the Interaction
 
@@ -201,13 +201,13 @@ Our prototype was informed by the original Tinkerbelle project from the Interact
 ## Feedback from other groups
 
 We exchanged feedback with three other groups:
-[edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub) (their detailed
-storyboard feedback is summarized in Part A above), the
+[edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub), the
 [lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201),
 and a third group (link to be added).
 
-- One group found the storyboards clear and the Nixie tube adaptation well done, and liked the front end with the full set of numerals and transition states. They caught a mismatch between the storyboard descriptions and the storyboard numbers.
-- Another group said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.
+- [edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub) found the Part 0 research clear — especially the strengths, weaknesses, and core interaction — and liked that we modified the Tinkerbelle tool to fit our piece, calling the final video clear and well done. Their critiques focused on the storyboards: the phone display should actually be drawn dark in the frames where it is off; the descriptions talk about finger gestures, but the drawings never show the fingers; the frames are hard to follow scene by scene, particularly in Storyboard 1; and the actor should stay visible in every frame instead of disappearing mid-sequence.
+- The [lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201) found the storyboards clear and the Nixie tube adaptation well done, and liked the front end with the full set of numerals and transition states. They caught a mismatch between the storyboard descriptions and the storyboard numbers.
+- The third group said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.
 
 The context critique is the most useful one for our remix: our recreation shows *how* the tube behaves but not *where it lived* — the 1950s laboratory, the technician's job of reading and recording measurements. A stronger version would establish the scene (instrument panel, notebook, lab setting) before the first numeral ever glows.
 

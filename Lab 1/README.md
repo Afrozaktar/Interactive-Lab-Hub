@@ -198,7 +198,15 @@ Our prototype was informed by the original Tinkerbelle project from the Interact
 
 # Part 2 — ReMastering the Light
 
-*(Feedback from classmates will be added here.)*
+## Feedback from other groups
+
+We exchanged feedback with other groups, including the
+[lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201).
+
+- One group found the storyboards clear and the Nixie tube adaptation well done, and liked the front end with the full set of numerals and transition states. They caught a mismatch between the storyboard descriptions and the storyboard numbers.
+- Another group said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.
+
+The context critique is the most useful one for our remix: our recreation shows *how* the tube behaves but not *where it lived* — the 1950s laboratory, the technician's job of reading and recording measurements. A stronger version would establish the scene (instrument panel, notebook, lab setting) before the first numeral ever glows.
 
 For our updated version, we propose an **accessible multimodal Nixie display**. The display keeps the original warm orange glow and whole-numeral appearance, but it adds sound and vibration. When a new numeral appears, the device also speaks the number aloud. For example, the glowing number `3` would be accompanied by the spoken word "three".
 

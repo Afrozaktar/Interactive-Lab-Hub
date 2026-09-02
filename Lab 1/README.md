@@ -118,6 +118,14 @@ We used the Tinkerbelle tool to turn the phone into a remotely controlled Nixie-
 
 We modified the original Tinkerbelle interface specifically for the Nixie tube. Instead of controlling only the phone's background color, our laptop control panel included buttons for the numerals `0` through `9`, along with Power On, Power Off, and Blank Tube controls. When the hidden operator selected a numeral on the laptop, the Python server broadcast that value to the phone. The phone then displayed the selected numeral in a warm orange-red color against a dark background. The complete program is in [`nixie_phone.py`](nixie_phone.py) in this folder.
 
+The phone in display mode, showing the unlit simulated tube with its glass outline and wire mesh:
+
+<img src="Images/phone-display.jpg" alt="Phone acting as the Nixie tube display" width="300"/>
+
+The laptop controller page used by the hidden wizard:
+
+![Laptop controller interface](Images/laptop-controller.jpg)
+
 We mapped the Nixie tube's light vocabulary to the controller in the following way:
 
 * **Complete darkness** represented an instrument that was switched off.

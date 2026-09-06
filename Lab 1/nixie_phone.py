@@ -487,7 +487,7 @@ PAGE = r"""
         </div>
 
         <div id="phoneMessage">
-            Nixie Phone Display
+            Nixie Phone Display. Tap once to enable the tube hum.
         </div>
     </main>
 
@@ -520,6 +520,127 @@ PAGE = r"""
 
 
         // ------------------------------------------------
+        // TUBE SOUND
+        //
+        // A real Nixie tube runs on high voltage, and its
+        // power supply gives off a faint high-pitched hum
+        // while the tube is lit. This section generates
+        // that hum in the browser. No audio files needed.
+        // ------------------------------------------------
+
+        let audioContext = null;
+        let humGain = null;
+
+        // Phones only allow sound after the user has
+        // tapped the page. Choosing display mode counts.
+        function prepareAudio() {
+            if (audioContext !== null) {
+                return;
+            }
+
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                return;
+            }
+
+            audioContext = new AudioContextClass();
+
+            // Master volume for the hum. Starts silent.
+            humGain = audioContext.createGain();
+            humGain.gain.value = 0;
+            humGain.connect(audioContext.destination);
+
+            // Two tones make it sound like a transformer
+            // whine rather than a clean beep.
+            const tones = [
+                { frequency: 120, level: 0.35 },
+                { frequency: 3200, level: 0.10 }
+            ];
+
+            tones.forEach((tone) => {
+                const oscillator = audioContext.createOscillator();
+                oscillator.type = "sawtooth";
+                oscillator.frequency.value = tone.frequency;
+
+                const toneGain = audioContext.createGain();
+                toneGain.gain.value = tone.level;
+
+                oscillator.connect(toneGain);
+                toneGain.connect(humGain);
+                oscillator.start();
+            });
+        }
+
+
+        function startHum() {
+            if (audioContext === null) {
+                return;
+            }
+
+            if (audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+
+            const now = audioContext.currentTime;
+
+            // Fade the hum in over half a second.
+            humGain.gain.cancelScheduledValues(now);
+            humGain.gain.setValueAtTime(humGain.gain.value, now);
+            humGain.gain.linearRampToValueAtTime(0.05, now + 0.5);
+        }
+
+
+        function stopHum() {
+            if (audioContext === null) {
+                return;
+            }
+
+            const now = audioContext.currentTime;
+
+            humGain.gain.cancelScheduledValues(now);
+            humGain.gain.setValueAtTime(humGain.gain.value, now);
+            humGain.gain.linearRampToValueAtTime(0, now + 0.2);
+        }
+
+
+        // A short burst of noise when a new word ignites.
+        function playCrackle() {
+            if (audioContext === null) {
+                return;
+            }
+
+            const duration = 0.12;
+            const sampleCount =
+                Math.floor(audioContext.sampleRate * duration);
+
+            const buffer = audioContext.createBuffer(
+                1,
+                sampleCount,
+                audioContext.sampleRate
+            );
+
+            const samples = buffer.getChannelData(0);
+
+            for (let i = 0; i < sampleCount; i++) {
+                const fade = 1 - i / sampleCount;
+                samples[i] = (Math.random() * 2 - 1) * fade;
+            }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+
+            const crackleGain = audioContext.createGain();
+            crackleGain.gain.value = 0.08;
+
+            source.connect(crackleGain);
+            crackleGain.connect(audioContext.destination);
+            source.start();
+        }
+
+
+        // ------------------------------------------------
         // SELECT LAPTOP CONTROLLER MODE
         // ------------------------------------------------
 
@@ -537,6 +658,7 @@ PAGE = r"""
         document
             .getElementById("chooseDisplay")
             .addEventListener("click", async () => {
+                prepareAudio();
                 showDisplay();
 
                 if (document.documentElement.requestFullscreen) {
@@ -572,6 +694,16 @@ PAGE = r"""
 
         if (requestedMode === "display") {
             showDisplay();
+
+            // Sound cannot start until the screen is tapped.
+            // After the first tap the hum follows the tube state.
+            document.addEventListener("pointerdown", () => {
+                prepareAudio();
+
+                if (lastPower) {
+                    startHum();
+                }
+            }, { once: true });
         }
 
 
@@ -722,6 +854,7 @@ PAGE = r"""
                 if (state.power) {
                     glassTube.classList.remove("powerOff");
                     glassTube.classList.add("starting");
+                    startHum();
 
                     setTimeout(() => {
                         glassTube.classList.remove("starting");
@@ -729,6 +862,7 @@ PAGE = r"""
                 } else {
                     glassTube.classList.add("powerOff");
                     nixieWord.textContent = "";
+                    stopHum();
                 }
 
                 lastPower = state.power;
@@ -764,6 +898,7 @@ PAGE = r"""
 
                 if (newWord !== "") {
                     nixieWord.classList.add("igniting");
+                    playCrackle();
                 }
 
                 changingTimer = null;

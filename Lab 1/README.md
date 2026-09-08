@@ -218,3 +218,5 @@ We updated `nixie_phone.py` so the laptop controller now has ten word buttons (H
 We also gave the tube a voice of its own, though not a spoken one. Real Nixie tubes run on high voltage, and their power supplies give off a faint high-pitched whine while the tube is lit. The phone now generates that hum with the browser's built-in audio synthesis: it fades in when the wizard presses Power On, fades out on Power Off, and a short static crackle plays each time a new word ignites. No audio files are needed, so the project is still a single Python file.
 
 This redesign changes the Nixie tube from a numerical readout into a communication aid, and it answers the context critique: the device now has a clear setting and a clear user, someone signing to a person who does not know sign language.
+
+**Remix video sketch:** [lab1-remix.MP4](Videos/lab1-remix.MP4)

@@ -219,4 +219,6 @@ We also gave the tube a voice of its own, though not a spoken one. Real Nixie tu
 
 This redesign changes the Nixie tube from a numerical readout into a communication aid, and it answers the context critique: the device now has a clear setting and a clear user, someone signing to a person who does not know sign language.
 
+Our remix video sketch is about 18 seconds long. The costumed phone sits inside its clear dome on a table, and the performer signs four words in a row: *hello*, *sorry*, *thank you*, and *love*. After each sign, the hidden wizard presses the matching button and the tube glows with the word in the same orange Nixie style, with a brief darkness between words. The performer glances at the dome after each sign to confirm the tube understood them.
+
 **Remix video sketch:** [lab1-remix.MP4](Videos/lab1-remix.MP4)

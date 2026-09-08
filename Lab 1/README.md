@@ -203,21 +203,55 @@ Our prototype was informed by the original Tinkerbelle project from the Interact
 We exchanged feedback with three other groups:
 [edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub), the
 [lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201),
-and a third group (link to be added).
+and [wristabnd's group](https://github.com/khanlamiah019/Interactive-Lab-Hub/tree/Fall2026/Lab%201).
 
 - [edmkong's group](https://github.com/edmkong/Interactive-Lab-Hub) found the Part 0 research clear — especially the strengths, weaknesses, and core interaction — and liked that we modified the Tinkerbelle tool to fit our piece, calling the final video clear and well done. Their critiques focused on the storyboards: the phone display should actually be drawn dark in the frames where it is off; the descriptions talk about finger gestures, but the drawings never show the fingers; the frames are hard to follow scene by scene, particularly in Storyboard 1; and the actor should stay visible in every frame instead of disappearing mid-sequence.
 - The [lightsaber group](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%201) found the storyboards clear and the Nixie tube adaptation well done, and liked the front end with the full set of numerals and transition states. They caught a mismatch between the storyboard descriptions and the storyboard numbers.
-- The third group said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.
+- [wristabnd's group](https://github.com/khanlamiah019/Interactive-Lab-Hub/tree/Fall2026/Lab%201) said the hand-gesture interaction itself was clear, but the *context* was not: what setting is this device used in, and who would be interacting with it? They pointed out that a viewer who has never heard of a Nixie tube needs more help understanding what it is and why it exists.
 
 The context critique is the most useful one for our remix: our recreation shows *how* the tube behaves but not *where it lived* — the 1950s laboratory, the technician's job of reading and recording measurements. A stronger version would establish the scene (instrument panel, notebook, lab setting) before the first numeral ever glows.
 
-For our updated version, we propose turning the Nixie tube into a **sign language interpreter**. The display keeps the original warm orange glow, glass enclosure, and one-value-at-a-time transitions, but instead of showing numerals it shows words. The performer signs a word such as "thank you", "sorry", or "please", and the tube glows with the matching word in the same Nixie style.
+## Three possible remixes
+
+For our updated version, we explored three possible contexts for the Nixie-inspired display. Each storyboard examines the idea, metaphor, model, display, error, scenario, task, and control.
+
+### Storyboard 1: Sign-to-Nixie
+
+This storyboard explores using the Nixie-inspired device as a communication tool. A person performs the sign for "sorry", the camera recognizes the gesture, and the word SORRY glows on the display. Tapping the screen for the first time also starts the tube's hum. If the wrong word appears, the person can repeat the gesture.
+
+![Remix storyboard 1: Sign-to-Nixie](Images/remix-storyboard-1-sign-language.jpg)
+
+### Storyboard 2: Clinic Nixie
+
+This storyboard shows the device in a doctor's waiting room. The receptionist selects the next patient, and the patient's name glows on the display. The glowing name acts like a gentle guide that tells the patient when it is time to enter the doctor's room. If the wrong name appears, the receptionist can correct it.
+
+![Remix storyboard 2: Clinic Nixie](Images/remix-storyboard-2-clinic.jpg)
+
+### Storyboard 3: Tennis Nixie
+
+This storyboard uses the Nixie-inspired display as a tennis scoreboard. The umpire presses a button whenever a player wins a point, and the display changes through the normal tennis scores: 0, 15, 30, and 40. If a point is given to the wrong player, the umpire can press Undo and correct the score.
+
+![Remix storyboard 3: Tennis Nixie](Images/remix-storyboard-3-tennis.jpg)
+
+## Our choice: the sign language interpreter
+
+We selected turning the Nixie tube into a **sign language interpreter** because it gives the redesigned Nixie tube a clear user and purpose. It turns the glowing display into a communication bridge between someone using sign language and someone who does not understand it. The display keeps the original warm orange glow, glass enclosure, and one-value-at-a-time transitions, but instead of showing numerals it shows words. The performer signs a word such as "thank you", "sorry", or "please", and the tube glows with the matching word in the same Nixie style.
 
 We updated `nixie_phone.py` so the laptop controller now has ten word buttons (Hello, Thank you, Sorry, Please, Yes, No, Help, Love, Friend, Goodbye) in place of the 0 through 9 keypad. The server only accepts words from its allowed list, and the tube text wraps and scales so a multi-letter word still fits inside the glass. The hidden wizard watches the sign and presses the matching word, exactly as they selected numerals before.
 
 We also gave the tube a voice of its own, though not a spoken one. Real Nixie tubes run on high voltage, and their power supplies give off a faint high-pitched whine while the tube is lit. The phone now generates that hum with the browser's built-in audio synthesis: it fades in when the wizard presses Power On, fades out on Power Off, and a short static crackle plays each time a new word ignites. No audio files are needed, so the project is still a single Python file.
 
 This redesign changes the Nixie tube from a numerical readout into a communication aid, and it answers the context critique: the device now has a clear setting and a clear user, someone signing to a person who does not know sign language.
+
+The phone in display mode, showing a word inside the simulated tube with its glass outline and wire mesh:
+
+<img src="Images/remix-phone-display.jpg" alt="Phone showing the word LOVE in Nixie style" width="300"/>
+
+The laptop controller page used by the hidden wizard, with the word buttons in place of the keypad:
+
+![Laptop controller with word buttons](Images/remix-laptop-controller.png)
+
+## Remix video
 
 Our remix video sketch is about 18 seconds long. The costumed phone sits inside its clear dome on a table, and the performer signs four words in a row: *hello*, *sorry*, *thank you*, and *love*. After each sign, the hidden wizard presses the matching button and the tube glows with the word in the same orange Nixie style, with a brief darkness between words. The performer glances at the dome after each sign to confirm the tube understood them.
 

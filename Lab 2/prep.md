@@ -13,7 +13,7 @@
 #### On your computer 
 - Download the [Raspberry Pi Imager](https://www.raspberrypi.org/software/)
 - Download our copy of Raspbian at [this cornell canvas link]( https://drive.google.com/file/d/1mglmzFs7cxT3OKbYALhrL2uQ9GVFBrzA/view?usp=sharing).
-Download and use the ``rpi5-2025-09-08.img.gz`` file directly in the Raspberry Pi Imager (do not unzip).
+Download and use the file directly in the Raspberry Pi Imager (do not unzip).
 
 - If using windows: [Windows 11 SSH Client](https://docs.microsoft.com/en-us/windows/terminal/tutorials/ssh), [PuTTY](https://www.putty.org/) or [VS Code SSH](https://code.visualstudio.com/learn/develop-cloud/ssh-lab-machines). 
 

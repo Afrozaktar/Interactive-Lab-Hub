@@ -17,6 +17,7 @@ Labs are due on Sunday midnight. Make sure this page is linked to on your main c
 We connected to Raspberry Pi from laptop using PuTTY and SSH. We entered the Pi’s IP address and logged in with username and password. This allowed us to run commands on the Pi remotely.
 
 [Image of terminal showing rpi connected]
+<img width="811" height="506" alt="Part A" src="https://github.com/user-attachments/assets/6cac289e-a1d9-4442-8b9e-7b6ef6912b64" />
 
 
 ## Part B. 
@@ -39,6 +40,9 @@ We ran `piscreen.service` to display information about my Raspberry Pi, includin
 
 [Photo 1: Raspberry Pi displaying the system information, with unique MAC address]
 
+<img width="1600" height="1199" alt="IMG-20260913-WA0022" src="https://github.com/user-attachments/assets/f174eb07-fb2c-4b41-bd75-aa28e7915b48" />
+
+
 Before running the other display programs, We stopped the startup service using `sudo systemctl stop piscreen.service`. This allowed the test program to use the display without another program trying to control the same pins.
 
 ### Testing your Screen
@@ -46,6 +50,13 @@ Before running the other display programs, We stopped the startup service using 
 We then ran `python screen_test.py`, entered a color name red, and tested the buttons. With neither button pressed, the screen displayed green. Pressing button A displayed white, while pressing button B displayed red color. Pressing both buttons turned off the backlight. This showed that the display, buttons, and backlight responded to the program.
 
 [Insert Photo Raspberry Pi successfully running the screen test.]
+
+<img width="1600" height="1199" alt="IMG-20260913-WA0019" src="https://github.com/user-attachments/assets/50189720-2e33-424d-9425-34bba6d663f9" />
+
+<img width="1600" height="1200" alt="IMG-20260913-WA0020" src="https://github.com/user-attachments/assets/a99d85e2-1151-446c-9def-a3e8539b0828" />
+
+
+<img width="1600" height="1199" alt="IMG-20260913-WA0021" src="https://github.com/user-attachments/assets/05bb34b3-cd6d-4a78-ae72-5a1f5c12b1ef" />
 
 [screen-test video link here.]
 

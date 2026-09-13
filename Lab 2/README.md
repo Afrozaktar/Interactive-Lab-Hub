@@ -72,13 +72,16 @@ We then ran `python screen_test.py`, entered a color name red, and tested the bu
 
 **Image showing Raspberry Pi successfully running the screen test:**
 
+<img width="1600" height="1199" alt="IMG-20260913-WA0021" src="https://github.com/user-attachments/assets/05bb34b3-cd6d-4a78-ae72-5a1f5c12b1ef" />
+
+
 <img width="1600" height="1199" alt="IMG-20260913-WA0019" src="https://github.com/user-attachments/assets/50189720-2e33-424d-9425-34bba6d663f9" />
 
 
 <img width="1600" height="1200" alt="IMG-20260913-WA0020" src="https://github.com/user-attachments/assets/a99d85e2-1151-446c-9def-a3e8539b0828" />
 
 
-<img width="1600" height="1199" alt="IMG-20260913-WA0021" src="https://github.com/user-attachments/assets/05bb34b3-cd6d-4a78-ae72-5a1f5c12b1ef" />
+
 
 
 

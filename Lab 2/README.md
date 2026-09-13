@@ -85,7 +85,6 @@ We then ran `python screen_test.py`, entered a color name red, and tested the bu
 
 
 
-
 **Video showing Raspberry pi running the screen test:**
 
 

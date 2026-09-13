@@ -1,5 +1,5 @@
 # Interactive Prototyping: The Clock of Pi
-**NAMES OF COLLABORATORS: Afroza Aktar, KM, Lamiah Khan
+**NAMES OF COLLABORATORS: Afroza Aktar, Rawisara Chairat, Lamiah Khan
 
 **Please indicate anyone you collaborated with on this Lab here.**
 Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 

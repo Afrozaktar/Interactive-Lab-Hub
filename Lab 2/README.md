@@ -80,7 +80,9 @@ The display showed the date and time on a black background, with the seconds upd
 
 [photo of our Raspberry Pi displaying the working clock.]
 
-[video link showing the seconds changing.]
+https://github.com/user-attachments/assets/1bc43b84-b1e2-4787-b841-fa0410b4408a
+
+
 
 
 ## Part E. Read Part 2. Sketch and brainstorm further interactions and features you would like for your clock.

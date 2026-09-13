@@ -109,6 +109,7 @@ I also changed the display’s reset setting to `None`, allowing GPIO24 to be us
 
 <img width="1600" height="1200" alt="Imgae py" src="https://github.com/user-attachments/assets/7ea66250-1cce-410b-8c64-b98341579227" />
 
+<br><br>
 
 **Video showing the buttons switching between two pictures:**
 

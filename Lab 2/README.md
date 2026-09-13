@@ -93,11 +93,17 @@ We strongly discourage literal digital or analog clock display: Be creative.
 
 
 ** Insert ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf)), storyboards for your ideas **
-<img width="581" height="669" alt="Screenshot 2026-09-13 at 1 36 11 PM" src="https://github.com/user-attachments/assets/fbbc5e45-be1d-4e21-805e-97ae44c1e664" />
 
-<img width="580" height="597" alt="Screenshot 2026-09-13 at 1 36 22 PM" src="https://github.com/user-attachments/assets/7da9aa99-ac94-43ec-b503-8e5814ac9a3f" />
+Sketch 1: 
+<img width="526" height="598" alt="Screenshot 2026-09-13 at 1 49 46 PM" src="https://github.com/user-attachments/assets/ff912314-9dca-43a2-8978-98f6b010a333" />
 
-<img width="578" height="619" alt="Screenshot 2026-09-13 at 1 36 32 PM" src="https://github.com/user-attachments/assets/5dada05d-5dc0-4e52-a9f7-cda1bb1e6a10" />
+
+Sketch 2: 
+<img width="522" height="539" alt="Screenshot 2026-09-13 at 1 50 04 PM" src="https://github.com/user-attachments/assets/31de9019-f3b4-41d3-b25e-b0d6e423214f" />
+
+
+Sketch 3: 
+<img width="525" height="568" alt="Screenshot 2026-09-13 at 1 50 23 PM" src="https://github.com/user-attachments/assets/42a217eb-a65c-46c1-a481-fc4cfcc35e24" />
 
 
 

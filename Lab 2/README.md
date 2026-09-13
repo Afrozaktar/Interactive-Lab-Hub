@@ -78,11 +78,9 @@ After editing, We saved the file using Ctrl+O, pressed Enter, and exited nano us
 
 The display showed the date and time on a black background, with the seconds updating continuously. We could stop the program by pressing Ctrl+C in PuTTY.
 
-[photo of our Raspberry Pi displaying the working clock.]
+<img width="3118" height="2823" alt="Pi Clock vs Real Clock" src="https://github.com/user-attachments/assets/ff9136f7-f230-4821-a5cb-ee1394af5596" />
 
-https://github.com/user-attachments/assets/1bc43b84-b1e2-4787-b841-fa0410b4408a
-
-
+https://github.com/user-attachments/assets/1404813f-ba18-42c2-a924-76f08fe24fcf
 
 
 ## Part E. Read Part 2. Sketch and brainstorm further interactions and features you would like for your clock.

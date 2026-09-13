@@ -46,7 +46,7 @@ The program displayed the current date and time in the PuTTY terminal. The time 
 https://github.com/user-attachments/assets/e442f8a7-4f2e-4afb-8b90-149c9dd062e1
 
 
-
+<br><br>
 
 ## Part C. 
 ### Set up your RGB Display
@@ -89,11 +89,10 @@ We then ran `python screen_test.py`, entered a color name red, and tested the bu
 
 
 
-
 https://github.com/user-attachments/assets/cbe5903a-3aeb-4574-a041-5d257a882573
 
 
-
+<br><br>
 
 #### Displaying an image
 
@@ -118,7 +117,7 @@ I also changed the display’s reset setting to `None`, allowing GPIO24 to be us
 https://github.com/user-attachments/assets/d7a301a1-a5b7-4e5f-b39e-851d14ac3355
 
 
-
+<br><br>
 
 
 \*\*\***Include a picture of your own Raspberry Pi displaying the piscreen.service with your unique MAC address. Additionally, please provide another picture showing the successful completion of the screen test.**\*\*\*

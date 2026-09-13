@@ -30,9 +30,20 @@ With the virtual environment active, I installed the required Python packages us
 
 The program displayed the current date and time in the PuTTY terminal. The time updated every second on the same line. 
 
+
 **Screenshot showing the command-line clock running in PuTTY:**
 
-**Video link showing the command-line clock running in PuTTY:**
+
+<img width="864" height="519" alt="image" src="https://github.com/user-attachments/assets/e902db1c-167c-438d-9c79-5832dc2ca74c" />
+
+
+
+**Video showing the command-line clock running in PuTTY:**
+
+
+
+
+https://github.com/user-attachments/assets/e442f8a7-4f2e-4afb-8b90-149c9dd062e1
 
 
 
@@ -47,7 +58,10 @@ We ran `piscreen.service` to display information about my Raspberry Pi, includin
 
 **Image showing Raspberry Pi displaying the system information, with unique MAC address:**
 
+
+
 <img width="1600" height="1199" alt="IMG-20260913-WA0022" src="https://github.com/user-attachments/assets/f174eb07-fb2c-4b41-bd75-aa28e7915b48" />
+
 
 
 Before running the other display programs, We stopped the startup service using `sudo systemctl stop piscreen.service`. This allowed the test program to use the display without another program trying to control the same pins.
@@ -66,11 +80,16 @@ We then ran `python screen_test.py`, entered a color name red, and tested the bu
 
 <img width="1600" height="1199" alt="IMG-20260913-WA0021" src="https://github.com/user-attachments/assets/05bb34b3-cd6d-4a78-ae72-5a1f5c12b1ef" />
 
+
+
+
 **Video showing Raspberry pi running the screen test:**
 
 
 
+
 https://github.com/user-attachments/assets/cbe5903a-3aeb-4574-a041-5d257a882573
+
 
 
 
@@ -82,11 +101,20 @@ We modified `image.py` to switch between two pictures using the buttons. Button 
 
 I also changed the display’s reset setting to `None`, allowing GPIO24 to be used as the input for button B. We tested switching between the pictures and recorded a video showing the interaction.
 
+
+**Image showing the image:**
+
+
+<img width="1600" height="1200" alt="Imgae py" src="https://github.com/user-attachments/assets/7ea66250-1cce-410b-8c64-b98341579227" />
+
+
 **Video showing the buttons switching between two pictures:**
 
 
 
+
 https://github.com/user-attachments/assets/d7a301a1-a5b7-4e5f-b39e-851d14ac3355
+
 
 
 

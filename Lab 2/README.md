@@ -20,7 +20,7 @@ We connected to Raspberry Pi from laptop using PuTTY and SSH. We entered the Piâ
 
 
 <img width="811" height="506" alt="Part A" src="https://github.com/user-attachments/assets/6cac289e-a1d9-4442-8b9e-7b6ef6912b64" />
-
+<br><br>
 
 ## Part B. 
 ### Try out the Command Line Clock
@@ -37,6 +37,7 @@ The program displayed the current date and time in the PuTTY terminal. The time 
 <img width="864" height="519" alt="image" src="https://github.com/user-attachments/assets/e902db1c-167c-438d-9c79-5832dc2ca74c" />
 
 
+<br><br>
 
 **Video showing the command-line clock running in PuTTY:**
 
@@ -62,7 +63,7 @@ We ran `piscreen.service` to display information about my Raspberry Pi, includin
 
 <img width="1600" height="1199" alt="IMG-20260913-WA0022" src="https://github.com/user-attachments/assets/f174eb07-fb2c-4b41-bd75-aa28e7915b48" />
 
-
+<br><br>
 
 Before running the other display programs, We stopped the startup service using `sudo systemctl stop piscreen.service`. This allowed the test program to use the display without another program trying to control the same pins.
 
@@ -81,7 +82,7 @@ We then ran `python screen_test.py`, entered a color name red, and tested the bu
 <img width="1600" height="1200" alt="IMG-20260913-WA0020" src="https://github.com/user-attachments/assets/a99d85e2-1151-446c-9def-a3e8539b0828" />
 
 
-
+<br><br>
 
 
 

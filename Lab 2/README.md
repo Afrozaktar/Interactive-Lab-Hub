@@ -74,8 +74,6 @@ We used `cli_clock.py` as a reference for getting the current date and time with
 Inside the loop, the program clears the previous image, gets the current date and time, and draws it in white. It then sends the image to the display using `disp.image()`. The `time.sleep(1)` instruction makes the program wait one second before repeating these steps.
 
 After editing, We saved the file using Ctrl+O, pressed Enter, and exited nano using Ctrl+X. We stopped `piscreen.service` so the clock program could use the screen, then ran `python screen_clock.py`. Modified screen_clock.py is named "Modified_screen_clock.py" and is uploaded inside Lab 2. 
-
-
 The display showed the date and time on a black background, with the seconds updating continuously. We could stop the program by pressing Ctrl+C in PuTTY.
 
 <img width="4032" height="3024" alt="Pi Clock vs Real Clock" src="https://github.com/user-attachments/assets/6c608e7f-463b-4340-85cf-0ad9806ad29c" />
@@ -88,27 +86,24 @@ https://github.com/user-attachments/assets/ea6c690b-4be8-4c24-ba1b-7063ad555e65
 
 ## Part E. Read Part 2. Sketch and brainstorm further interactions and features you would like for your clock.
 
-One potential source of ideas might be thinking about other clocks and timekeeping devices for inspiration.
-
-Another might be novel units of time. How do you measure a year? [In daylights? In midnights? In cups of coffee?](https://www.youtube.com/watch?v=wsj15wPpjLY)
-
-We strongly discourage literal digital or analog clock display: Be creative.
-
-
 ** Insert ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf)), storyboards for your ideas **
 
 Sketch 1: Our first (and favorite) idea is the  Flower Clock is a timekeeping concept that uses the natural blooming cycles of flowers to represent time. Since flowers open and close their petals according to their internal circadian rhythms, different species can bloom at different times of day. By observing three different flower cycles, we can represent seconds, minutes, and hours, creating a clock that connects the passage of time with the rhythms of nature.
+
+
 <img width="526" height="598" alt="Screenshot 2026-09-13 at 1 49 46 PM" src="https://github.com/user-attachments/assets/ff912314-9dca-43a2-8978-98f6b010a333" />
 
 
 Sketch 2: The Abacus Clock is a timekeeping concept inspired by the ancient abacus, a counting tool used for arithmetic and trade. Abacuses have been used for thousands of years, with early counting devices emerging in ancient civilizations such as Mesopotamia, while the Chinese suanpan later became one of the most well-known forms. This clock uses sliding beads to represent the hours, minutes, and seconds of the day. As time progresses, the beads move upward from the lower deck toward the upper deck, creating a visual representation of the passage of time. By combining the familiar counting system of the abacus with timekeeping, this design transforms a historical mathematical tool into a modern clock.
+
+
 <img width="522" height="539" alt="Screenshot 2026-09-13 at 1 50 04 PM" src="https://github.com/user-attachments/assets/31de9019-f3b4-41d3-b25e-b0d6e423214f" />
 
 
 Sketch 3: Lastly, our Checklist Clock is a timekeeping concept inspired by the daily checklists and routines we use to organize our lives. Instead of displaying time through traditional numbers or hands, it represents the progression of the day through tasks and activities, such as classes, meals, and studying. To make the clock more interactive, we propose using an ESP32, microphone, and speaker with voice recognition, allowing users to ask for the time and receive spoken reminders about upcoming tasks. This transforms a traditional clock into a personalized, voice-controlled daily planner.
 
-<img width="525" height="568" alt="Screenshot 2026-09-13 at 1 50 23 PM" src="https://github.com/user-attachments/assets/42a217eb-a65c-46c1-a481-fc4cfcc35e24" />
 
+<img width="525" height="568" alt="Screenshot 2026-09-13 at 1 50 23 PM" src="https://github.com/user-attachments/assets/42a217eb-a65c-46c1-a481-fc4cfcc35e24" />
 
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**

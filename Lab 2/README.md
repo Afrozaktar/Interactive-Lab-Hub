@@ -16,7 +16,9 @@ Labs are due on Sunday midnight. Make sure this page is linked to on your main c
 
 We connected to Raspberry Pi from laptop using PuTTY and SSH. We entered the Pi’s IP address and logged in with username and password. This allowed us to run commands on the Pi remotely.
 
-[Image of terminal showing rpi connected]
+**Image of terminal showing Raspberry Pi connected:**
+
+
 <img width="811" height="506" alt="Part A" src="https://github.com/user-attachments/assets/6cac289e-a1d9-4442-8b9e-7b6ef6912b64" />
 
 
@@ -28,7 +30,12 @@ With the virtual environment active, I installed the required Python packages us
 
 The program displayed the current date and time in the PuTTY terminal. The time updated every second on the same line. 
 
-[ screenshot or video link showing the command-line clock running in PuTTY.]
+**Screenshot showing the command-line clock running in PuTTY:**
+
+**Video link showing the command-line clock running in PuTTY:**
+
+
+
 
 ## Part C. 
 ### Set up your RGB Display
@@ -38,7 +45,7 @@ For this part, we used the Adafruit MiniPiTFT display connected to my Raspberry 
 
 We ran `piscreen.service` to display information about my Raspberry Pi, including its IP address, MAC address, memory usage, and CPU temperature. We also looked at `screen_boot_script.py` to understand how text is displayed. The program uses `draw.text()` to write information onto an image and `disp.image()` to show that image on the physical screen.
 
-[Photo 1: Raspberry Pi displaying the system information, with unique MAC address]
+**Image showing Raspberry Pi displaying the system information, with unique MAC address:**
 
 <img width="1600" height="1199" alt="IMG-20260913-WA0022" src="https://github.com/user-attachments/assets/f174eb07-fb2c-4b41-bd75-aa28e7915b48" />
 
@@ -49,16 +56,23 @@ Before running the other display programs, We stopped the startup service using 
 
 We then ran `python screen_test.py`, entered a color name red, and tested the buttons. With neither button pressed, the screen displayed green. Pressing button A displayed white, while pressing button B displayed red color. Pressing both buttons turned off the backlight. This showed that the display, buttons, and backlight responded to the program.
 
-[Insert Photo Raspberry Pi successfully running the screen test.]
+**Image showing Raspberry Pi successfully running the screen test:**
 
 <img width="1600" height="1199" alt="IMG-20260913-WA0019" src="https://github.com/user-attachments/assets/50189720-2e33-424d-9425-34bba6d663f9" />
+
 
 <img width="1600" height="1200" alt="IMG-20260913-WA0020" src="https://github.com/user-attachments/assets/a99d85e2-1151-446c-9def-a3e8539b0828" />
 
 
 <img width="1600" height="1199" alt="IMG-20260913-WA0021" src="https://github.com/user-attachments/assets/05bb34b3-cd6d-4a78-ae72-5a1f5c12b1ef" />
 
-[screen-test video link here.]
+**Video showing Raspberry pi running the screen test:**
+
+
+
+https://github.com/user-attachments/assets/cbe5903a-3aeb-4574-a041-5d257a882573
+
+
 
 #### Displaying an image
 
@@ -68,7 +82,14 @@ We modified `image.py` to switch between two pictures using the buttons. Button 
 
 I also changed the display’s reset setting to `None`, allowing GPIO24 to be used as the input for button B. We tested switching between the pictures and recorded a video showing the interaction.
 
-[video showing button presses switching between the two pictures.]
+**Video showing the buttons switching between two pictures:**
+
+
+
+https://github.com/user-attachments/assets/d7a301a1-a5b7-4e5f-b39e-851d14ac3355
+
+
+
 
 \*\*\***Include a picture of your own Raspberry Pi displaying the piscreen.service with your unique MAC address. Additionally, please provide another picture showing the successful completion of the screen test.**\*\*\*
 
@@ -87,6 +108,8 @@ Inside the loop, the program clears the previous image, gets the current date an
 After editing, We saved the file using Ctrl+O, pressed Enter, and exited nano using Ctrl+X. We stopped `piscreen.service` so the clock program could use the screen, then ran `python screen_clock.py`. Modified screen_clock.py is named "Modified_screen_clock.py" and is uploaded inside Lab 2. 
 The display showed the date and time on a black background, with the seconds updating continuously. We could stop the program by pressing Ctrl+C in PuTTY.
 
+**Raspberry pi display showing the date and time:**
+
 <img width="4032" height="3024" alt="Pi Clock vs Real Clock" src="https://github.com/user-attachments/assets/6c608e7f-463b-4340-85cf-0ad9806ad29c" />
 
 
@@ -99,19 +122,22 @@ https://github.com/user-attachments/assets/ea6c690b-4be8-4c24-ba1b-7063ad555e65
 
 ** Insert ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf)), storyboards for your ideas **
 
-Sketch 1: Our first (and favorite) idea is the  Flower Clock is a timekeeping concept that uses the natural blooming cycles of flowers to represent time. Since flowers open and close their petals according to their internal circadian rhythms, different species can bloom at different times of day. By observing three different flower cycles, we can represent seconds, minutes, and hours, creating a clock that connects the passage of time with the rhythms of nature.
+**Sketch 1:**
+Our first (and favorite) idea is the  Flower Clock is a timekeeping concept that uses the natural blooming cycles of flowers to represent time. Since flowers open and close their petals according to their internal circadian rhythms, different species can bloom at different times of day. By observing three different flower cycles, we can represent seconds, minutes, and hours, creating a clock that connects the passage of time with the rhythms of nature.
 
 
 <img width="526" height="598" alt="Screenshot 2026-09-13 at 1 49 46 PM" src="https://github.com/user-attachments/assets/ff912314-9dca-43a2-8978-98f6b010a333" />
 
 
-Sketch 2: The Abacus Clock is a timekeeping concept inspired by the ancient abacus, a counting tool used for arithmetic and trade. Abacuses have been used for thousands of years, with early counting devices emerging in ancient civilizations such as Mesopotamia, while the Chinese suanpan later became one of the most well-known forms. This clock uses sliding beads to represent the hours, minutes, and seconds of the day. As time progresses, the beads move upward from the lower deck toward the upper deck, creating a visual representation of the passage of time. By combining the familiar counting system of the abacus with timekeeping, this design transforms a historical mathematical tool into a modern clock.
+**Sketch 2:**
+The Abacus Clock is a timekeeping concept inspired by the ancient abacus, a counting tool used for arithmetic and trade. Abacuses have been used for thousands of years, with early counting devices emerging in ancient civilizations such as Mesopotamia, while the Chinese suanpan later became one of the most well-known forms. This clock uses sliding beads to represent the hours, minutes, and seconds of the day. As time progresses, the beads move upward from the lower deck toward the upper deck, creating a visual representation of the passage of time. By combining the familiar counting system of the abacus with timekeeping, this design transforms a historical mathematical tool into a modern clock.
 
 
 <img width="522" height="539" alt="Screenshot 2026-09-13 at 1 50 04 PM" src="https://github.com/user-attachments/assets/31de9019-f3b4-41d3-b25e-b0d6e423214f" />
 
 
-Sketch 3: Lastly, our Checklist Clock is a timekeeping concept inspired by the daily checklists and routines we use to organize our lives. Instead of displaying time through traditional numbers or hands, it represents the progression of the day through tasks and activities, such as classes, meals, and studying. To make the clock more interactive, we propose using an ESP32, microphone, and speaker with voice recognition, allowing users to ask for the time and receive spoken reminders about upcoming tasks. This transforms a traditional clock into a personalized, voice-controlled daily planner.
+**Sketch 3:**
+Lastly, our Checklist Clock is a timekeeping concept inspired by the daily checklists and routines we use to organize our lives. Instead of displaying time through traditional numbers or hands, it represents the progression of the day through tasks and activities, such as classes, meals, and studying. To make the clock more interactive, we propose using an ESP32, microphone, and speaker with voice recognition, allowing users to ask for the time and receive spoken reminders about upcoming tasks. This transforms a traditional clock into a personalized, voice-controlled daily planner.
 
 
 <img width="525" height="568" alt="Screenshot 2026-09-13 at 1 50 23 PM" src="https://github.com/user-attachments/assets/42a217eb-a65c-46c1-a481-fc4cfcc35e24" />

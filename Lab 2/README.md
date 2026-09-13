@@ -99,7 +99,7 @@ https://github.com/user-attachments/assets/cbe5903a-3aeb-4574-a041-5d257a882573
 
 Next, We ran `image.py` to display a picture. we copied our own picture, `earthing.jpg`, from my laptop to the `Lab 2` folder on the Pi. The program resized and cropped the picture to fit the small display.
 
-We modified `image.py` to switch between two pictures using the buttons. Button A displays `red.jpg`, and button B displays `earthing.jpg`. We used a `while True` loop to keep checking the buttons and a variable to remember which picture was selected. The selected picture stays on the screen after the button is released. Modified image.py is named "Modified_image.py" and is uploaded inside Lab 2. 
+We modified `image.py` to switch between two pictures using the buttons. Button A displays `red.jpg`, and button B displays `earthing.jpg`. We used a `while True` loop to keep checking the buttons and a variable to remember which picture was selected. The selected picture stays on the screen after the button is released. **Modified image.py is named "Modified_image.py" and is uploaded inside Lab 2.**
 
 I also changed the display’s reset setting to `None`, allowing GPIO24 to be used as the input for button B. We tested switching between the pictures and recorded a video showing the interaction.
 
@@ -136,7 +136,7 @@ We used `cli_clock.py` as a reference for getting the current date and time with
 
 Inside the loop, the program clears the previous image, gets the current date and time, and draws it in white. It then sends the image to the display using `disp.image()`. The `time.sleep(1)` instruction makes the program wait one second before repeating these steps.
 
-After editing, We saved the file using Ctrl+O, pressed Enter, and exited nano using Ctrl+X. We stopped `piscreen.service` so the clock program could use the screen, then ran `python screen_clock.py`. Modified screen_clock.py is named "Modified_screen_clock.py" and is uploaded inside Lab 2. 
+After editing, We saved the file using Ctrl+O, pressed Enter, and exited nano using Ctrl+X. We stopped `piscreen.service` so the clock program could use the screen, then ran `python screen_clock.py`. **Modified screen_clock.py is named "Modified_screen_clock.py" and is uploaded inside Lab 2.** 
 The display showed the date and time on a black background, with the seconds updating continuously. We could stop the program by pressing Ctrl+C in PuTTY.
 
 **Raspberry pi display showing the date and time:**

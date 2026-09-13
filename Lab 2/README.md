@@ -99,7 +99,7 @@ https://github.com/user-attachments/assets/cbe5903a-3aeb-4574-a041-5d257a882573
 
 Next, We ran `image.py` to display a picture. we copied our own picture, `earthing.jpg`, from my laptop to the `Lab 2` folder on the Pi. The program resized and cropped the picture to fit the small display.
 
-We modified `image.py` to switch between two pictures using the buttons. Button A displays `red.jpg`, and button B displays `earthing.jpg`. We used a `while True` loop to keep checking the buttons and a variable to remember which picture was selected. The selected picture stays on the screen after the button is released. **Modified image.py is named "Modified_image.py" and is uploaded inside Lab 2.**
+We modified `image.py` to switch between two pictures using the buttons. Button A displays `red.jpg`, and button B displays `earthing.jpg`. **earthing.jpg is uploaded inside lab 2.** We used a `while True` loop to keep checking the buttons and a variable to remember which picture was selected. The selected picture stays on the screen after the button is released. **Modified image.py is named "Modified_image.py" and is uploaded inside Lab 2.**
 
 I also changed the display’s reset setting to `None`, allowing GPIO24 to be used as the input for button B. We tested switching between the pictures and recorded a video showing the interaction.
 

@@ -1,5 +1,5 @@
 # Interactive Prototyping: The Clock of Pi
-**NAMES OF COLLABORATORS:** Afroza Aktar, Rawisara Chairat, Lamiah Khan
+**NAMES OF COLLABORATORS:** Afroza Aktar, Rawisara Chairat, Lamiah Khan, Xiaoxi Xu
 
 **Please indicate anyone you collaborated with on this Lab here.**
 Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 
@@ -184,6 +184,9 @@ Lastly, our Checklist Clock is a timekeeping concept inspired by the daily check
 
 2. Look at and give feedback on the Part E. for at least 3 other people in the class and get 3 people to comment on your Part E!)
 **Put the feedback for your ideas here.**
+**Feedback from Jindi chai & Yilin Wu:** I liked all three ideas. My favorite is the Flower Clock. It can tell time, but it can also be a nice decoration for a room. It feels peaceful and connected to nature. I like growing plants at home, but real plants can be hard to take care of. This idea makes plants digital, but they still have a useful purpose. Your sketches are clear and easy to understand.
+One suggestion is to let users choose their own flowers and colors. They could make a flower clock with their favorite flower combination. It may also be helpful to add a small digital time display, so users can quickly check the exact time.
+https://github.com/yw2895-ship-it/Interactive-Lab-Hub/blob/Fall2026/Lab%202/README.md
 
 ## Update your Lab Hub
 

@@ -16,6 +16,12 @@ smoothly second-to-second instead of only updating once an hour. The
 every 15 seconds (a quarter of 60); this spawns one every 3 hours (a
 quarter of 12).
 
+The flower's look has also been redesigned from the original rounded
+ellipse petals: petals and leaves are now pointed, marquise/almond
+shapes (base near the stem, tapering to a point), drawn in two layered
+rows like a double-petaled blossom, with a small ring of "stamen" dots
+around the center for texture.
+
 --------------------------------------------------------------------------
 ONE-TIME SETUP ON THE PI  (skip anything you've already done)
 --------------------------------------------------------------------------
@@ -112,11 +118,22 @@ def blend(fg, bg, alpha_pct):
 
 BG_COLOR = hsb(220, 20, 15)          # same dark background as sketch.js
 STEM_COLOR = hsb(120, 60, 40)
-LEAF_COLOR = hsb(120, 70, 60)
+LEAF_COLOR = hsb(120, 70, 55)
+LEAF_STROKE = hsb(120, 80, 30)
 CENTER_COLOR = hsb(45, 90, 80)
-PETAL_FILL = hsb(330, 55, 90)        # pink, like the original hours flower
+STAMEN_COLOR = hsb(30, 85, 60)
+
+# Outer petal row (main blossom color).
+PETAL_FILL = hsb(330, 55, 90)
 PETAL_STROKE = hsb(330, 80, 45)
 PETAL_HIGHLIGHT = hsb(330, 25, 97)
+
+# Inner petal row -- a second, smaller layer offset between the outer
+# petals, in a warmer accent shade, to give the blossom more depth than
+# a single ring of petals.
+INNER_PETAL_FILL = hsb(20, 70, 95)
+INNER_PETAL_STROKE = hsb(20, 85, 55)
+
 BUD_COLOR = hsb(120, 40, 50)
 BUD_TIP_COLOR = hsb(120, 60, 30)
 TEXT_COLOR = (230, 230, 230)
@@ -132,16 +149,24 @@ def transform(lx, ly, angle, ox, oy):
     return (ox + gx, oy + gy)
 
 
-def ellipse_points(rx, ry, angle, ox, oy, shift_y=0.0, n=14):
-    """Points approximating an ellipse (radii rx, ry) centered at local
-    (0, shift_y), rotated by angle, then placed at (ox, oy). shift_y is
-    how far p5's translate() moved the ellipse before rotate() was
-    applied (used for petals; 0 for leaves)."""
+def marquise_points(base_dist, length, width, angle, ox, oy, n=16):
+    """Points for a pointed, almond/marquise-shaped leaf-or-petal: a
+    base at distance `base_dist` from (ox, oy), tapering to a point
+    `length` further out, `width` wide at its middle. Traced with
+    x = (width/2) * sin(pi * t) so it pinches to zero width at both the
+    base and the tip, then rotated by `angle` and placed at (ox, oy).
+    Replaces the plain ellipse petals/leaves from the original sketch
+    with a more traditional pointed petal silhouette."""
     pts = []
-    for i in range(n):
-        t = 2 * math.pi * i / n
-        lx = rx * math.cos(t)
-        ly = ry * math.sin(t) + shift_y
+    for i in range(n + 1):
+        t = i / n
+        lx = (width / 2) * math.sin(math.pi * t)
+        ly = -(base_dist + length * t)
+        pts.append(transform(lx, ly, angle, ox, oy))
+    for i in range(n + 1):
+        t = 1 - i / n
+        lx = -(width / 2) * math.sin(math.pi * t)
+        ly = -(base_dist + length * t)
         pts.append(transform(lx, ly, angle, ox, oy))
     return pts
 
@@ -169,37 +194,80 @@ def bloom_progress(now=None):
     return hour_12 + frac_of_hour
 
 
+def percent_left_to_next_hour(now=None):
+    """Returns 0-100: how much of the current hour is still remaining
+    (100 = the hour just started, 0 = about to roll over)."""
+    now = now if now is not None else time.time()
+    local = time.localtime(now)
+    frac_of_hour_elapsed = (local.tm_min * 60 + local.tm_sec) / 3600.0
+    return (1.0 - frac_of_hour_elapsed) * 100.0
+
+
 def draw_leaves(draw, cx, cy, hour_value):
     """A new leaf every 3 hours (a quarter of the 12-hour cycle, scaled
     from the original's "every 15 seconds" -- a quarter of 60),
-    alternating sides, growing slightly with each one."""
+    alternating sides, growing slightly with each one. Leaves are now
+    pointed marquise shapes anchored on the stem instead of ellipses."""
     num_leaves = int(hour_value // 3) + 2
     for i in range(num_leaves):
         leaf_y = (80 * SCALE) + i * (15 * SCALE)
         side = -1 if i % 2 == 0 else 1
-        leaf_x = side * ((10 + i * 3) * SCALE)
-        leaf_rot = side * (0.2 + i * 0.1)
-        leaf_w = (20 + i * 2) * SCALE
-        leaf_h = (12 + i * 1) * SCALE
-        pts = ellipse_points(leaf_w / 2, leaf_h / 2, leaf_rot,
-                              cx + leaf_x, cy + leaf_y, n=10)
-        draw.polygon(pts, fill=LEAF_COLOR)
+        anchor_x = cx + side * (4 * SCALE)
+        anchor_y = cy + leaf_y
+        leaf_angle = side * (1.0 + i * 0.08)   # tilts leaf away from stem
+        leaf_len = (24 + i * 2.5) * SCALE
+        leaf_w = (13 + i * 1.2) * SCALE
+
+        stroke_pts = marquise_points(0, leaf_len * 1.08, leaf_w * 1.2,
+                                      leaf_angle, anchor_x, anchor_y)
+        draw.polygon(stroke_pts, fill=LEAF_STROKE)
+        fill_pts = marquise_points(0, leaf_len, leaf_w,
+                                    leaf_angle, anchor_x, anchor_y)
+        draw.polygon(fill_pts, fill=LEAF_COLOR)
 
 
 def draw_petal(draw, cx, cy, angle, petal_dist, cur_w, cur_h):
-    """Matches sketch.js's per-petal drawing: filled body + darker
-    outline ring + lighter inner highlight."""
-    stroke_pts = ellipse_points(cur_w / 2 * 1.18, cur_h / 2 * 1.10, angle,
-                                 cx, cy, shift_y=-petal_dist, n=16)
+    """Outer petal: pointed marquise shape with a darker outline and a
+    lighter inner highlight, replacing the original's rounded ellipse
+    petal."""
+    stroke_pts = marquise_points(petal_dist - cur_h * 0.06, cur_h * 1.12,
+                                  cur_w * 1.2, angle, cx, cy)
     draw.polygon(stroke_pts, fill=PETAL_STROKE)
 
-    fill_pts = ellipse_points(cur_w / 2, cur_h / 2, angle, cx, cy,
-                               shift_y=-petal_dist, n=16)
+    fill_pts = marquise_points(petal_dist, cur_h, cur_w, angle, cx, cy)
     draw.polygon(fill_pts, fill=PETAL_FILL)
 
-    hi_pts = ellipse_points(cur_w * 0.6 / 2, cur_h * 0.7 / 2, angle,
-                             cx, cy, shift_y=-petal_dist + cur_h * 0.1, n=12)
+    hi_pts = marquise_points(petal_dist + cur_h * 0.18, cur_h * 0.5,
+                              cur_w * 0.45, angle, cx, cy)
     draw.polygon(hi_pts, fill=PETAL_HIGHLIGHT)
+
+
+def draw_inner_petal(draw, cx, cy, angle, petal_dist, cur_w, cur_h):
+    """Inner petal row: smaller, offset between the outer petals, in a
+    warmer accent color, for a layered double-blossom look."""
+    stroke_pts = marquise_points(petal_dist - cur_h * 0.05, cur_h * 1.05,
+                                  cur_w * 1.15, angle, cx, cy)
+    draw.polygon(stroke_pts, fill=INNER_PETAL_STROKE)
+
+    fill_pts = marquise_points(petal_dist, cur_h, cur_w, angle, cx, cy)
+    draw.polygon(fill_pts, fill=INNER_PETAL_FILL)
+
+
+def draw_center(draw, cx, cy, center_r, bloom):
+    """Flower center: base disc plus a small ring of stamen dots for
+    texture, instead of a single plain circle."""
+    draw.ellipse((cx - center_r, cy - center_r, cx + center_r, cy + center_r),
+                 fill=CENTER_COLOR)
+    if bloom > 0.15:
+        num_stamens = 6
+        stamen_r = max(0.6, center_r * 0.22)
+        ring_r = center_r * 1.35
+        for i in range(num_stamens):
+            t = 2 * math.pi * i / num_stamens + bloom * 0.6
+            sx = cx + ring_r * math.cos(t)
+            sy = cy + ring_r * math.sin(t)
+            draw.ellipse((sx - stamen_r, sy - stamen_r,
+                          sx + stamen_r, sy + stamen_r), fill=STAMEN_COLOR)
 
 
 def draw_hours_flower(draw, cx, cy, hour_value):
@@ -212,12 +280,7 @@ def draw_hours_flower(draw, cx, cy, hour_value):
     # Leaves -- a new one every 3 hours
     draw_leaves(draw, cx, cy, hour_value)
 
-    # Flower center (drawn before petals, same order as sketch.js)
-    center_r = (6 + bloom * 15) * SCALE / 2
-    draw.ellipse((cx - center_r, cy - center_r, cx + center_r, cy + center_r),
-                 fill=CENTER_COLOR)
-
-    # Petals
+    # Petal sizing, shared by both rows
     base_radius = FLOWER_SIZE * 0.3
     bloom_radius = FLOWER_SIZE * (0.3 + bloom * 0.4)
     petal_w = (20 + bloom * 15) * SCALE
@@ -226,9 +289,21 @@ def draw_hours_flower(draw, cx, cy, hour_value):
     cur_w = petal_w * (0.3 + 0.7 * bloom)
     cur_h = petal_h * (0.4 + 0.6 * bloom)
 
+    # Inner row first (sits behind/between the outer petals), offset by
+    # half a step so it peeks out between the outer petals.
+    for i in range(PETAL_COUNT):
+        angle = 2 * math.pi * (i + 0.5) / PETAL_COUNT
+        draw_inner_petal(draw, cx, cy, angle,
+                          petal_dist * 0.78, cur_w * 0.6, cur_h * 0.65)
+
+    # Outer row
     for i in range(PETAL_COUNT):
         angle = 2 * math.pi * i / PETAL_COUNT
         draw_petal(draw, cx, cy, angle, petal_dist, cur_w, cur_h)
+
+    # Flower center, drawn on top of the petal bases
+    center_r = (6 + bloom * 15) * SCALE / 2
+    draw_center(draw, cx, cy, center_r, bloom)
 
     # Bud overlay while mostly closed -- fades out as it blooms
     if bloom < 0.3:
@@ -254,12 +329,15 @@ def main():
 
     while True:
         hours_elapsed = bloom_progress()
+        pct_left = percent_left_to_next_hour()
         local = time.localtime()
 
         draw.rectangle((0, 0, WIDTH, HEIGHT), fill=BG_COLOR)
         draw_hours_flower(draw, cx, cy, hours_elapsed)
-        draw.text((4, HEIGHT - 12),
+        draw.text((4, HEIGHT - 22),
                    time.strftime("%I:%M:%S", local), fill=TEXT_COLOR)
+        draw.text((4, HEIGHT - 12),
+                   f"{pct_left:.0f}% to next hour", fill=TEXT_COLOR)
 
         disp.image(image)
         time.sleep(1 / 15)   # Adafruit measured ~15 FPS max on this display

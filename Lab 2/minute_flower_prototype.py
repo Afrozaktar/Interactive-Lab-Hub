@@ -13,6 +13,14 @@ The orchid blooms gradually over 60 minutes.
 The flower also gently sways in the wind:
 straight -> left -> straight -> right -> straight
 
+The background is no longer a fixed dark color -- it now shifts with
+the time of day, same as the hour flower:
+
+     8:00 PM - 4:59:59 AM  -> #222059  (night)
+     5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
+     8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
+     6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+
 Runs on the Adafruit Mini PiTFT 135x240 ST7789 display.
 """
 
@@ -104,11 +112,71 @@ def blend(fg, bg, alpha_pct):
     )
 
 
+def hex_to_rgb(hex_str):
+    """Convert a '#RRGGBB' string to an (r, g, b) tuple."""
+
+    hex_str = hex_str.lstrip("#")
+
+    return tuple(
+        int(hex_str[i:i + 2], 16)
+        for i in (0, 2, 4)
+    )
+
+
+# -------------------------------------------------------
+# SKY / BACKGROUND COLORS
+# -------------------------------------------------------
+#
+#  8:00 PM - 4:59:59 AM  -> #222059  (night)
+#  5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
+#  8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
+#  6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+
+NIGHT_SKY_COLOR    = hex_to_rgb("#222059")
+SUNRISE_SKY_COLOR  = hex_to_rgb("#FFF7E0")
+DAY_SKY_COLOR      = hex_to_rgb("#D9FDFF")
+SUNSET_SKY_COLOR   = hex_to_rgb("#F79940")
+
+
+def get_sky_color(hour_value):
+    """
+    Return the sky/background color for the given hour_value
+    (hours elapsed since midnight, 0.0 - 24.0).
+    """
+
+    h = hour_value % 24
+
+    if h >= 20 or h < 5:
+        return NIGHT_SKY_COLOR
+    elif h < 8:
+        return SUNRISE_SKY_COLOR
+    elif h < 18:
+        return DAY_SKY_COLOR
+    else:
+        return SUNSET_SKY_COLOR
+
+
+def day_progress(now=None):
+    """Hours elapsed since midnight (0.0 - 24.0), used only to pick the
+    sky color -- unrelated to the minute-flower bloom timer below."""
+
+    if now is None:
+        now = time.time()
+
+    local = time.localtime(now)
+
+    seconds_today = (
+        local.tm_hour * 3600
+        + local.tm_min * 60
+        + local.tm_sec
+    )
+
+    return seconds_today / 3600.0
+
+
 # -------------------------------------------------------
 # ORCHID COLORS
 # -------------------------------------------------------
-
-BG_COLOR = hsb(220, 20, 15)
 
 # Stem and leaves
 STEM_COLOR = hsb(120, 60, 40)
@@ -432,7 +500,8 @@ def draw_minutes_flower(
     draw,
     cx,
     cy,
-    minute_value
+    minute_value,
+    sky_color
 ):
     """
     Draw an orchid based on progress through the hour.
@@ -442,6 +511,10 @@ def draw_minutes_flower(
 
     The existing bloom animation remains unchanged.
     The entire flower gently follows the stem's wind sway.
+
+    sky_color is the current background color (it changes with
+    time of day) so the closed-bud overlay fades against it
+    correctly instead of a fixed color.
     """
 
     # ---------------------------------------------------
@@ -749,7 +822,7 @@ def draw_minutes_flower(
             ),
             fill=blend(
                 BUD_COLOR,
-                BG_COLOR,
+                sky_color,
                 alpha
             )
         )
@@ -785,7 +858,7 @@ def draw_minutes_flower(
             ),
             fill=blend(
                 BUD_TIP_COLOR,
-                BG_COLOR,
+                sky_color,
                 alpha_tip
             )
         )
@@ -820,6 +893,10 @@ def main():
             bloom_progress()
         )
 
+        sky_color = get_sky_color(
+            day_progress()
+        )
+
         # -----------------------------------------------
         # Clear screen
         # -----------------------------------------------
@@ -831,7 +908,7 @@ def main():
                 WIDTH,
                 HEIGHT
             ),
-            fill=BG_COLOR
+            fill=sky_color
         )
 
         # -----------------------------------------------
@@ -842,7 +919,8 @@ def main():
             draw,
             cx,
             cy,
-            minutes_elapsed
+            minutes_elapsed,
+            sky_color
         )
 
         # -----------------------------------------------

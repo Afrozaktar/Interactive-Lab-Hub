@@ -44,10 +44,10 @@ across the same path instead.
 
 THE FLOWER ITSELF
 -------------------------------------------------------------
-Rounded, soft-edged petals (not sharp points) in a blush-pink
-gradient, with a small pale center and a ring of golden
-stamens - a cherry-blossom / peony look rather than a
-sunflower. Leaves are two-tone green with a simple center vein.
+A sunflower with big, rounded oval petals (not sharp points)
+in a warm yellow-orange gradient, and a classic brown seeded
+center with a Fibonacci packing pattern. Leaves are two-tone
+green with a simple center vein.
 
 Background color by time of day: black at night, white in the
 morning/daytime, grey in the evening.
@@ -336,11 +336,11 @@ LEAF_TIP_COLOR = hsb(104, 60, 50)
 LEAF_STROKE = hsb(98, 85, 17)
 LEAF_VEIN_COLOR = hsb(100, 35, 62)
 
-# Petals - soft blush-pink gradient
-PETAL_BASE_COLOR = hsb(340, 55, 92)
-PETAL_FILL = hsb(345, 32, 99)
-PETAL_TIP_COLOR = hsb(350, 8, 100)
-PETAL_STROKE = hsb(335, 55, 75)
+# Petals - classic sunflower yellow-orange gradient
+PETAL_BASE_COLOR = hsb(28, 85, 90)
+PETAL_FILL = hsb(45, 88, 99)
+PETAL_TIP_COLOR = hsb(52, 30, 100)
+PETAL_STROKE = hsb(32, 90, 52)
 
 FALLEN_PETAL_BASE = PETAL_BASE_COLOR
 FALLEN_PETAL_FILL = PETAL_FILL
@@ -351,11 +351,15 @@ FALLEN_PETAL_STROKE = PETAL_STROKE
 SHARD_FILL = PETAL_FILL
 SHARD_STROKE = PETAL_STROKE
 
-# Center - small pale disc with golden stamens
-CENTER_DISC_COLOR = hsb(48, 40, 97)
-CENTER_DISC_STROKE = hsb(45, 45, 85)
-STAMEN_COLOR = hsb(45, 80, 80)
-STAMEN_TIP_COLOR = hsb(36, 90, 68)
+# Center - classic sunflower brown disc with a Fibonacci seed
+# pattern, 3-ring gradient for a bit of depth
+CENTER_OUTER_RING = hsb(34, 78, 58)
+CENTER_MID_RING = hsb(30, 70, 40)
+CENTER_INNER_RING = hsb(26, 62, 28)
+CENTER_SHADOW = hsb(20, 40, 12)
+SEED_COLOR_A = hsb(22, 78, 19)
+SEED_COLOR_B = hsb(27, 68, 25)
+SEED_SPARKLE = hsb(38, 35, 58)
 
 
 # -------------------------------------------------------
@@ -484,6 +488,15 @@ STEP_SECONDS = 4
 STEPS_PER_HOUR = 3600 // STEP_SECONDS
 
 SHARD_FLIGHT_SECONDS = 1.0
+
+# The on-flower petal's SIZE (both width and height, shrinking
+# together so it reads as "getting smaller" rather than just
+# "getting shorter") updates in bigger, clearly-visible notches
+# instead of the same fine 4-second grain as the chunk falls -
+# a single 1/900th shrink is too small to notice on a small
+# petal, but a 1/10th jump every few minutes is obvious.
+FLOWER_NOTCHES_PER_HOUR = 10
+FLOWER_NOTCH_SECONDS = 3600 // FLOWER_NOTCHES_PER_HOUR
 
 
 # -------------------------------------------------------
@@ -634,8 +647,8 @@ def draw_fallen_petal(draw, x, y, angle, size):
     if size <= 0.02:
         return
 
-    width = 15 * SCALE * size
-    height = 17 * SCALE * size
+    width = 18 * SCALE * size
+    height = 21 * SCALE * size
 
     outline_pts = petal_ellipse_points(
         width * 0.58, height * 0.54, 0, angle, x, y
@@ -744,55 +757,70 @@ def update_and_draw_shards(draw, shards, now):
 
 def draw_center(draw, cx, cy, center_r):
     """
-    Draw a small pale disc with a ring of golden stamens - a
-    daintier look than a big seeded sunflower disc.
+    Draw a classic sunflower center: a soft shadow, a 3-ring
+    brown gradient disc, and a Fibonacci seed pattern with
+    alternating tones plus a few sparkle highlights.
     """
 
-    disc_r = center_r * 0.62
-
-    draw.ellipse(
-        (cx - disc_r, cy - disc_r, cx + disc_r, cy + disc_r),
-        fill=CENTER_DISC_STROKE
-    )
-
-    inner_disc_r = disc_r * 0.82
+    shadow_r = center_r * 1.08
 
     draw.ellipse(
         (
-            cx - inner_disc_r, cy - inner_disc_r,
-            cx + inner_disc_r, cy + inner_disc_r
+            cx - shadow_r + 1, cy - shadow_r + 2,
+            cx + shadow_r + 1, cy + shadow_r + 2
         ),
-        fill=CENTER_DISC_COLOR
+        fill=CENTER_SHADOW
     )
-
-    num_stamens = 10
-    stamen_len = center_r * 0.85
-
-    for i in range(num_stamens):
-
-        theta = 2 * math.pi * i / num_stamens + 0.3
-
-        sx1 = cx + disc_r * 0.9 * math.cos(theta)
-        sy1 = cy + disc_r * 0.9 * math.sin(theta)
-
-        sx2 = cx + (disc_r * 0.9 + stamen_len) * math.cos(theta)
-        sy2 = cy + (disc_r * 0.9 + stamen_len) * math.sin(theta)
-
-        draw.line((sx1, sy1, sx2, sy2), fill=STAMEN_COLOR, width=1)
-
-        tip_r = 1.6
-
-        draw.ellipse(
-            (sx2 - tip_r, sy2 - tip_r, sx2 + tip_r, sy2 + tip_r),
-            fill=STAMEN_TIP_COLOR
-        )
-
-    accent_r = center_r * 0.18
 
     draw.ellipse(
-        (cx - accent_r, cy - accent_r, cx + accent_r, cy + accent_r),
-        fill=STAMEN_TIP_COLOR
+        (cx - center_r, cy - center_r, cx + center_r, cy + center_r),
+        fill=CENTER_OUTER_RING
     )
+
+    mid_r = center_r * 0.82
+
+    draw.ellipse(
+        (cx - mid_r, cy - mid_r, cx + mid_r, cy + mid_r),
+        fill=CENTER_MID_RING
+    )
+
+    inner_r = center_r * 0.62
+
+    draw.ellipse(
+        (cx - inner_r, cy - inner_r, cx + inner_r, cy + inner_r),
+        fill=CENTER_INNER_RING
+    )
+
+    num_seeds = 55
+    seed_r = max(0.5, center_r * 0.11)
+
+    for i in range(num_seeds):
+
+        frac = i / max(1, num_seeds - 1)
+        r = center_r * 0.92 * math.sqrt(frac)
+        theta = i * GOLDEN_ANGLE
+
+        sx = cx + r * math.cos(theta)
+        sy = cy + r * math.sin(theta)
+
+        seed_color = SEED_COLOR_A if i % 2 == 0 else SEED_COLOR_B
+
+        draw.ellipse(
+            (sx - seed_r, sy - seed_r, sx + seed_r, sy + seed_r),
+            fill=seed_color
+        )
+
+        if i % 7 == 0:
+
+            sparkle_r = seed_r * 0.4
+
+            draw.ellipse(
+                (
+                    sx - sparkle_r * 1.4, sy - sparkle_r * 1.4,
+                    sx - sparkle_r * 0.4, sy - sparkle_r * 0.4
+                ),
+                fill=SEED_SPARKLE
+            )
 
 
 # -------------------------------------------------------
@@ -857,12 +885,12 @@ def main():
     cx = WIDTH // 2
     cy = 40
 
-    base_radius = (60 * SCALE) * 0.38
+    base_radius = (60 * SCALE) * 0.42
 
-    petal_w = 30 * SCALE
-    petal_h = 34 * SCALE
+    petal_w = 36 * SCALE
+    petal_h = 46 * SCALE
     petal_dist = base_radius
-    center_r = 21 * SCALE
+    center_r = 24 * SCALE
 
     # Animation state carried between frames.
     flying_shards = []
@@ -927,12 +955,25 @@ def main():
             falling_index = completed_hours
             falling_angle = 2 * math.pi * falling_index / PETAL_COUNT
 
-            remaining_frac = 1.0 - step_frac
-            cur_h_remaining = petal_h * remaining_frac
+            # Coarser, clearly-visible shrink: the whole petal
+            # (width AND height together, so it reads as
+            # shrinking rather than just getting shorter) steps
+            # down once every few minutes instead of every 4
+            # seconds - a jump big enough to actually notice.
+            flower_notch_index = min(
+                int(seconds_into_hour // FLOWER_NOTCH_SECONDS),
+                FLOWER_NOTCHES_PER_HOUR - 1
+            )
+            flower_remaining_frac = (
+                1.0 - flower_notch_index / FLOWER_NOTCHES_PER_HOUR
+            )
+
+            cur_w_remaining = petal_w * flower_remaining_frac
+            cur_h_remaining = petal_h * flower_remaining_frac
 
             draw_petal(
                 draw, cx, cy, falling_angle, petal_dist,
-                petal_w, cur_h_remaining,
+                cur_w_remaining, cur_h_remaining,
                 jitter=petal_jitter(falling_index)
             )
 
@@ -955,8 +996,8 @@ def main():
                     falling_angle, cx, cy
                 )
 
-                end_w = 15 * SCALE * step_frac
-                end_h = 17 * SCALE * step_frac
+                end_w = 18 * SCALE * step_frac
+                end_h = 21 * SCALE * step_frac
 
                 start_w = petal_w * 1.15
                 start_h = petal_h * 1.0

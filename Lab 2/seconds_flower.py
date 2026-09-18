@@ -14,6 +14,14 @@ logic -- just recolored blue (like the original minutes flower), redrawn
 with Pillow instead of p5.js canvas calls, and rescaled (~0.42x) to fit
 the display's small 240x135 area instead of the original 800x600 canvas.
 
+The background is no longer a fixed dark color -- it now shifts with
+the time of day, same as the hour flower:
+
+     8:00 PM - 4:59:59 AM  -> #222059  (night)
+     5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
+     8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
+     6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+
 --------------------------------------------------------------------------
 ONE-TIME SETUP ON THE PI  (skip anything you've already done)
 --------------------------------------------------------------------------
@@ -108,7 +116,50 @@ def blend(fg, bg, alpha_pct):
     return tuple(round(fg[i] * a + bg[i] * (1 - a)) for i in range(3))
 
 
-BG_COLOR = hsb(220, 20, 15)          # same dark background as sketch.js
+def hex_to_rgb(hex_str):
+    """Convert a '#RRGGBB' string to an (r, g, b) tuple."""
+    hex_str = hex_str.lstrip("#")
+    return tuple(int(hex_str[i:i + 2], 16) for i in (0, 2, 4))
+
+
+# --------------------------------------------------- sky / background
+# 8:00 PM - 4:59:59 AM  -> #222059  (night)
+# 5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
+# 8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
+# 6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+
+NIGHT_SKY_COLOR   = hex_to_rgb("#222059")
+SUNRISE_SKY_COLOR = hex_to_rgb("#FFF7E0")
+DAY_SKY_COLOR     = hex_to_rgb("#D9FDFF")
+SUNSET_SKY_COLOR  = hex_to_rgb("#F79940")
+
+
+def get_sky_color(hour_value):
+    """
+    Return the sky/background color for the given hour_value
+    (hours elapsed since midnight, 0.0 - 24.0).
+    """
+    h = hour_value % 24
+
+    if h >= 20 or h < 5:
+        return NIGHT_SKY_COLOR
+    elif h < 8:
+        return SUNRISE_SKY_COLOR
+    elif h < 18:
+        return DAY_SKY_COLOR
+    else:
+        return SUNSET_SKY_COLOR
+
+
+def day_progress(now=None):
+    """Hours elapsed since midnight (0.0 - 24.0), used only to pick the
+    sky color -- unrelated to the seconds-flower bloom timer below."""
+    now = now if now is not None else time.time()
+    local = time.localtime(now)
+    seconds_today = local.tm_hour * 3600 + local.tm_min * 60 + local.tm_sec
+    return seconds_today / 3600.0
+
+
 STEM_COLOR = hsb(120, 60, 40)
 LEAF_COLOR = hsb(120, 70, 60)
 CENTER_COLOR = hsb(45, 90, 80)
@@ -194,7 +245,7 @@ def draw_petal(draw, cx, cy, angle, petal_dist, cur_w, cur_h):
     draw.polygon(hi_pts, fill=PETAL_HIGHLIGHT)
 
 
-def draw_seconds_flower(draw, cx, cy, second_value):
+def draw_seconds_flower(draw, cx, cy, second_value, sky_color):
     bloom = min(1.0, max(0.0, second_value / 59.0))
 
     # Stem
@@ -222,19 +273,21 @@ def draw_seconds_flower(draw, cx, cy, second_value):
         angle = 2 * math.pi * i / PETAL_COUNT
         draw_petal(draw, cx, cy, angle, petal_dist, cur_w, cur_h)
 
-    # Bud overlay while mostly closed -- fades out as it blooms
+    # Bud overlay while mostly closed -- fades out as it blooms.
+    # Blended against the current sky color so it disappears cleanly
+    # regardless of time of day.
     if bloom < 0.3:
         alpha = (1 - bloom * 3) * 80
         rx, ry = (25 * SCALE) / 2, (45 * SCALE) / 2
         by = cy - 10 * SCALE
         draw.ellipse((cx - rx, by - ry, cx + rx, by + ry),
-                     fill=blend(BUD_COLOR, BG_COLOR, alpha))
+                     fill=blend(BUD_COLOR, sky_color, alpha))
 
         alpha_tip = (1 - bloom * 3) * 90
         rx2, ry2 = (15 * SCALE) / 2, (20 * SCALE) / 2
         by2 = cy - 25 * SCALE
         draw.ellipse((cx - rx2, by2 - ry2, cx + rx2, by2 + ry2),
-                     fill=blend(BUD_TIP_COLOR, BG_COLOR, alpha_tip))
+                     fill=blend(BUD_TIP_COLOR, sky_color, alpha_tip))
 
 
 def main():
@@ -246,9 +299,10 @@ def main():
 
     while True:
         seconds_elapsed = bloom_progress()
+        sky_color = get_sky_color(day_progress())
 
-        draw.rectangle((0, 0, WIDTH, HEIGHT), fill=BG_COLOR)
-        draw_seconds_flower(draw, cx, cy, seconds_elapsed)
+        draw.rectangle((0, 0, WIDTH, HEIGHT), fill=sky_color)
+        draw_seconds_flower(draw, cx, cy, seconds_elapsed, sky_color)
         draw.text((4, HEIGHT - 12), f"{int(seconds_elapsed):02d}s", fill=TEXT_COLOR)
 
         disp.image(image)

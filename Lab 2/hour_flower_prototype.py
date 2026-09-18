@@ -2,11 +2,11 @@
 """
 flower_clock_hours.py
 
-Sunflower Hour Flower from Lamiah Khan's "Flower Clock"
+Blossom Hour Flower
 
-The sunflower has 12 petals representing a 12-hour half-day cycle.
-The flower is in full bloom (all 12 petals) at 00:00 (midnight)
-and again at 12:00:00 (noon).
+A 12-petal flower clock. The flower has 12 petals representing
+a 12-hour half-day cycle, and is in full bloom (all 12 petals)
+at 00:00 (midnight) and again at 12:00:00 (noon).
 
 00:00  -> 12 petals (full bloom)
 01:00  -> first petal falls
@@ -19,59 +19,38 @@ and again at 12:00:00 (noon).
 23:00  -> 11th petal falls
 00:00  -> resets to 12 petals (full bloom)
 
-HOW THE CURRENT-HOUR PETAL FALLS (the "is it working?" fix)
+HOW THE CURRENT-HOUR PETAL FALLS
 -------------------------------------------------------------
-The *currently falling* petal erodes in clearly visible,
-once-a-minute steps rather than a continuous creep you can't
-perceive:
+Every STEP_SECONDS (4s), one big, clearly-visible chunk breaks
+off the tip of the petal still attached to the flower:
 
-  - Once every MINUTE, a noticeably-sized shard breaks off the
-    tip of the petal still attached to the flower.
-  - That shard visibly spins as it flies down to the ground,
-    where it lands with a brief expanding "poof" flash - an
-    unmistakable, easy-to-see event.
-  - The instant it lands, the flower-side petal is visibly a
-    little shorter and the ground-side petal is visibly a
-    little bigger (a real size jump, not a sub-pixel creep),
-    since each minute is 1/60th of the hour.
-  - After a full hour (60 of these landings), the flower-side
-    petal has completely eroded away and the ground-side petal
-    has grown to its full, final size - joining the pile of
-    already-fallen petals from earlier hours.
+  - The chunk starts BIG while it's in the air, so it's
+    unmistakable that something just fell.
+  - As it flies down toward the ground, it shrinks, ending up
+    exactly the (much smaller) size the growing floor petal
+    will be at that moment - so it visually "merges" into the
+    pile instead of just popping into place.
+  - After a full hour, the flower-side petal has completely
+    eroded away and the ground-side petal has grown to its
+    full, final size - joining the pile of already-fallen
+    petals from earlier hours.
 
-Example: at 3:15pm (quarter past the 4th hour of the current
-12-hour half), you'd see:
-  - 8 full, untouched petals still on the flower
-  - 1 partially-eroded petal on the flower (about 3/4 remaining)
-  - 3 full petals already resting on the ground
-  - 1 partially-formed petal growing on the ground, at the same
-    completion fraction as the eroding one above
-
-MAKING IT MORE BEAUTIFUL
+SUN / MOON
 -------------------------------------------------------------
-  - Petals are layered (dark amber base -> golden mid -> pale
-    tip) instead of one flat color, so they read as painted
-    rather than clip-art.
-  - Each petal gets a tiny deterministic "jitter" in width and
-    tilt, based on its index, so the flower doesn't look like
-    a perfectly robotic 12-gon - a touch more organic.
-  - A soft warm glow halo sits behind the flower, blended
-    toward whatever the current sky color is, so it reads well
-    on black, white, or grey backgrounds.
-  - The center uses a 3-ring gradient with alternating seed
-    tones and a few sparkle highlights instead of one flat
-    disc.
-  - Leaves are two-tone with a simple center vein.
-  - The falling shard is a small spinning petal-shape (not a
-    plain dot), and its landing gets a brief expanding ring
-    flash for extra visual "pop."
+A small sun arcs across the top of the screen from sunrise
+(5am) to sunset (8pm), sinking lower as evening approaches. By
+night (8pm - 5am) the sun is gone and a crescent moon arcs
+across the same path instead.
 
-The flower keeps its original structure:
-- 12 narrow, pointed petals
-- Large dark brown disc center
-- Fibonacci/Vogel seed pattern
-- Background color by time of day: black at night, white in
-  the morning/daytime, grey in the evening
+THE FLOWER ITSELF
+-------------------------------------------------------------
+Rounded, soft-edged petals (not sharp points) in a blush-pink
+gradient, with a small pale center and a ring of golden
+stamens - a cherry-blossom / peony look rather than a
+sunflower. Leaves are two-tone green with a simple center vein.
+
+Background color by time of day: black at night, white in the
+morning/daytime, grey in the evening.
 """
 
 import math
@@ -117,7 +96,7 @@ else:
 
 
 # -------------------------------------------------------
-# COLORS
+# COLOR HELPERS
 # -------------------------------------------------------
 
 def hsb(h, s, b):
@@ -151,17 +130,6 @@ def hsb(h, s, b):
     )
 
 
-def blend(fg, bg, alpha_pct):
-    """Blend fg over bg."""
-
-    a = max(0.0, min(1.0, alpha_pct / 100.0))
-
-    return tuple(
-        round(fg[i] * a + bg[i] * (1 - a))
-        for i in range(3)
-    )
-
-
 def lerp_color(c1, c2, t):
     """Linearly interpolate between two (r, g, b) colors."""
 
@@ -171,6 +139,10 @@ def lerp_color(c1, c2, t):
         round(c1[i] + (c2[i] - c1[i]) * t)
         for i in range(3)
     )
+
+
+def lerp(a, b, t):
+    return a + (b - a) * t
 
 
 def hex_to_rgb(hex_str):
@@ -188,9 +160,9 @@ def hex_to_rgb(hex_str):
 # SKY / BACKGROUND COLORS
 # -------------------------------------------------------
 #
-#  8:00 PM - 4:59:59 AM  -> black   (night)
-#  5:00 AM - 5:59:59 PM  -> white   (morning / daytime)
-#  6:00 PM - 7:59:59 PM  -> grey    (evening)
+#  8:00 PM - 4:59:59 AM  -> black   (night, moon is out)
+#  5:00 AM - 5:59:59 PM  -> white   (morning / daytime, sun is out)
+#  6:00 PM - 7:59:59 PM  -> grey    (evening, sun is setting)
 
 NIGHT_SKY_COLOR   = hex_to_rgb("#000000")
 MORNING_SKY_COLOR = hex_to_rgb("#FFFFFF")
@@ -232,45 +204,158 @@ def get_text_color(bg_rgb):
 
 
 # -------------------------------------------------------
-# SUNFLOWER COLORS
+# SUN / MOON
+# -------------------------------------------------------
+#
+# The sun is up from 5am to 8pm, arcing across the top of the
+# screen and sinking toward the horizon as it nears 8pm. The
+# moon takes over for the rest of the night, following the same
+# arc shape.
+
+SUN_START_HOUR = 5.0
+SUN_END_HOUR = 20.0
+SUN_SPAN_HOURS = SUN_END_HOUR - SUN_START_HOUR
+
+NIGHT_SPAN_HOURS = 24.0 - SUN_SPAN_HOURS
+
+SKY_BODY_Y_HIGH = 10.0   # near the top of the screen (midday/midnight)
+SKY_BODY_Y_LOW = 30.0    # near the horizon (sunrise/sunset)
+SKY_BODY_MARGIN = 16.0   # keep the sun/moon off the very edges
+
+SUN_COLOR = hsb(45, 85, 100)
+SUN_GLOW_COLOR = hsb(45, 60, 100)
+MOON_COLOR = hex_to_rgb("#E7E8F5")
+MOON_CRATER_COLOR = hex_to_rgb("#C7C9DE")
+
+
+def _sky_body_position(t):
+    """
+    Shared arc for both the sun and the moon: t=0 is "just
+    risen" (low, on the left), t=1 is "about to set" (low, on
+    the right), t=0.5 is the highest point of the arc.
+    """
+
+    t = max(0.0, min(1.0, t))
+
+    x = SKY_BODY_MARGIN + t * (WIDTH - 2 * SKY_BODY_MARGIN)
+
+    y = (
+        SKY_BODY_Y_LOW
+        - (SKY_BODY_Y_LOW - SKY_BODY_Y_HIGH) * math.sin(math.pi * t)
+    )
+
+    return x, y
+
+
+def draw_sun(draw, hours_elapsed, sky_color):
+    """Draw the sun somewhere along its daytime arc."""
+
+    t = (hours_elapsed - SUN_START_HOUR) / SUN_SPAN_HOURS
+    x, y = _sky_body_position(t)
+
+    r = 8.0
+
+    # Soft glow, blended toward the sky so it doesn't look like
+    # a flat colored square on white or grey backgrounds.
+    glow_r = r * 2.0
+    glow_color = lerp_color(SUN_GLOW_COLOR, sky_color, 0.55)
+
+    draw.ellipse(
+        (x - glow_r, y - glow_r, x + glow_r, y + glow_r),
+        fill=glow_color
+    )
+
+    draw.ellipse(
+        (x - r, y - r, x + r, y + r),
+        fill=SUN_COLOR
+    )
+
+    # A handful of simple rays for a classic sun look.
+    for i in range(8):
+
+        ray_angle = i * (math.pi / 4)
+
+        rx1 = x + math.cos(ray_angle) * (r + 2)
+        ry1 = y + math.sin(ray_angle) * (r + 2)
+        rx2 = x + math.cos(ray_angle) * (r + 6)
+        ry2 = y + math.sin(ray_angle) * (r + 6)
+
+        draw.line((rx1, ry1, rx2, ry2), fill=SUN_COLOR, width=1)
+
+
+def draw_moon(draw, hours_elapsed, sky_color):
+    """Draw a crescent moon somewhere along its nighttime arc."""
+
+    # Hours since the sun set (8pm), wrapping past midnight.
+    night_hours = (hours_elapsed - SUN_END_HOUR) % 24.0
+    t = night_hours / NIGHT_SPAN_HOURS
+    x, y = _sky_body_position(t)
+
+    r = 7.0
+
+    draw.ellipse(
+        (x - r, y - r, x + r, y + r),
+        fill=MOON_COLOR
+    )
+
+    # Crescent "bite" - an overlapping circle painted in the
+    # sky color, offset to one side.
+    bite_r = r * 0.88
+    bite_offset = r * 0.62
+
+    draw.ellipse(
+        (
+            x - bite_r + bite_offset,
+            y - bite_r,
+            x + bite_r + bite_offset,
+            y + bite_r
+        ),
+        fill=sky_color
+    )
+
+    # A couple of small craters for a bit of texture.
+    draw.ellipse(
+        (x - r * 0.55, y - r * 0.2, x - r * 0.25, y + r * 0.1),
+        fill=MOON_CRATER_COLOR
+    )
+
+    draw.ellipse(
+        (x - r * 0.15, y - r * 0.6, x + r * 0.05, y - r * 0.35),
+        fill=MOON_CRATER_COLOR
+    )
+
+
+# -------------------------------------------------------
+# FLOWER COLORS (blush-pink blossom)
 # -------------------------------------------------------
 
-# Stem
 STEM_COLOR = hsb(100, 55, 40)
 
-# Leaves - two-tone (base darker, tip lighter) + vein
 LEAF_BASE_COLOR = hsb(98, 78, 30)
 LEAF_TIP_COLOR = hsb(104, 60, 50)
 LEAF_STROKE = hsb(98, 85, 17)
 LEAF_VEIN_COLOR = hsb(100, 35, 62)
 
-# Sunflower center - 3-ring gradient
-CENTER_OUTER_RING = hsb(34, 78, 58)
-CENTER_MID_RING = hsb(30, 70, 40)
-CENTER_INNER_RING = hsb(26, 62, 28)
-CENTER_SHADOW = hsb(20, 40, 12)
-SEED_COLOR_A = hsb(22, 78, 19)
-SEED_COLOR_B = hsb(27, 68, 25)
-SEED_SPARKLE = hsb(38, 35, 58)
+# Petals - soft blush-pink gradient
+PETAL_BASE_COLOR = hsb(340, 55, 92)
+PETAL_FILL = hsb(345, 32, 99)
+PETAL_TIP_COLOR = hsb(350, 8, 100)
+PETAL_STROKE = hsb(335, 55, 75)
 
-# Sunflower petals - layered gradient (base -> mid -> tip)
-PETAL_BASE_COLOR = hsb(28, 85, 90)
-PETAL_FILL = hsb(45, 88, 99)
-PETAL_TIP_COLOR = hsb(52, 30, 100)
-PETAL_STROKE = hsb(32, 90, 52)
-
-# Fallen / growing petals on the ground (slightly muted so
-# the flower itself stays the visual focus)
 FALLEN_PETAL_BASE = PETAL_BASE_COLOR
 FALLEN_PETAL_FILL = PETAL_FILL
 FALLEN_PETAL_STROKE = PETAL_STROKE
 
-# Falling shard (the piece breaking off each minute)
-SHARD_COLOR = PETAL_FILL
+# Falling chunk (reuses the petal palette so it reads as "part
+# of the flower")
+SHARD_FILL = PETAL_FILL
 SHARD_STROKE = PETAL_STROKE
 
-# Landing flash ring
-BURST_COLOR = hsb(48, 70, 100)
+# Center - small pale disc with golden stamens
+CENTER_DISC_COLOR = hsb(48, 40, 97)
+CENTER_DISC_STROKE = hsb(45, 45, 85)
+STAMEN_COLOR = hsb(45, 80, 80)
+STAMEN_TIP_COLOR = hsb(36, 90, 68)
 
 
 # -------------------------------------------------------
@@ -280,34 +365,57 @@ BURST_COLOR = hsb(48, 70, 100)
 def transform(lx, ly, angle, ox, oy):
     """Rotate and translate a point."""
 
-    gx = (
-        lx * math.cos(angle)
-        - ly * math.sin(angle)
-    )
+    gx = lx * math.cos(angle) - ly * math.sin(angle)
+    gy = lx * math.sin(angle) + ly * math.cos(angle)
 
-    gy = (
-        lx * math.sin(angle)
-        + ly * math.cos(angle)
-    )
-
-    return (
-        ox + gx,
-        oy + gy
-    )
+    return (ox + gx, oy + gy)
 
 
-def marquise_points(
-    base_dist,
-    length,
-    width,
-    angle,
-    ox,
-    oy,
-    n=14
-):
+def petal_ellipse_points(rx, ry, base_dist, angle, ox, oy, n=16):
     """
-    Create a pointed almond/marquise shape.
-    Used for sunflower petals, leaves, and falling shards.
+    A rounded (ellipse) petal shape. The near edge of the
+    ellipse always sits exactly at base_dist from (ox, oy), no
+    matter how big or small rx/ry are - so a petal always stays
+    visually attached at the same point as it grows or shrinks.
+    """
+
+    center_local_y = -(base_dist + ry)
+
+    pts = []
+
+    for i in range(n):
+
+        theta = 2 * math.pi * i / n
+
+        lx = rx * math.cos(theta)
+        ly = center_local_y + ry * math.sin(theta)
+
+        pts.append(transform(lx, ly, angle, ox, oy))
+
+    return pts
+
+
+def rotated_ellipse_points(rx, ry, angle, ox, oy, n=14):
+    """A simple rotated ellipse centered exactly at (ox, oy)."""
+
+    pts = []
+
+    for i in range(n):
+
+        theta = 2 * math.pi * i / n
+
+        lx = rx * math.cos(theta)
+        ly = ry * math.sin(theta)
+
+        pts.append(transform(lx, ly, angle, ox, oy))
+
+    return pts
+
+
+def marquise_points(base_dist, length, width, angle, ox, oy, n=14):
+    """
+    A pointed almond/marquise shape - used for the leaves,
+    which still look good with a pointed profile.
     """
 
     pts = []
@@ -316,49 +424,19 @@ def marquise_points(
 
         t = i / n
 
-        lx = (
-            width / 2
-            * math.sin(math.pi * t)
-        )
+        lx = width / 2 * math.sin(math.pi * t)
+        ly = -(base_dist + length * t)
 
-        ly = -(
-            base_dist
-            + length * t
-        )
-
-        pts.append(
-            transform(
-                lx,
-                ly,
-                angle,
-                ox,
-                oy
-            )
-        )
+        pts.append(transform(lx, ly, angle, ox, oy))
 
     for i in range(n + 1):
 
         t = 1 - i / n
 
-        lx = -(
-            width / 2
-            * math.sin(math.pi * t)
-        )
+        lx = -(width / 2 * math.sin(math.pi * t))
+        ly = -(base_dist + length * t)
 
-        ly = -(
-            base_dist
-            + length * t
-        )
-
-        pts.append(
-            transform(
-                lx,
-                ly,
-                angle,
-                ox,
-                oy
-            )
-        )
+        pts.append(transform(lx, ly, angle, ox, oy))
 
     return pts
 
@@ -383,8 +461,6 @@ def petal_jitter(index):
 
 SCALE = 0.42
 
-FLOWER_SIZE = 60 * SCALE
-
 STEM_TOP = 20 * SCALE
 STEM_BOTTOM = 150 * SCALE
 
@@ -392,36 +468,22 @@ STEM_BOTTOM = 150 * SCALE
 # one petal falls per hour through each 12-hour half of the day.
 PETAL_COUNT = 12
 
-GOLDEN_ANGLE = (
-    math.pi
-    * (3 - math.sqrt(5))
-)
+GOLDEN_ANGLE = math.pi * (3 - math.sqrt(5))
 
 # -------------------------------------------------------
 # STEPPED-EROSION SETTINGS
 # -------------------------------------------------------
 #
-# The currently-falling petal erodes once a MINUTE (not every
-# few seconds) so each step is a real, perceivable jump in size
-# instead of an invisible sliver. 60 steps take the petal from
-# fully attached to fully fallen over the hour.
+# The currently-falling petal loses one big, visible chunk
+# every STEP_SECONDS. The chunk itself is drawn BIG while in
+# flight and shrinks down to the (tiny) size the floor pile
+# actually grows by, so it visually "merges" on landing rather
+# than just popping into place.
 
-STEP_SECONDS = 60
+STEP_SECONDS = 4
 STEPS_PER_HOUR = 3600 // STEP_SECONDS
 
-# How long the shard takes to fly from the flower down to the
-# ground pile, and how long the landing flash lingers. Both are
-# deliberately slow enough to actually notice.
-SHARD_FLIGHT_SECONDS = 0.8
-BURST_SECONDS = 0.4
-
-# Fixed pixel sizes for the shard/flash - NOT scaled down by
-# SCALE, so they stay clearly visible regardless of how big or
-# small the flower itself is drawn.
-SHARD_WIDTH = 4.5
-SHARD_HEIGHT = 10.0
-BURST_MIN_RADIUS = 3.0
-BURST_MAX_RADIUS = 13.0
+SHARD_FLIGHT_SECONDS = 1.0
 
 
 # -------------------------------------------------------
@@ -456,12 +518,6 @@ def half_day_progress(hour_value):
     """
     Return hours elapsed since the most recent 12-hour mark
     (midnight or noon).
-
-    00:00 -> 0.0
-    06:30 -> 6.5
-    12:00 -> 0.0  (resets - full bloom)
-    18:30 -> 6.5
-    23:59 -> ~11.99
     """
 
     return hour_value % 12
@@ -471,140 +527,52 @@ def half_day_progress(hour_value):
 # LEAVES
 # -------------------------------------------------------
 
-def draw_leaves(
-    draw,
-    cx,
-    cy,
-    hour_value
-):
+def draw_leaves(draw, cx, cy, hour_value):
     """
-    Draw sunflower leaves.
-
-    Leaves gradually appear throughout the day. Count is kept
-    low (max 4) so the flower silhouette stays clear and
-    doesn't get cluttered. Each leaf is two-tone (darker at
-    the base, lighter at the tip) with a simple center vein.
+    Draw leaves. Count is kept low (max 4) so the flower
+    silhouette stays clear. Each leaf is two-tone with a simple
+    center vein.
     """
 
-    num_leaves = (
-        int(hour_value // 4)
-        + 1
-    )
-
-    num_leaves = min(
-        num_leaves,
-        4
-    )
+    num_leaves = min(int(hour_value // 4) + 1, 4)
 
     for i in range(num_leaves):
 
-        leaf_y = (
-            78 * SCALE
-            + i * (16 * SCALE)
-        )
+        leaf_y = 78 * SCALE + i * (16 * SCALE)
+        side = -1 if i % 2 == 0 else 1
 
-        side = (
-            -1
-            if i % 2 == 0
-            else 1
-        )
+        anchor_x = cx + side * (4 * SCALE)
+        anchor_y = cy + leaf_y
 
-        anchor_x = (
-            cx
-            + side * (4 * SCALE)
-        )
+        leaf_angle = side * (0.85 + i * 0.06)
+        leaf_len = (30 + i * 3) * SCALE
+        leaf_w = (22 + i * 2) * SCALE
 
-        anchor_y = (
-            cy
-            + leaf_y
-        )
-
-        leaf_angle = (
-            side
-            * (0.85 + i * 0.06)
-        )
-
-        leaf_len = (
-            (30 + i * 3)
-            * SCALE
-        )
-
-        leaf_w = (
-            (22 + i * 2)
-            * SCALE
-        )
-
-        # Dark outline
         stroke_pts = marquise_points(
-            0,
-            leaf_len * 1.06,
-            leaf_w * 1.15,
-            leaf_angle,
-            anchor_x,
-            anchor_y
+            0, leaf_len * 1.06, leaf_w * 1.15,
+            leaf_angle, anchor_x, anchor_y
         )
+        draw.polygon(stroke_pts, fill=LEAF_STROKE)
 
-        draw.polygon(
-            stroke_pts,
-            fill=LEAF_STROKE
-        )
-
-        # Darker base tone (full leaf)
         base_pts = marquise_points(
-            0,
-            leaf_len,
-            leaf_w,
-            leaf_angle,
-            anchor_x,
-            anchor_y
+            0, leaf_len, leaf_w,
+            leaf_angle, anchor_x, anchor_y
         )
+        draw.polygon(base_pts, fill=LEAF_BASE_COLOR)
 
-        draw.polygon(
-            base_pts,
-            fill=LEAF_BASE_COLOR
-        )
-
-        # Lighter tip tone (upper 60% of the leaf)
         tip_pts = marquise_points(
-            leaf_len * 0.35,
-            leaf_len * 0.65,
-            leaf_w * 0.85,
-            leaf_angle,
-            anchor_x,
-            anchor_y
+            leaf_len * 0.35, leaf_len * 0.65, leaf_w * 0.85,
+            leaf_angle, anchor_x, anchor_y
         )
+        draw.polygon(tip_pts, fill=LEAF_TIP_COLOR)
 
-        draw.polygon(
-            tip_pts,
-            fill=LEAF_TIP_COLOR
-        )
-
-        # Simple center vein
-        vein_start = transform(
-            0,
-            -leaf_len * 0.08,
-            leaf_angle,
-            anchor_x,
-            anchor_y
-        )
-
-        vein_end = transform(
-            0,
-            -leaf_len * 0.92,
-            leaf_angle,
-            anchor_x,
-            anchor_y
-        )
-
-        draw.line(
-            (vein_start, vein_end),
-            fill=LEAF_VEIN_COLOR,
-            width=1
-        )
+        vein_start = transform(0, -leaf_len * 0.08, leaf_angle, anchor_x, anchor_y)
+        vein_end = transform(0, -leaf_len * 0.92, leaf_angle, anchor_x, anchor_y)
+        draw.line((vein_start, vein_end), fill=LEAF_VEIN_COLOR, width=1)
 
 
 # -------------------------------------------------------
-# SUNFLOWER PETAL
+# PETALS (rounded / blossom style)
 # -------------------------------------------------------
 
 def draw_petal(
@@ -618,12 +586,9 @@ def draw_petal(
     jitter=(1.0, 0.0)
 ):
     """
-    Draw one sunflower ray petal, still attached to the flower.
-
-    Layered as: dark outline -> warm amber base -> golden mid
-    fill (inset so the amber base peeks out near the flower) ->
-    pale tip highlight. A small per-petal jitter (width scale,
-    tilt) keeps the flower from looking perfectly mechanical.
+    Draw one rounded blossom petal, still attached to the
+    flower. Layered as: deeper pink outline -> blush base ->
+    light pink mid fill -> near-white tip highlight.
     """
 
     if cur_h <= 0.5:
@@ -633,87 +598,37 @@ def draw_petal(
     angle = angle + tilt_jitter
     cur_w = cur_w * width_jitter
 
-    # Dark outline
-    stroke_pts = marquise_points(
-        petal_dist - cur_h * 0.04,
-        cur_h * 1.08,
-        cur_w * 1.18,
-        angle,
-        cx,
-        cy
+    outline_pts = petal_ellipse_points(
+        cur_w * 0.58, cur_h * 0.54,
+        petal_dist - cur_h * 0.02, angle, cx, cy
     )
+    draw.polygon(outline_pts, fill=PETAL_STROKE)
 
-    draw.polygon(
-        stroke_pts,
-        fill=PETAL_STROKE
+    base_pts = petal_ellipse_points(
+        cur_w * 0.5, cur_h * 0.5,
+        petal_dist, angle, cx, cy
     )
+    draw.polygon(base_pts, fill=PETAL_BASE_COLOR)
 
-    # Warm amber base - full petal length, sits underneath
-    base_pts = marquise_points(
-        petal_dist,
-        cur_h,
-        cur_w,
-        angle,
-        cx,
-        cy
+    fill_pts = petal_ellipse_points(
+        cur_w * 0.42, cur_h * 0.42,
+        petal_dist + cur_h * 0.1, angle, cx, cy
     )
+    draw.polygon(fill_pts, fill=PETAL_FILL)
 
-    draw.polygon(
-        base_pts,
-        fill=PETAL_BASE_COLOR
+    hi_pts = petal_ellipse_points(
+        cur_w * 0.22, cur_h * 0.16,
+        petal_dist + cur_h * 0.72, angle, cx, cy, n=12
     )
-
-    # Golden mid fill - inset slightly so a thin amber ring
-    # shows through near the attachment point
-    fill_pts = marquise_points(
-        petal_dist + cur_h * 0.12,
-        cur_h * 0.92,
-        cur_w * 0.92,
-        angle,
-        cx,
-        cy
-    )
-
-    draw.polygon(
-        fill_pts,
-        fill=PETAL_FILL
-    )
-
-    # Pale tip highlight
-    hi_pts = marquise_points(
-        petal_dist + cur_h * 0.72,
-        cur_h * 0.32,
-        cur_w * 0.42,
-        angle,
-        cx,
-        cy,
-        n=10
-    )
-
-    draw.polygon(
-        hi_pts,
-        fill=PETAL_TIP_COLOR
-    )
+    draw.polygon(hi_pts, fill=PETAL_TIP_COLOR)
 
 
-# -------------------------------------------------------
-# FALLEN / GROWING PETAL (on the ground)
-# -------------------------------------------------------
-
-def draw_fallen_petal(
-    draw,
-    x,
-    y,
-    angle,
-    size
-):
+def draw_fallen_petal(draw, x, y, angle, size):
     """
-    Draw a petal resting on the ground.
-
-    'size' is 0.0 - 1.0: a fully-fallen petal from an earlier
-    hour is drawn at size=1.0, while the petal currently being
-    formed grows from 0.0 to 1.0 over the course of the hour,
-    jumping up once a minute as each shard lands.
+    Draw a small rounded petal resting on the ground. 'size' is
+    0.0 - 1.0: a fully-fallen petal from an earlier hour is
+    size=1.0, while the petal currently forming grows toward
+    1.0 as chunks land on it.
     """
 
     if size <= 0.02:
@@ -722,79 +637,76 @@ def draw_fallen_petal(
     width = 9 * SCALE * size
     height = 25 * SCALE * size
 
-    stroke_pts = marquise_points(
-        0,
-        height * 1.06,
-        width * 1.15,
-        angle,
-        x,
-        y,
-        n=10
+    outline_pts = petal_ellipse_points(
+        width * 0.58, height * 0.54, 0, angle, x, y
     )
+    draw.polygon(outline_pts, fill=FALLEN_PETAL_STROKE)
 
-    draw.polygon(
-        stroke_pts,
-        fill=FALLEN_PETAL_STROKE
+    base_pts = petal_ellipse_points(
+        width * 0.5, height * 0.5, 0, angle, x, y
     )
+    draw.polygon(base_pts, fill=FALLEN_PETAL_BASE)
 
-    base_pts = marquise_points(
-        0,
-        height,
-        width,
-        angle,
-        x,
-        y,
-        n=10
+    fill_pts = petal_ellipse_points(
+        width * 0.42, height * 0.42, height * 0.1, angle, x, y
     )
-
-    draw.polygon(
-        base_pts,
-        fill=FALLEN_PETAL_BASE
-    )
-
-    fill_pts = marquise_points(
-        height * 0.1,
-        height * 0.85,
-        width * 0.8,
-        angle,
-        x,
-        y,
-        n=10
-    )
-
-    draw.polygon(
-        fill_pts,
-        fill=FALLEN_PETAL_FILL
-    )
+    draw.polygon(fill_pts, fill=FALLEN_PETAL_FILL)
 
 
 # -------------------------------------------------------
-# FALLING SHARDS (the visible "something just happened" cue)
+# FALLING CHUNK (big while flying, shrinks to merge on landing)
 # -------------------------------------------------------
 
-def spawn_shard(shards, start_pos, end_pos, base_angle, now):
+def spawn_shard(
+    shards,
+    start_pos,
+    end_pos,
+    base_angle,
+    start_w,
+    start_h,
+    end_w,
+    end_h,
+    now
+):
     """
-    Add a new petal shard that will visibly spin and fly from
-    start_pos to end_pos over SHARD_FLIGHT_SECONDS.
+    Add a new chunk that flies from start_pos to end_pos over
+    SHARD_FLIGHT_SECONDS, shrinking from (start_w, start_h) down
+    to (end_w, end_h) as it goes - so it lands already matching
+    the size the floor petal needs, and visually merges into it.
     """
 
     shards.append({
         "start": start_pos,
         "end": end_pos,
         "base_angle": base_angle,
+        "start_w": start_w,
+        "start_h": start_h,
+        "end_w": end_w,
+        "end_h": end_h,
         "start_time": now,
         "duration": SHARD_FLIGHT_SECONDS,
     })
 
 
-def update_and_draw_shards(draw, shards, bursts, now):
-    """
-    Draw every shard currently in flight (as a small spinning
-    petal shape, not a plain dot, so it's actually easy to
-    see). When a shard finishes its flight, remove it and spawn
-    a landing flash in its place.
+def draw_shard_shape(draw, x, y, angle, width, height):
+    """A simple two-layer rounded chunk (outline + fill)."""
 
-    Returns the list of shards still in flight.
+    outline_pts = rotated_ellipse_points(
+        width * 0.58, height * 0.58, angle, x, y, n=12
+    )
+    draw.polygon(outline_pts, fill=SHARD_STROKE)
+
+    fill_pts = rotated_ellipse_points(
+        width * 0.5, height * 0.5, angle, x, y, n=12
+    )
+    draw.polygon(fill_pts, fill=SHARD_FILL)
+
+
+def update_and_draw_shards(draw, shards, now):
+    """
+    Draw every chunk currently in flight (shrinking from big to
+    small as it travels), and return the list of chunks that
+    haven't landed yet.
     """
 
     still_flying = []
@@ -805,260 +717,82 @@ def update_and_draw_shards(draw, shards, bursts, now):
         t = elapsed / shard["duration"]
 
         if t >= 1.0:
-            # Landed this frame - trigger a flash and drop it.
-            bursts.append({
-                "pos": shard["end"],
-                "start_time": now,
-                "duration": BURST_SECONDS,
-            })
+            # Landed - it has already shrunk to match the floor
+            # petal's size, so it simply merges in and vanishes.
             continue
 
-        # Ease-in/ease-out motion for the flight path.
         t_smooth = t * t * (3 - 2 * t)
 
-        x = (
-            shard["start"][0]
-            + (shard["end"][0] - shard["start"][0]) * t_smooth
-        )
+        x = lerp(shard["start"][0], shard["end"][0], t_smooth)
+        y = lerp(shard["start"][1], shard["end"][1], t_smooth)
 
-        y = (
-            shard["start"][1]
-            + (shard["end"][1] - shard["start"][1]) * t_smooth
-        )
+        w = lerp(shard["start_w"], shard["end_w"], t_smooth)
+        h = lerp(shard["start_h"], shard["end_h"], t_smooth)
 
-        # Spin the shard as it falls - purely cosmetic, but
-        # makes it read as a tumbling petal fragment.
-        spin_angle = shard["base_angle"] + t * math.pi * 2.5
+        spin_angle = shard["base_angle"] + t * math.pi * 1.3
 
-        shard_pts = marquise_points(
-            0,
-            SHARD_HEIGHT,
-            SHARD_WIDTH,
-            spin_angle,
-            x,
-            y,
-            n=8
-        )
-
-        draw.polygon(
-            shard_pts,
-            fill=SHARD_COLOR,
-            outline=SHARD_STROKE
-        )
+        draw_shard_shape(draw, x, y, spin_angle, w, h)
 
         still_flying.append(shard)
 
     return still_flying
 
 
-def update_and_draw_bursts(draw, bursts, now, bg_color):
+# -------------------------------------------------------
+# FLOWER CENTER
+# -------------------------------------------------------
+
+def draw_center(draw, cx, cy, center_r):
     """
-    Draw the brief expanding-ring "poof" flash at each landing
-    spot, fading toward the current background color as it
-    grows. Returns the list of bursts still active.
+    Draw a small pale disc with a ring of golden stamens - a
+    daintier look than a big seeded sunflower disc.
     """
 
-    still_active = []
+    disc_r = center_r * 0.62
 
-    for burst in bursts:
+    draw.ellipse(
+        (cx - disc_r, cy - disc_r, cx + disc_r, cy + disc_r),
+        fill=CENTER_DISC_STROKE
+    )
 
-        elapsed = now - burst["start_time"]
-        t = elapsed / burst["duration"]
+    inner_disc_r = disc_r * 0.82
 
-        if t >= 1.0:
-            continue
+    draw.ellipse(
+        (
+            cx - inner_disc_r, cy - inner_disc_r,
+            cx + inner_disc_r, cy + inner_disc_r
+        ),
+        fill=CENTER_DISC_COLOR
+    )
 
-        radius = (
-            BURST_MIN_RADIUS
-            + (BURST_MAX_RADIUS - BURST_MIN_RADIUS) * t
-        )
+    num_stamens = 10
+    stamen_len = center_r * 0.85
 
-        ring_color = lerp_color(BURST_COLOR, bg_color, t)
+    for i in range(num_stamens):
 
-        x, y = burst["pos"]
+        theta = 2 * math.pi * i / num_stamens + 0.3
+
+        sx1 = cx + disc_r * 0.9 * math.cos(theta)
+        sy1 = cy + disc_r * 0.9 * math.sin(theta)
+
+        sx2 = cx + (disc_r * 0.9 + stamen_len) * math.cos(theta)
+        sy2 = cy + (disc_r * 0.9 + stamen_len) * math.sin(theta)
+
+        draw.line((sx1, sy1, sx2, sy2), fill=STAMEN_COLOR, width=1)
+
+        tip_r = 1.6
 
         draw.ellipse(
-            (
-                x - radius,
-                y - radius,
-                x + radius,
-                y + radius
-            ),
-            outline=ring_color,
-            width=2
+            (sx2 - tip_r, sy2 - tip_r, sx2 + tip_r, sy2 + tip_r),
+            fill=STAMEN_TIP_COLOR
         )
 
-        still_active.append(burst)
-
-    return still_active
-
-
-# -------------------------------------------------------
-# GLOW HALO
-# -------------------------------------------------------
-
-def draw_flower_glow(draw, cx, cy, radius, sky_color):
-    """
-    A soft, two-step warm halo behind the flower, blended
-    toward the current sky color so it stays subtle on black,
-    white, or grey backgrounds instead of looking like a flat
-    colored square.
-    """
-
-    outer_color = lerp_color(PETAL_FILL, sky_color, 0.82)
-    inner_color = lerp_color(PETAL_FILL, sky_color, 0.6)
+    accent_r = center_r * 0.18
 
     draw.ellipse(
-        (cx - radius, cy - radius, cx + radius, cy + radius),
-        fill=outer_color
+        (cx - accent_r, cy - accent_r, cx + accent_r, cy + accent_r),
+        fill=STAMEN_TIP_COLOR
     )
-
-    inner_r = radius * 0.68
-
-    draw.ellipse(
-        (
-            cx - inner_r,
-            cy - inner_r,
-            cx + inner_r,
-            cy + inner_r
-        ),
-        fill=inner_color
-    )
-
-
-# -------------------------------------------------------
-# SUNFLOWER CENTER
-# -------------------------------------------------------
-
-def draw_center(
-    draw,
-    cx,
-    cy,
-    center_r
-):
-    """
-    Draw the sunflower center: a soft shadow, a 3-ring
-    gradient disc, and a Fibonacci seed pattern with
-    alternating tones plus a few sparkle highlights.
-    """
-
-    # Soft shadow, slightly offset, for a touch of depth
-    shadow_r = center_r * 1.08
-
-    draw.ellipse(
-        (
-            cx - shadow_r + 1,
-            cy - shadow_r + 2,
-            cx + shadow_r + 1,
-            cy + shadow_r + 2
-        ),
-        fill=CENTER_SHADOW
-    )
-
-    # Outer ring
-    draw.ellipse(
-        (
-            cx - center_r,
-            cy - center_r,
-            cx + center_r,
-            cy + center_r
-        ),
-        fill=CENTER_OUTER_RING
-    )
-
-    # Mid ring
-    mid_r = center_r * 0.82
-
-    draw.ellipse(
-        (
-            cx - mid_r,
-            cy - mid_r,
-            cx + mid_r,
-            cy + mid_r
-        ),
-        fill=CENTER_MID_RING
-    )
-
-    # Inner disc
-    inner_r = center_r * 0.62
-
-    draw.ellipse(
-        (
-            cx - inner_r,
-            cy - inner_r,
-            cx + inner_r,
-            cy + inner_r
-        ),
-        fill=CENTER_INNER_RING
-    )
-
-    # Seeds, alternating between two tones with occasional
-    # sparkle highlights, in the classic Fibonacci packing.
-    num_seeds = 55
-
-    seed_r = max(
-        0.5,
-        center_r * 0.11
-    )
-
-    for i in range(num_seeds):
-
-        frac = (
-            i
-            / max(1, num_seeds - 1)
-        )
-
-        r = (
-            center_r
-            * 0.92
-            * math.sqrt(frac)
-        )
-
-        theta = (
-            i
-            * GOLDEN_ANGLE
-        )
-
-        sx = (
-            cx
-            + r * math.cos(theta)
-        )
-
-        sy = (
-            cy
-            + r * math.sin(theta)
-        )
-
-        seed_color = (
-            SEED_COLOR_A
-            if i % 2 == 0
-            else SEED_COLOR_B
-        )
-
-        draw.ellipse(
-            (
-                sx - seed_r,
-                sy - seed_r,
-                sx + seed_r,
-                sy + seed_r
-            ),
-            fill=seed_color
-        )
-
-        # A handful of tiny sparkle dots for polish.
-        if i % 7 == 0:
-
-            sparkle_r = seed_r * 0.4
-
-            draw.ellipse(
-                (
-                    sx - sparkle_r * 1.4,
-                    sy - sparkle_r * 1.4,
-                    sx - sparkle_r * 0.4,
-                    sy - sparkle_r * 0.4
-                ),
-                fill=SEED_SPARKLE
-            )
 
 
 # -------------------------------------------------------
@@ -1084,58 +818,31 @@ def draw_static_petals_and_center(
       - the flower center
 
     The petal at index == completed_hours (the one currently
-    eroding/forming) is handled separately by the caller, since
-    it needs per-frame animation state.
+    eroding/forming) is handled separately by the caller.
     """
 
-    # Untouched petals still on the flower.
     for i in range(PETAL_COUNT):
 
         if i <= completed_hours:
             continue
 
-        angle = (
-            2 * math.pi * i / PETAL_COUNT
-        )
+        angle = 2 * math.pi * i / PETAL_COUNT
 
         draw_petal(
-            draw,
-            cx,
-            cy,
-            angle,
-            petal_dist,
-            petal_w,
-            petal_h,
+            draw, cx, cy, angle, petal_dist, petal_w, petal_h,
             jitter=petal_jitter(i)
         )
 
-    # Petals that fell during earlier hours - already resting
-    # on the ground at full size.
     for i in range(completed_hours):
 
         spacing = WIDTH / (PETAL_COUNT + 1)
-
         fallen_x = spacing * (i + 1)
         fallen_y = HEIGHT - 7
+        fallen_rotation = -0.45 + (i % 5 * 0.22)
 
-        fallen_rotation = (
-            -0.45 + (i % 5 * 0.22)
-        )
+        draw_fallen_petal(draw, fallen_x, fallen_y, fallen_rotation, 1.0)
 
-        draw_fallen_petal(
-            draw,
-            fallen_x,
-            fallen_y,
-            fallen_rotation,
-            1.0
-        )
-
-    draw_center(
-        draw,
-        cx,
-        cy,
-        center_r
-    )
+    draw_center(draw, cx, cy, center_r)
 
 
 # -------------------------------------------------------
@@ -1144,35 +851,21 @@ def draw_static_petals_and_center(
 
 def main():
 
-    image = Image.new(
-        "RGB",
-        (WIDTH, HEIGHT)
-    )
+    image = Image.new("RGB", (WIDTH, HEIGHT))
+    draw = ImageDraw.Draw(image)
 
-    draw = ImageDraw.Draw(
-        image
-    )
-
-    # Center of flower
     cx = WIDTH // 2
-
-    # Flower head near top
     cy = 40
 
-    base_radius = FLOWER_SIZE * 0.32
+    base_radius = (60 * SCALE) * 0.32
 
-    # Slightly longer, narrower petals read as more elegant
-    # than short, stubby ones.
     petal_w = 15 * SCALE
     petal_h = 92 * SCALE
     petal_dist = base_radius
     center_r = 18 * SCALE
 
-    glow_radius = (petal_dist + petal_h) * 1.15
-
     # Animation state carried between frames.
     flying_shards = []
-    landing_bursts = []
     prev_step_index = -1
 
     while True:
@@ -1180,17 +873,11 @@ def main():
         now_ts = time.time()
 
         hours_elapsed = day_progress(now_ts)
-
-        # Petals follow a 12-hour cycle: full bloom at
-        # midnight and noon.
         petal_hour_value = half_day_progress(hours_elapsed)
 
         completed_hours = int(petal_hour_value)
         hour_fraction = petal_hour_value - completed_hours
 
-        # Stepped progress through the current hour - changes
-        # once a minute, which is what makes each step visibly
-        # "pop" instead of creeping by unnoticeably.
         seconds_into_hour = hour_fraction * 3600
         step_index = min(
             int(seconds_into_hour // STEP_SECONDS),
@@ -1207,22 +894,18 @@ def main():
         # CLEAR SCREEN
         # -----------------------------------------------
 
-        draw.rectangle(
-            (0, 0, WIDTH, HEIGHT),
-            fill=sky_color
-        )
+        draw.rectangle((0, 0, WIDTH, HEIGHT), fill=sky_color)
 
         # -----------------------------------------------
-        # SOFT GLOW BEHIND THE FLOWER
+        # SUN OR MOON
         # -----------------------------------------------
 
-        draw_flower_glow(
-            draw,
-            cx,
-            cy,
-            glow_radius,
-            sky_color
-        )
+        h24 = hours_elapsed % 24
+
+        if SUN_START_HOUR <= h24 < SUN_END_HOUR:
+            draw_sun(draw, hours_elapsed, sky_color)
+        else:
+            draw_moon(draw, hours_elapsed, sky_color)
 
         # -----------------------------------------------
         # STATIC PETALS (untouched + already fully fallen)
@@ -1230,14 +913,8 @@ def main():
         # -----------------------------------------------
 
         draw_static_petals_and_center(
-            draw,
-            cx,
-            cy,
-            completed_hours,
-            petal_dist,
-            petal_w,
-            petal_h,
-            center_r
+            draw, cx, cy, completed_hours,
+            petal_dist, petal_w, petal_h, center_r
         )
 
         # -----------------------------------------------
@@ -1248,116 +925,78 @@ def main():
         if completed_hours < PETAL_COUNT:
 
             falling_index = completed_hours
-
-            falling_angle = (
-                2 * math.pi * falling_index / PETAL_COUNT
-            )
+            falling_angle = 2 * math.pi * falling_index / PETAL_COUNT
 
             remaining_frac = 1.0 - step_frac
             cur_h_remaining = petal_h * remaining_frac
 
-            # The part of this petal still attached to the
-            # flower - visibly shorter each minute.
             draw_petal(
-                draw,
-                cx,
-                cy,
-                falling_angle,
-                petal_dist,
-                petal_w,
-                cur_h_remaining,
+                draw, cx, cy, falling_angle, petal_dist,
+                petal_w, cur_h_remaining,
                 jitter=petal_jitter(falling_index)
             )
 
             spacing = WIDTH / (PETAL_COUNT + 1)
             target_x = spacing * (falling_index + 1)
             target_y = HEIGHT - 7
+            growing_rotation = -0.45 + (falling_index % 5 * 0.22)
 
-            growing_rotation = (
-                -0.45 + (falling_index % 5 * 0.22)
-            )
-
-            # The pile on the ground - visibly bigger each
-            # minute, in step with the erosion above.
             draw_fallen_petal(
-                draw,
-                target_x,
-                target_y,
-                growing_rotation,
-                step_frac
+                draw, target_x, target_y, growing_rotation, step_frac
             )
 
-            # Once a minute, spawn a shard that spins from the
-            # eroding tip down to the growing pile.
+            # Once every STEP_SECONDS, spawn a big chunk that
+            # shrinks down to the floor petal's new size as it
+            # flies - so it visually merges in when it lands.
             if step_index != prev_step_index:
 
                 tip_x, tip_y = transform(
-                    0,
-                    -(petal_dist + cur_h_remaining),
-                    falling_angle,
-                    cx,
-                    cy
+                    0, -(petal_dist + cur_h_remaining),
+                    falling_angle, cx, cy
                 )
+
+                end_w = 9 * SCALE * step_frac
+                end_h = 25 * SCALE * step_frac
+
+                start_w = petal_w * 1.3
+                start_h = petal_h * 0.32
 
                 spawn_shard(
                     flying_shards,
                     (tip_x, tip_y),
                     (target_x, target_y),
                     falling_angle,
+                    start_w, start_h,
+                    end_w, end_h,
                     now_ts
                 )
 
                 prev_step_index = step_index
 
         # -----------------------------------------------
-        # FLYING SHARDS + LANDING FLASHES
+        # FLYING CHUNKS IN TRANSIT
         # -----------------------------------------------
 
-        flying_shards = update_and_draw_shards(
-            draw,
-            flying_shards,
-            landing_bursts,
-            now_ts
-        )
-
-        landing_bursts = update_and_draw_bursts(
-            draw,
-            landing_bursts,
-            now_ts,
-            sky_color
-        )
+        flying_shards = update_and_draw_shards(draw, flying_shards, now_ts)
 
         # -----------------------------------------------
         # DRAW STEM
         # -----------------------------------------------
 
         draw.line(
-            (
-                cx,
-                cy + STEM_TOP,
-                cx,
-                cy + STEM_BOTTOM
-            ),
+            (cx, cy + STEM_TOP, cx, cy + STEM_BOTTOM),
             fill=STEM_COLOR,
-            width=max(
-                2,
-                round(9 * SCALE)
-            )
+            width=max(2, round(9 * SCALE))
         )
 
         # -----------------------------------------------
         # DRAW LEAVES
         # -----------------------------------------------
 
-        draw_leaves(
-            draw,
-            cx,
-            cy,
-            hours_elapsed
-        )
+        draw_leaves(draw, cx, cy, hours_elapsed)
 
         # -----------------------------------------------
-        # PERCENTAGE READOUT (progress to next petal fall)
+        # TEXT READOUTS
         # -----------------------------------------------
 
         hour_pct = int(step_frac * 100)
@@ -1368,22 +1007,13 @@ def main():
             fill=text_color
         )
 
-        # -----------------------------------------------
-        # TIME DISPLAY
-        # -----------------------------------------------
-
         draw.text(
             (4, HEIGHT - 22),
             time.strftime("%H:%M:%S", local),
             fill=text_color
         )
 
-        # Number of petals remaining (in the current
-        # 12-hour half)
-        petals_remaining = max(
-            0,
-            PETAL_COUNT - completed_hours
-        )
+        petals_remaining = max(0, PETAL_COUNT - completed_hours)
 
         draw.text(
             (4, HEIGHT - 12),
@@ -1397,7 +1027,6 @@ def main():
 
         disp.image(image)
 
-        # Keep animation smooth.
         time.sleep(1 / 15)
 
 

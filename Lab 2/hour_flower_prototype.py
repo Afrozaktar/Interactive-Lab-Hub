@@ -19,19 +19,37 @@ and again at 12:00:00 (noon).
 23:00  -> 11th petal falls
 00:00  -> resets to 12 petals (full bloom)
 
-Each petal falls smoothly during its corresponding hour.
-Once a petal reaches the bottom of the screen, it stays there
-for the remainder of that 12-hour half.
+HOW THE CURRENT-HOUR PETAL FALLS (the "is it working?" fix)
+-------------------------------------------------------------
+Instead of one whole petal sliding smoothly down over an hour
+(which looks frozen from second to second), the *currently
+falling* petal now erodes in small visible steps:
+
+  - Every STEP_SECONDS (3s) a small chunk breaks off the tip of
+    the petal still attached to the flower.
+  - That chunk visibly flies down and lands on the ground,
+    where it is absorbed into a petal that is gradually
+    "growing" back to full size.
+  - After a full hour, the flower-side petal has completely
+    eroded away and the ground-side petal has grown to its
+    full, final size - joining the pile of already-fallen
+    petals from earlier hours.
+
+Example: at 3:15pm (quarter past the 4th hour of the current
+12-hour half), you'd see:
+  - 8 full, untouched petals still on the flower
+  - 1 partially-eroded petal on the flower (about 3/4 remaining)
+  - 3 full petals already resting on the ground
+  - 1 partially-formed petal growing on the ground, at the same
+    completion fraction as the eroding one above
 
 The flower itself remains a sunflower with:
 - 12 narrow, pointed yellow-orange petals
 - Large dark brown disc center
 - Fibonacci/Vogel seed pattern
-- Broad dark-green leaves (reduced count for clarity)
-- Sky-colored background that shifts with time of day
-- A small marker orbiting the center once per minute, so
-  the display visibly "ticks" every second
-- A percentage readout showing progress to the next petal fall
+- Broad dark-green leaves (kept to a small, clear number)
+- Background color by time of day: black at night, white in
+  the morning/daytime, grey in the evening
 """
 
 import math
@@ -137,15 +155,13 @@ def hex_to_rgb(hex_str):
 # SKY / BACKGROUND COLORS
 # -------------------------------------------------------
 #
-#  8:00 PM - 4:59:59 AM  -> #222059  (night)
-#  5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
-#  8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
-#  6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+#  8:00 PM - 4:59:59 AM  -> black   (night)
+#  5:00 AM - 5:59:59 PM  -> white   (morning / daytime)
+#  6:00 PM - 7:59:59 PM  -> grey    (evening)
 
-NIGHT_SKY_COLOR    = hex_to_rgb("#222059")
-SUNRISE_SKY_COLOR  = hex_to_rgb("#FFF7E0")
-DAY_SKY_COLOR      = hex_to_rgb("#D9FDFF")
-SUNSET_SKY_COLOR   = hex_to_rgb("#F79940")
+NIGHT_SKY_COLOR   = hex_to_rgb("#000000")
+MORNING_SKY_COLOR = hex_to_rgb("#FFFFFF")
+EVENING_SKY_COLOR = hex_to_rgb("#808080")
 
 
 def get_sky_color(hour_value):
@@ -158,12 +174,28 @@ def get_sky_color(hour_value):
 
     if h >= 20 or h < 5:
         return NIGHT_SKY_COLOR
-    elif h < 8:
-        return SUNRISE_SKY_COLOR
     elif h < 18:
-        return DAY_SKY_COLOR
+        return MORNING_SKY_COLOR
     else:
-        return SUNSET_SKY_COLOR
+        return EVENING_SKY_COLOR
+
+
+def get_text_color(bg_rgb):
+    """
+    Pick readable text color (light or dark) based on the
+    brightness of the current background color.
+    """
+
+    luminance = (
+        0.299 * bg_rgb[0]
+        + 0.587 * bg_rgb[1]
+        + 0.114 * bg_rgb[2]
+    )
+
+    if luminance > 140:
+        return (25, 25, 25)
+    else:
+        return (230, 230, 230)
 
 
 # -------------------------------------------------------
@@ -189,10 +221,8 @@ PETAL_HIGHLIGHT = hsb(52, 45, 100)
 FALLEN_PETAL_COLOR = PETAL_FILL
 FALLEN_PETAL_STROKE = PETAL_STROKE
 
-# Seconds marker (orbits the center once per minute)
-SECOND_MARKER_COLOR = hsb(0, 70, 90)
-
-TEXT_COLOR = (230, 230, 230)
+# Small chunks flying from the flower to the ground
+CHUNK_COLOR = PETAL_STROKE
 
 
 # -------------------------------------------------------
@@ -304,6 +334,21 @@ GOLDEN_ANGLE = (
     math.pi
     * (3 - math.sqrt(5))
 )
+
+# -------------------------------------------------------
+# STEPPED-EROSION SETTINGS
+# -------------------------------------------------------
+#
+# The currently-falling petal erodes in visible steps rather
+# than one continuous smooth motion, so it's obvious the clock
+# is actively updating.
+
+STEP_SECONDS = 3
+STEPS_PER_HOUR = 3600 // STEP_SECONDS
+
+# How long a single flying chunk takes to travel from the
+# flower down to the ground pile.
+CHUNK_FLIGHT_SECONDS = 0.35
 
 
 # -------------------------------------------------------
@@ -460,8 +505,11 @@ def draw_petal(
     cur_h
 ):
     """
-    Draw one sunflower ray petal.
+    Draw one sunflower ray petal, still attached to the flower.
     """
+
+    if cur_h <= 0.5:
+        return
 
     # Dark outline
     stroke_pts = marquise_points(
@@ -510,7 +558,7 @@ def draw_petal(
 
 
 # -------------------------------------------------------
-# FALLEN PETAL
+# FALLEN / GROWING PETAL (on the ground)
 # -------------------------------------------------------
 
 def draw_fallen_petal(
@@ -521,12 +569,15 @@ def draw_fallen_petal(
     size
 ):
     """
-    Draw a petal that has fallen to the bottom.
+    Draw a petal resting on the ground.
 
-    The petal is smaller than the flower petal and
-    rotated slightly so the fallen petals don't look
-    perfectly identical.
+    'size' is 0.0 - 1.0: a fully-fallen petal from an earlier
+    hour is drawn at size=1.0, while the petal currently being
+    formed grows from 0.0 to 1.0 over the course of the hour.
     """
+
+    if size <= 0.02:
+        return
 
     width = 9 * SCALE * size
     height = 25 * SCALE * size
@@ -558,6 +609,71 @@ def draw_fallen_petal(
         pts_inner,
         fill=FALLEN_PETAL_COLOR
     )
+
+
+# -------------------------------------------------------
+# FLYING CHUNKS (petal fragments in transit)
+# -------------------------------------------------------
+
+def spawn_chunk(chunks, start_pos, end_pos, now):
+    """
+    Add a new petal fragment that will visibly fly from
+    start_pos to end_pos over CHUNK_FLIGHT_SECONDS.
+    """
+
+    chunks.append({
+        "start": start_pos,
+        "end": end_pos,
+        "start_time": now,
+        "duration": CHUNK_FLIGHT_SECONDS,
+    })
+
+
+def update_and_draw_chunks(draw, chunks, now):
+    """
+    Draw every chunk currently in flight, and return the list
+    of chunks that haven't landed yet (i.e. still need to be
+    drawn on future frames).
+    """
+
+    still_flying = []
+    chunk_r = 2.6 * SCALE
+
+    for chunk in chunks:
+
+        elapsed = now - chunk["start_time"]
+        t = elapsed / chunk["duration"]
+
+        if t >= 1.0:
+            # Landed - drop it from the list.
+            continue
+
+        # Ease-in/ease-out motion, same curve used elsewhere.
+        t_smooth = t * t * (3 - 2 * t)
+
+        x = (
+            chunk["start"][0]
+            + (chunk["end"][0] - chunk["start"][0]) * t_smooth
+        )
+
+        y = (
+            chunk["start"][1]
+            + (chunk["end"][1] - chunk["start"][1]) * t_smooth
+        )
+
+        draw.ellipse(
+            (
+                x - chunk_r,
+                y - chunk_r,
+                x + chunk_r,
+                y + chunk_r
+            ),
+            fill=CHUNK_COLOR
+        )
+
+        still_flying.append(chunk)
+
+    return still_flying
 
 
 # -------------------------------------------------------
@@ -648,127 +764,40 @@ def draw_center(
 
 
 # -------------------------------------------------------
-# SECONDS MARKER
+# STATIC PETALS: untouched (still full) + already fallen
 # -------------------------------------------------------
 
-def draw_second_marker(
+def draw_static_petals_and_center(
     draw,
     cx,
     cy,
-    orbit_r,
-    seconds_value
+    completed_hours,
+    petal_dist,
+    petal_w,
+    petal_h,
+    center_r
 ):
     """
-    Draw a small marker that orbits the flower center once
-    per minute. Gives a continuous, every-frame visual cue
-    that the clock is running, independent of the hourly
-    petal-fall animation.
+    Draw:
+      - petals with index > completed_hours: still full size,
+        untouched, attached to the flower
+      - petals with index < completed_hours: already fully
+        fallen, resting on the ground at full size
+      - the flower center
 
-    seconds_value should be 0.0 - 60.0 (fractional seconds
-    for smooth motion).
+    The petal at index == completed_hours (the one currently
+    eroding/forming) is handled separately by the caller, since
+    it needs per-frame animation state.
     """
 
-    angle = (
-        (seconds_value / 60.0) * 2 * math.pi
-        - (math.pi / 2)
-    )
-
-    mx = cx + orbit_r * math.cos(angle)
-    my = cy + orbit_r * math.sin(angle)
-
-    marker_r = 3 * SCALE
-
-    draw.ellipse(
-        (
-            mx - marker_r,
-            my - marker_r,
-            mx + marker_r,
-            my + marker_r
-        ),
-        fill=SECOND_MARKER_COLOR
-    )
-
-
-# -------------------------------------------------------
-# FLOWER
-# -------------------------------------------------------
-
-def draw_hours_flower(
-    draw,
-    cx,
-    cy,
-    hour_value
-):
-    """
-    Draw the sunflower.
-
-    12 petals are attached to the flower at midnight and
-    again at noon (hour_value should already be the
-    hours-since-last-12-hour-mark value, i.e. 0.0 - 12.0).
-
-    At each hour within the current 12-hour half:
-        one additional petal is considered fallen.
-
-    During the current hour, that petal moves smoothly
-    from the flower toward the bottom of the screen.
-    """
-
-    # ---------------------------------------------------
-    # FLOWER SIZE
-    # ---------------------------------------------------
-
-    base_radius = (
-        FLOWER_SIZE * 0.32
-    )
-
-    bloom_radius = (
-        FLOWER_SIZE * 0.64
-    )
-
-    petal_w = (
-        17 * SCALE
-    )
-
-    petal_h = (
-        80 * SCALE
-    )
-
-    petal_dist = (
-        base_radius
-    )
-
-    cur_w = petal_w
-    cur_h = petal_h
-
-    # ---------------------------------------------------
-    # DETERMINE FALLEN PETALS
-    # ---------------------------------------------------
-
-    completed_hours = int(
-        hour_value
-    )
-
-    # Current hour's falling progress.
-    hour_fraction = (
-        hour_value
-        - completed_hours
-    )
-
-    # ---------------------------------------------------
-    # DRAW REMAINING PETALS
-    # ---------------------------------------------------
-
+    # Untouched petals still on the flower.
     for i in range(PETAL_COUNT):
 
-        # Petal i falls during hour i.
-        if i < completed_hours:
+        if i <= completed_hours:
             continue
 
         angle = (
-            2
-            * math.pi
-            * i
-            / PETAL_COUNT
+            2 * math.pi * i / PETAL_COUNT
         )
 
         draw_petal(
@@ -777,132 +806,21 @@ def draw_hours_flower(
             cy,
             angle,
             petal_dist,
-            cur_w,
-            cur_h
+            petal_w,
+            petal_h
         )
 
-    # ---------------------------------------------------
-    # CURRENT FALLING PETAL
-    # ---------------------------------------------------
+    # Petals that fell during earlier hours - already resting
+    # on the ground at full size.
+    for i in range(completed_hours):
 
-    if completed_hours < PETAL_COUNT:
+        spacing = WIDTH / (PETAL_COUNT + 1)
 
-        falling_index = (
-            completed_hours
-        )
-
-        falling_angle = (
-            2
-            * math.pi
-            * falling_index
-            / PETAL_COUNT
-        )
-
-        # ------------------------------------------------
-        # PETAL START POSITION
-        # ------------------------------------------------
-
-        start_x, start_y = transform(
-            0,
-            -(
-                petal_dist
-                + cur_h * 0.75
-            ),
-            falling_angle,
-            cx,
-            cy
-        )
-
-        # ------------------------------------------------
-        # BOTTOM TARGET
-        # ------------------------------------------------
-
-        # Spread fallen petals along the bottom so
-        # they accumulate instead of overlapping.
-        spacing = WIDTH / (
-            PETAL_COUNT + 1
-        )
-
-        target_x = (
-            spacing
-            * (falling_index + 1)
-        )
-
-        target_y = (
-            HEIGHT - 7
-        )
-
-        # ------------------------------------------------
-        # FALL MOTION
-        # ------------------------------------------------
-
-        # Smooth ease-in/ease-out movement.
-        t = hour_fraction
-
-        t_smooth = (
-            t * t * (3 - 2 * t)
-        )
-
-        falling_x = (
-            start_x
-            + (
-                target_x
-                - start_x
-            )
-            * t_smooth
-        )
-
-        falling_y = (
-            start_y
-            + (
-                target_y
-                - start_y
-            )
-            * t_smooth
-        )
-
-        # Give each falling petal a little rotation.
-        falling_rotation = (
-            falling_angle
-            + t * math.pi * 1.5
-        )
-
-        # Slightly larger while falling.
-        draw_fallen_petal(
-            draw,
-            falling_x,
-            falling_y,
-            falling_rotation,
-            1.0
-        )
-
-    # ---------------------------------------------------
-    # DRAW PETALS THAT HAVE ALREADY FALLEN
-    # ---------------------------------------------------
-
-    for i in range(
-        completed_hours
-    ):
-
-        spacing = WIDTH / (
-            PETAL_COUNT + 1
-        )
-
-        fallen_x = (
-            spacing
-            * (i + 1)
-        )
-
-        fallen_y = (
-            HEIGHT - 7
-        )
+        fallen_x = spacing * (i + 1)
+        fallen_y = HEIGHT - 7
 
         fallen_rotation = (
-            -0.45
-            + (
-                i % 5
-                * 0.22
-            )
+            -0.45 + (i % 5 * 0.22)
         )
 
         draw_fallen_petal(
@@ -912,14 +830,6 @@ def draw_hours_flower(
             fallen_rotation,
             1.0
         )
-
-    # ---------------------------------------------------
-    # CENTER
-    # ---------------------------------------------------
-
-    center_r = (
-        20 * SCALE
-    )
 
     draw_center(
         draw,
@@ -950,70 +860,146 @@ def main():
     # Flower head near top
     cy = 40
 
-    # Orbit radius for the seconds marker - just outside
-    # the petals so it doesn't overlap the flower.
-    second_marker_orbit_r = FLOWER_SIZE * 0.9
+    base_radius = FLOWER_SIZE * 0.32
+    petal_w = 17 * SCALE
+    petal_h = 80 * SCALE
+    petal_dist = base_radius
+    center_r = 20 * SCALE
+
+    # Animation state carried between frames.
+    flying_chunks = []
+    prev_step_index = -1
 
     while True:
 
-        # -----------------------------------------------
-        # CURRENT TIME
-        # -----------------------------------------------
-
         now_ts = time.time()
 
-        hours_elapsed = (
-            day_progress(now_ts)
-        )
+        hours_elapsed = day_progress(now_ts)
 
         # Petals follow a 12-hour cycle: full bloom at
         # midnight and noon.
-        petal_hour_value = (
-            half_day_progress(hours_elapsed)
+        petal_hour_value = half_day_progress(hours_elapsed)
+
+        completed_hours = int(petal_hour_value)
+        hour_fraction = petal_hour_value - completed_hours
+
+        # Stepped (not continuous) progress through the
+        # current hour - changes every STEP_SECONDS, which is
+        # what makes each step visibly "pop" instead of
+        # creeping by unnoticeably.
+        seconds_into_hour = hour_fraction * 3600
+        step_index = min(
+            int(seconds_into_hour // STEP_SECONDS),
+            STEPS_PER_HOUR - 1
         )
+        step_frac = step_index / STEPS_PER_HOUR
 
         local = time.localtime(now_ts)
 
-        # Fractional seconds (0.0 - 60.0) for smooth
-        # orbiting motion of the seconds marker.
-        seconds_value = now_ts % 60
+        sky_color = get_sky_color(hours_elapsed)
+        text_color = get_text_color(sky_color)
 
         # -----------------------------------------------
-        # CLEAR SCREEN (sky color based on time of day)
+        # CLEAR SCREEN
         # -----------------------------------------------
 
         draw.rectangle(
-            (
-                0,
-                0,
-                WIDTH,
-                HEIGHT
-            ),
-            fill=get_sky_color(hours_elapsed)
+            (0, 0, WIDTH, HEIGHT),
+            fill=sky_color
         )
 
         # -----------------------------------------------
-        # DRAW SUNFLOWER
+        # STATIC PETALS (untouched + already fully fallen)
+        # AND CENTER
         # -----------------------------------------------
 
-        draw_hours_flower(
+        draw_static_petals_and_center(
             draw,
             cx,
             cy,
-            petal_hour_value
+            completed_hours,
+            petal_dist,
+            petal_w,
+            petal_h,
+            center_r
         )
 
         # -----------------------------------------------
-        # DRAW SECONDS MARKER (orbits once per minute -
-        # visible proof the clock is actively running)
+        # CURRENTLY ERODING PETAL (flower side) AND
+        # CURRENTLY GROWING PETAL (ground side)
         # -----------------------------------------------
 
-        draw_second_marker(
+        if completed_hours < PETAL_COUNT:
+
+            falling_index = completed_hours
+
+            falling_angle = (
+                2 * math.pi * falling_index / PETAL_COUNT
+            )
+
+            remaining_frac = 1.0 - step_frac
+            cur_h_remaining = petal_h * remaining_frac
+
+            # The part of this petal still attached to the
+            # flower - shrinks a little more every 3 seconds.
+            draw_petal(
+                draw,
+                cx,
+                cy,
+                falling_angle,
+                petal_dist,
+                petal_w,
+                cur_h_remaining
+            )
+
+            spacing = WIDTH / (PETAL_COUNT + 1)
+            target_x = spacing * (falling_index + 1)
+            target_y = HEIGHT - 7
+
+            growing_rotation = (
+                -0.45 + (falling_index % 5 * 0.22)
+            )
+
+            # The pile on the ground - grows a little more
+            # every 3 seconds, in step with the erosion above.
+            draw_fallen_petal(
+                draw,
+                target_x,
+                target_y,
+                growing_rotation,
+                step_frac
+            )
+
+            # Every time the step advances, spawn a visible
+            # chunk that flies from the eroding tip down to
+            # the growing pile.
+            if step_index != prev_step_index:
+
+                tip_x, tip_y = transform(
+                    0,
+                    -(petal_dist + cur_h_remaining),
+                    falling_angle,
+                    cx,
+                    cy
+                )
+
+                spawn_chunk(
+                    flying_chunks,
+                    (tip_x, tip_y),
+                    (target_x, target_y),
+                    now_ts
+                )
+
+                prev_step_index = step_index
+
+        # -----------------------------------------------
+        # FLYING CHUNKS IN TRANSIT
+        # -----------------------------------------------
+
+        flying_chunks = update_and_draw_chunks(
             draw,
-            cx,
-            cy,
-            second_marker_orbit_r,
-            seconds_value
+            flying_chunks,
+            now_ts
         )
 
         # -----------------------------------------------
@@ -1049,17 +1035,12 @@ def main():
         # PERCENTAGE READOUT (progress to next petal fall)
         # -----------------------------------------------
 
-        hour_pct = int(
-            (petal_hour_value % 1) * 100
-        )
+        hour_pct = int(step_frac * 100)
 
         draw.text(
-            (
-                4,
-                HEIGHT - 32
-            ),
+            (4, HEIGHT - 32),
             f"{hour_pct}% to next petal",
-            fill=TEXT_COLOR
+            fill=text_color
         )
 
         # -----------------------------------------------
@@ -1067,32 +1048,22 @@ def main():
         # -----------------------------------------------
 
         draw.text(
-            (
-                4,
-                HEIGHT - 22
-            ),
-            time.strftime(
-                "%H:%M:%S",
-                local
-            ),
-            fill=TEXT_COLOR
+            (4, HEIGHT - 22),
+            time.strftime("%H:%M:%S", local),
+            fill=text_color
         )
 
         # Number of petals remaining (in the current
         # 12-hour half)
         petals_remaining = max(
             0,
-            PETAL_COUNT
-            - int(petal_hour_value)
+            PETAL_COUNT - completed_hours
         )
 
         draw.text(
-            (
-                4,
-                HEIGHT - 12
-            ),
+            (4, HEIGHT - 12),
             f"{petals_remaining} petals",
-            fill=TEXT_COLOR
+            fill=text_color
         )
 
         # -----------------------------------------------
@@ -1102,9 +1073,7 @@ def main():
         disp.image(image)
 
         # Keep animation smooth.
-        time.sleep(
-            1 / 15
-        )
+        time.sleep(1 / 15)
 
 
 if __name__ == "__main__":

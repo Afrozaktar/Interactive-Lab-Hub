@@ -634,8 +634,8 @@ def draw_fallen_petal(draw, x, y, angle, size):
     if size <= 0.02:
         return
 
-    width = 11 * SCALE * size
-    height = 13 * SCALE * size
+    width = 15 * SCALE * size
+    height = 17 * SCALE * size
 
     outline_pts = petal_ellipse_points(
         width * 0.58, height * 0.54, 0, angle, x, y
@@ -857,12 +857,12 @@ def main():
     cx = WIDTH // 2
     cy = 40
 
-    base_radius = (60 * SCALE) * 0.32
+    base_radius = (60 * SCALE) * 0.38
 
-    petal_w = 22 * SCALE
-    petal_h = 26 * SCALE
+    petal_w = 30 * SCALE
+    petal_h = 34 * SCALE
     petal_dist = base_radius
-    center_r = 18 * SCALE
+    center_r = 21 * SCALE
 
     # Animation state carried between frames.
     flying_shards = []
@@ -955,8 +955,8 @@ def main():
                     falling_angle, cx, cy
                 )
 
-                end_w = 11 * SCALE * step_frac
-                end_h = 13 * SCALE * step_frac
+                end_w = 15 * SCALE * step_frac
+                end_h = 17 * SCALE * step_frac
 
                 start_w = petal_w * 1.15
                 start_h = petal_h * 1.0

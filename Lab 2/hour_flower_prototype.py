@@ -4,27 +4,31 @@ flower_clock_hours.py
 
 Sunflower Hour Flower from Lamiah Khan's "Flower Clock"
 
-The sunflower has 24 petals representing the 24 hours of the day.
+The sunflower has 12 petals representing a 12-hour half-day cycle.
+The flower is in full bloom (all 12 petals) at 00:00 (midnight)
+and again at 12:00:00 (noon).
 
-00:00  -> 24 petals
+00:00  -> 12 petals (full bloom)
 01:00  -> first petal falls
 02:00  -> second petal falls
 ...
-23:00  -> 23rd petal falls
-00:00  -> resets to 24 petals
+11:00  -> 11th petal falls
+12:00  -> resets to 12 petals (full bloom)
+13:00  -> first petal falls again
+...
+23:00  -> 11th petal falls
+00:00  -> resets to 12 petals (full bloom)
 
 Each petal falls smoothly during its corresponding hour.
 Once a petal reaches the bottom of the screen, it stays there
-for the remainder of the day.
+for the remainder of that 12-hour half.
 
 The flower itself remains a sunflower with:
-- 24 narrow, pointed yellow-orange petals
+- 12 narrow, pointed yellow-orange petals
 - Large dark brown disc center
 - Fibonacci/Vogel seed pattern
 - Broad dark-green leaves
-- Dark background
-
-Runs on the Adafruit Mini PiTFT 135x240 ST7789 display.
+- Sky-colored background that shifts with time of day
 """
 
 import math
@@ -115,11 +119,53 @@ def blend(fg, bg, alpha_pct):
     )
 
 
+def hex_to_rgb(hex_str):
+    """Convert a '#RRGGBB' string to an (r, g, b) tuple."""
+
+    hex_str = hex_str.lstrip("#")
+
+    return tuple(
+        int(hex_str[i:i + 2], 16)
+        for i in (0, 2, 4)
+    )
+
+
+# -------------------------------------------------------
+# SKY / BACKGROUND COLORS
+# -------------------------------------------------------
+#
+#  8:00 PM - 4:59:59 AM  -> #222059  (night)
+#  5:00 AM - 7:59:59 AM  -> #FFF7E0  (sunrise)
+#  8:00 AM - 5:59:59 PM  -> #D9FDFF  (day)
+#  6:00 PM - 7:59:59 PM  -> #F79940  (sunset)
+
+NIGHT_SKY_COLOR    = hex_to_rgb("#222059")
+SUNRISE_SKY_COLOR  = hex_to_rgb("#FFF7E0")
+DAY_SKY_COLOR      = hex_to_rgb("#D9FDFF")
+SUNSET_SKY_COLOR   = hex_to_rgb("#F79940")
+
+
+def get_sky_color(hour_value):
+    """
+    Return the sky/background color for the given hour_value
+    (hours elapsed since midnight, 0.0 - 24.0).
+    """
+
+    h = hour_value % 24
+
+    if h >= 20 or h < 5:
+        return NIGHT_SKY_COLOR
+    elif h < 8:
+        return SUNRISE_SKY_COLOR
+    elif h < 18:
+        return DAY_SKY_COLOR
+    else:
+        return SUNSET_SKY_COLOR
+
+
 # -------------------------------------------------------
 # SUNFLOWER COLORS
 # -------------------------------------------------------
-
-BG_COLOR = hsb(220, 20, 15)
 
 # Stem and leaves
 STEM_COLOR = hsb(100, 55, 40)
@@ -244,7 +290,9 @@ FLOWER_SIZE = 60 * SCALE
 STEM_TOP = 20 * SCALE
 STEM_BOTTOM = 150 * SCALE
 
-PETAL_COUNT = 24
+# 12 petals: full bloom at midnight (0:00) and noon (12:00),
+# one petal falls per hour through each 12-hour half of the day.
+PETAL_COUNT = 12
 
 GOLDEN_ANGLE = (
     math.pi
@@ -278,6 +326,21 @@ def day_progress(now=None):
     )
 
     return seconds_today / 3600.0
+
+
+def half_day_progress(hour_value):
+    """
+    Return hours elapsed since the most recent 12-hour mark
+    (midnight or noon).
+
+    00:00 -> 0.0
+    06:30 -> 6.5
+    12:00 -> 0.0  (resets - full bloom)
+    18:30 -> 6.5
+    23:59 -> ~11.99
+    """
+
+    return hour_value % 12
 
 
 # -------------------------------------------------------
@@ -590,9 +653,11 @@ def draw_hours_flower(
     """
     Draw the sunflower.
 
-    24 petals are attached to the flower at midnight.
+    12 petals are attached to the flower at midnight and
+    again at noon (hour_value should already be the
+    hours-since-last-12-hour-mark value, i.e. 0.0 - 12.0).
 
-    At each hour:
+    At each hour within the current 12-hour half:
         one additional petal is considered fallen.
 
     During the current hour, that petal moves smoothly
@@ -846,10 +911,16 @@ def main():
             day_progress()
         )
 
+        # Petals follow a 12-hour cycle: full bloom at
+        # midnight and noon.
+        petal_hour_value = (
+            half_day_progress(hours_elapsed)
+        )
+
         local = time.localtime()
 
         # -----------------------------------------------
-        # CLEAR SCREEN
+        # CLEAR SCREEN (sky color based on time of day)
         # -----------------------------------------------
 
         draw.rectangle(
@@ -859,7 +930,7 @@ def main():
                 WIDTH,
                 HEIGHT
             ),
-            fill=BG_COLOR
+            fill=get_sky_color(hours_elapsed)
         )
 
         # -----------------------------------------------
@@ -870,7 +941,7 @@ def main():
             draw,
             cx,
             cy,
-            hours_elapsed
+            petal_hour_value
         )
 
         # -----------------------------------------------
@@ -918,11 +989,12 @@ def main():
             fill=TEXT_COLOR
         )
 
-        # Number of petals remaining
+        # Number of petals remaining (in the current
+        # 12-hour half)
         petals_remaining = max(
             0,
             PETAL_COUNT
-            - int(hours_elapsed)
+            - int(petal_hour_value)
         )
 
         draw.text(

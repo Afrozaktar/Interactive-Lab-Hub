@@ -27,8 +27,11 @@ The flower itself remains a sunflower with:
 - 12 narrow, pointed yellow-orange petals
 - Large dark brown disc center
 - Fibonacci/Vogel seed pattern
-- Broad dark-green leaves
+- Broad dark-green leaves (reduced count for clarity)
 - Sky-colored background that shifts with time of day
+- A small marker orbiting the center once per minute, so
+  the display visibly "ticks" every second
+- A percentage readout showing progress to the next petal fall
 """
 
 import math
@@ -185,6 +188,9 @@ PETAL_HIGHLIGHT = hsb(52, 45, 100)
 # Fallen petals
 FALLEN_PETAL_COLOR = PETAL_FILL
 FALLEN_PETAL_STROKE = PETAL_STROKE
+
+# Seconds marker (orbits the center once per minute)
+SECOND_MARKER_COLOR = hsb(0, 70, 90)
 
 TEXT_COLOR = (230, 230, 230)
 
@@ -356,18 +362,19 @@ def draw_leaves(
     """
     Draw sunflower leaves.
 
-    Leaves gradually appear throughout the day,
-    maintaining the original hour-flower theme.
+    Leaves gradually appear throughout the day. Count is kept
+    low (max 4) so the flower silhouette stays clear and
+    doesn't get cluttered.
     """
 
     num_leaves = (
-        int(hour_value // 3)
-        + 2
+        int(hour_value // 4)
+        + 1
     )
 
     num_leaves = min(
         num_leaves,
-        9
+        4
     )
 
     for i in range(num_leaves):
@@ -641,6 +648,48 @@ def draw_center(
 
 
 # -------------------------------------------------------
+# SECONDS MARKER
+# -------------------------------------------------------
+
+def draw_second_marker(
+    draw,
+    cx,
+    cy,
+    orbit_r,
+    seconds_value
+):
+    """
+    Draw a small marker that orbits the flower center once
+    per minute. Gives a continuous, every-frame visual cue
+    that the clock is running, independent of the hourly
+    petal-fall animation.
+
+    seconds_value should be 0.0 - 60.0 (fractional seconds
+    for smooth motion).
+    """
+
+    angle = (
+        (seconds_value / 60.0) * 2 * math.pi
+        - (math.pi / 2)
+    )
+
+    mx = cx + orbit_r * math.cos(angle)
+    my = cy + orbit_r * math.sin(angle)
+
+    marker_r = 3 * SCALE
+
+    draw.ellipse(
+        (
+            mx - marker_r,
+            my - marker_r,
+            mx + marker_r,
+            my + marker_r
+        ),
+        fill=SECOND_MARKER_COLOR
+    )
+
+
+# -------------------------------------------------------
 # FLOWER
 # -------------------------------------------------------
 
@@ -901,14 +950,20 @@ def main():
     # Flower head near top
     cy = 40
 
+    # Orbit radius for the seconds marker - just outside
+    # the petals so it doesn't overlap the flower.
+    second_marker_orbit_r = FLOWER_SIZE * 0.9
+
     while True:
 
         # -----------------------------------------------
         # CURRENT TIME
         # -----------------------------------------------
 
+        now_ts = time.time()
+
         hours_elapsed = (
-            day_progress()
+            day_progress(now_ts)
         )
 
         # Petals follow a 12-hour cycle: full bloom at
@@ -917,7 +972,11 @@ def main():
             half_day_progress(hours_elapsed)
         )
 
-        local = time.localtime()
+        local = time.localtime(now_ts)
+
+        # Fractional seconds (0.0 - 60.0) for smooth
+        # orbiting motion of the seconds marker.
+        seconds_value = now_ts % 60
 
         # -----------------------------------------------
         # CLEAR SCREEN (sky color based on time of day)
@@ -942,6 +1001,19 @@ def main():
             cx,
             cy,
             petal_hour_value
+        )
+
+        # -----------------------------------------------
+        # DRAW SECONDS MARKER (orbits once per minute -
+        # visible proof the clock is actively running)
+        # -----------------------------------------------
+
+        draw_second_marker(
+            draw,
+            cx,
+            cy,
+            second_marker_orbit_r,
+            seconds_value
         )
 
         # -----------------------------------------------
@@ -971,6 +1043,23 @@ def main():
             cx,
             cy,
             hours_elapsed
+        )
+
+        # -----------------------------------------------
+        # PERCENTAGE READOUT (progress to next petal fall)
+        # -----------------------------------------------
+
+        hour_pct = int(
+            (petal_hour_value % 1) * 100
+        )
+
+        draw.text(
+            (
+                4,
+                HEIGHT - 32
+            ),
+            f"{hour_pct}% to next petal",
+            fill=TEXT_COLOR
         )
 
         # -----------------------------------------------

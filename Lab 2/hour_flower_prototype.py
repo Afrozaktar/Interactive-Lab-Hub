@@ -1054,11 +1054,15 @@ def main():
             fill=text_color
         )
 
-        petals_remaining = max(0, PETAL_COUNT - completed_hours)
+        # completed_hours is the number of petals already on
+        # the ground - which is exactly the current 12-hour
+        # clock hour (showing 12 instead of 0 at the top of
+        # the cycle, like a real clock face).
+        display_hour = completed_hours if completed_hours != 0 else 12
 
         draw.text(
             (4, HEIGHT - 12),
-            f"{petals_remaining} petals",
+            f"{display_hour} petal fell",
             fill=text_color
         )
 

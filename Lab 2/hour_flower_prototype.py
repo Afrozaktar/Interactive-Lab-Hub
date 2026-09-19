@@ -165,8 +165,8 @@ def hex_to_rgb(hex_str):
 #  6:00 PM - 7:59:59 PM  -> grey    (evening, sun is setting)
 
 NIGHT_SKY_COLOR   = hex_to_rgb("#000000")
-MORNING_SKY_COLOR = hex_to_rgb("#FFFFFF")
-EVENING_SKY_COLOR = hex_to_rgb("#808080")
+MORNING_SKY_COLOR = hex_to_rgb("#9A9A9A")
+EVENING_SKY_COLOR = hex_to_rgb("#4A4A4A")
 
 
 def get_sky_color(hour_value):

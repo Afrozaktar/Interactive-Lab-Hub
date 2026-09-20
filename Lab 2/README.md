@@ -183,10 +183,16 @@ Lastly, our Checklist Clock is a timekeeping concept inspired by the daily check
 1. Pick up remaining parts for kit on Wednesday lab class. Check the updated [parts list inventory](partslist.md) and let the TA know if there is any part missing.
 
 2. Look at and give feedback on the Part E. for at least 3 other people in the class and get 3 people to comment on your Part E!)
-**Put the feedback for your ideas here.**
+
+
 **Feedback from Jindi chai & Yilin Wu:** I liked all three ideas. My favorite is the Flower Clock. It can tell time, but it can also be a nice decoration for a room. It feels peaceful and connected to nature. I like growing plants at home, but real plants can be hard to take care of. This idea makes plants digital, but they still have a useful purpose. Your sketches are clear and easy to understand.
 One suggestion is to let users choose their own flowers and colors. They could make a flower clock with their favorite flower combination. It may also be helpful to add a small digital time display, so users can quickly check the exact time.
-https://github.com/yw2895-ship-it/Interactive-Lab-Hub/blob/Fall2026/Lab%202/README.md
+[View their project ↗](https://github.com/yw2895-ship-it/Interactive-Lab-Hub/blob/Fall2026/Lab%202/README.md)
+
+**Feedback from Sirapop Umnakkittikul:** I think the third sketch is a really cool idea. I like how it turns a traditional clock into something more personal by representing the day through tasks and routines instead of just numbers. Using an ESP32 with a microphone and speaker for voice control is a smart approach, and combining it with an LLM could make the interaction feel more natural and users could ask for the time and get spoken reminders about upcoming tasks. It effectively transforms the clock into a personalized, voice-controlled daily planner, which feels both practical and innovative.
+[View their project ↗](https://github.com/Morinzzz/Interactive-Lab-Hub/tree/Fall2026/Lab%202)
+
+**Feedback from :** Lovely drawings! We shared similar ideas about the flower clock hh. I like your flower clock very much because I think it's a beautiful and clear visualization of hour, minutes and seconds. And the process of flower blossom is a symbol of time already, so it's an interesting metaphor. Maybe you can think about adding something to tell the difference between a.m and p.m.? And another thing about the motion, are you going to make 60 states, 60 pictures for each flower to show every exact seconds? Or how are you gonna divide? It's a practical question for prototyping. [View their project ↗]()
 
 ## Update your Lab Hub
 
@@ -217,6 +223,25 @@ After that, Git will ask you to login to your GitHub account to push the updates
 Do take advantage of having done the previous iteration to refine and simplify your design.
 
 ** Insert any updates ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf))!, storyboards for your ideas **
+
+
+**Final Clock Direction**
+
+After discussing the three concepts and receiving feedback, we decided to move forward with our **Flower Clock** idea because we liked how it combines timekeeping with a natural, interactive visual.
+
+**1. Second Clock**
+
+[Second Clock Explanation]
+
+**2. Minute Clock**
+
+For the minute portion of the flower clock, I designed a 12-petal flower, with each petal representing a 5-minute interval. A butterfly moves clockwise around the flower to show the current minute, moving smoothly between petals using the current seconds as well.
+
+I refined the flower by making the petals narrower and more evenly spaced, so all 12 petals are clearly visible instead of overlapping. During the daytime, the butterfly moves around the flower, and at night it changes into a glowing firefly to match the time of day.
+
+**3. Hour Clock**
+
+[Hour Clock Explanation]
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*

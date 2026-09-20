@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-flower_clock_seconds.py
+second_flower_clock.py
 
 Seconds flower from Lamiah Khan's "Flower Clock"
 (https://github.com/khanlamiah019/the_flower_clock), ported from p5.js to

@@ -215,7 +215,13 @@ After that, Git will ask you to login to your GitHub account to push the updates
 Do take advantage of having done the previous iteration to refine and simplify your design.
 
 ** Insert any updates ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf))!, storyboards for your ideas **
+Verplank Diagram: 
+<img width="975" height="637" alt="Screenshot 2026-09-20 at 10 01 45 PM" src="https://github.com/user-attachments/assets/39602eb3-018f-4252-b706-3881b8a323f2" />
 
+Our Verplank diagram breaks down the flower clock from concept to interaction, showing how the idea of representing time through living flowers translates into a visual and functional system. The top row explores the idea, metaphor, model, and display, while the bottom row examines potential errors, user scenarios, tasks, and controls. Together, the diagram shows how the three flower clocks work as a unified system, with blooming, movement, growth, and falling petals allowing users to intuitively understand seconds, minutes, and hours.
+
+Final Story board: 
+<img width="987" height="492" alt="Screenshot 2026-09-20 at 10 02 42 PM" src="https://github.com/user-attachments/assets/8df39157-aa2e-4c9a-848b-8fcace4d9d9e" />
 
 **Final Clock Direction**
 

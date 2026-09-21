@@ -194,6 +194,7 @@ One suggestion is to let users choose their own flowers and colors. They could m
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
+Code files: hour_flower_clock.py, minute_flower_clock.py, second_flower_clock.py
 
 ## Make a short video of your modified barebones PiClock
 

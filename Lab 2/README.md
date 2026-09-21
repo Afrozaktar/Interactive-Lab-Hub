@@ -1,3 +1,6 @@
+
+
+
 # Interactive Prototyping: The Clock of Pi
 **NAMES OF COLLABORATORS:** Afroza Aktar, Rawisara Chairat, Lamiah Khan, Xiaoxi Xu
 
@@ -234,4 +237,8 @@ I built a flower clock: a 12-petal sunflower with big rounded golden orange peta
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
 
-\*\*\***Take a video of your PiClock.**\*\*\*
+\*\*\***Video**\*\*\*
+
+
+https://github.com/user-attachments/assets/52ec7c64-2cd9-4ca7-b5a2-9426050400ad
+

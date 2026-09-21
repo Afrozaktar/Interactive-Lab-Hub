@@ -226,13 +226,11 @@ The seconds flower blooms continuously over each 60-second minute, with the clos
 
 **2. Minute Clock**
 
-For the minute portion of the flower clock, I designed a 12-petal flower, with each petal representing a 5-minute interval. A butterfly moves clockwise around the flower to show the current minute, moving smoothly between petals using the current seconds as well.
-
-I refined the flower by making the petals narrower and more evenly spaced, so all 12 petals are clearly visible instead of overlapping. During the daytime, the butterfly moves around the flower, and at night it changes into a glowing firefly to match the time of day.
+For the minute portion of the flower clock, we designed a 12-petal flower, with each petal representing a 5-minute interval. A butterfly moves clockwise around the flower to show the current minute, moving smoothly between petals using the current seconds as well. Then, we refined the flower by making the petals narrower and more evenly spaced, so all 12 petals are clearly visible instead of overlapping. During the daytime, the butterfly moves around the flower, and at night it changes into a glowing firefly to match the time of day.
 
 **3. Hour Clock**
 
-I built a flower clock: a 12-petal sunflower with big rounded golden orange petals and a classic brown seeded center, on a solid black background, where one petal falls per hour and the flower is in full bloom at midnight and noon. Every 4 seconds I have a big visible chunk break off the current hour's petal, shrinking as it flies down until it merges into the small pile growing on the ground; I also made the petal on the flower itself visibly shrink roughly every 6 minutes so it's easy to notice. I added a small sun that arcs across the sky from 5am to 8pm, swapped for a crescent moon at night. At the bottom, I show the live time, a percentage counting down to the next petal fall, and "X petal fell," which matches the current 12-hour clock digit.
+We also built an Hour Flower feature: a 12-petal sunflower with large, rounded golden-orange petals and a classic brown seeded center, set against a solid black background. As the hours pass, one petal falls at a time, with the flower reaching full bloom at both midnight and noon. To make the passage of time more visually engaging, every four seconds, a large visible chunk breaks off the current hour’s petal, gradually shrinking as it falls before merging into the small pile growing on the ground. Additionally, the petal on the flower itself visibly shrinks approximately every six minutes, making the progression easy to notice at a glance. Meanwhile, a small sun arcs across the sky from 5 AM to 8 PM, transitioning into a crescent moon throughout the night. Finally, the bottom of the display shows the live time, a percentage counting down to the next petal fall, and “X petal fell,” which corresponds to the current 12-hour clock digit.
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*

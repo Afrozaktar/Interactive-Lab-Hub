@@ -180,11 +180,6 @@ Lastly, our Checklist Clock is a timekeeping concept inspired by the daily check
 
 ## Prep 
 
-1. Pick up remaining parts for kit on Wednesday lab class. Check the updated [parts list inventory](partslist.md) and let the TA know if there is any part missing.
-
-2. Look at and give feedback on the Part E. for at least 3 other people in the class and get 3 people to comment on your Part E!)
-
-
 **Feedback from Jindi chai & Yilin Wu:** I liked all three ideas. My favorite is the Flower Clock. It can tell time, but it can also be a nice decoration for a room. It feels peaceful and connected to nature. I like growing plants at home, but real plants can be hard to take care of. This idea makes plants digital, but they still have a useful purpose. Your sketches are clear and easy to understand.
 One suggestion is to let users choose their own flowers and colors. They could make a flower clock with their favorite flower combination. It may also be helpful to add a small digital time display, so users can quickly check the exact time.
 [View their project ↗](https://github.com/yw2895-ship-it/Interactive-Lab-Hub/blob/Fall2026/Lab%202/README.md)
@@ -192,15 +187,8 @@ One suggestion is to let users choose their own flowers and colors. They could m
 **Feedback from Sirapop Umnakkittikul:** I think the third sketch is a really cool idea. I like how it turns a traditional clock into something more personal by representing the day through tasks and routines instead of just numbers. Using an ESP32 with a microphone and speaker for voice control is a smart approach, and combining it with an LLM could make the interaction feel more natural and users could ask for the time and get spoken reminders about upcoming tasks. It effectively transforms the clock into a personalized, voice-controlled daily planner, which feels both practical and innovative.
 [View their project ↗](https://github.com/Morinzzz/Interactive-Lab-Hub/tree/Fall2026/Lab%202)
 
-**Feedback from :** Lovely drawings! We shared similar ideas about the flower clock hh. I like your flower clock very much because I think it's a beautiful and clear visualization of hour, minutes and seconds. And the process of flower blossom is a symbol of time already, so it's an interesting metaphor. Maybe you can think about adding something to tell the difference between a.m and p.m.? And another thing about the motion, are you going to make 60 states, 60 pictures for each flower to show every exact seconds? Or how are you gonna divide? It's a practical question for prototyping. [View their project ↗]()
+**Feedback :** Lovely drawings! We shared similar ideas about the flower clock hh. I like your flower clock very much because I think it's a beautiful and clear visualization of hour, minutes and seconds. And the process of flower blossom is a symbol of time already, so it's an interesting metaphor. Maybe you can think about adding something to tell the difference between a.m and p.m.? And another thing about the motion, are you going to make 60 states, 60 pictures for each flower to show every exact seconds? Or how are you gonna divide? It's a practical question for prototyping. [View their project ↗]()
 
-## Update your Lab Hub
-
-[Update your Lab Hub](pull_updates/README.md) to get the latest content and requirements for Part 2.
-
-## Modify the barebones clock to make it your own
-
-Start small, pick just one element of your overall idea, just to show you have a handle on the code and components.
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
 
@@ -241,16 +229,9 @@ I refined the flower by making the petals narrower and more evenly spaced, so al
 
 **3. Hour Clock**
 
-[Hour Clock Explanation]
+I built a flower clock: a 12-petal sunflower with big rounded golden orange petals and a classic brown seeded center, on a solid black background, where one petal falls per hour and the flower is in full bloom at midnight and noon. Every 4 seconds I have a big visible chunk break off the current hour's petal, shrinking as it flies down until it merges into the small pile growing on the ground; I also made the petal on the flower itself visibly shrink roughly every 6 minutes so it's easy to notice. I added a small sun that arcs across the sky from 5am to 8pm, swapped for a crescent moon at night. At the bottom, I show the live time, a percentage counting down to the next petal fall, and "X petal fell," which matches the current 12-hour clock digit.
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
 
 \*\*\***Take a video of your PiClock.**\*\*\*
-
-
-As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
-
-You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab.  Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page. 
-
-

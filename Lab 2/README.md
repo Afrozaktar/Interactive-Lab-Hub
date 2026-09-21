@@ -219,7 +219,7 @@ After discussing the three concepts and receiving feedback, we decided to move f
 
 **1. Second Clock**
 
-[Second Clock Explanation]
+The seconds flower blooms continuously over each 60-second minute, with the closed bud at :00, opening in real time petal by petal, and reaching full bloom right at :59 before resetting. A new leaf sprouts every 15 seconds as it grows. It's a blue, tulip-style bloom with 8 rounded petals, redrawn ~15 times a second so the motion looks smoother to the user, rather than ticking in discrete steps.
 
 **2. Minute Clock**
 

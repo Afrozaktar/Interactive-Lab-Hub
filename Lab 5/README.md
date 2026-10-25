@@ -2,7 +2,7 @@
 
 **Team:**
 
-**Members:** Full Name (netid, github-handle), ...
+**Members:** Afroza Aktar
 
 **Project name:**
 
